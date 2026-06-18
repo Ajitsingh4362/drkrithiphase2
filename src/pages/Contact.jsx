@@ -30,7 +30,7 @@ const OPD_TIMINGS = [
 
 export default function Contact() {
   const ref = useRef(null)
-  const [form, setForm]         = useState({ name: '', phone: '', email: '', program: '', concern: '', message: '' })
+  const [form, setForm]         = useState({ name: '', phone: '', email: '', program: '', concern: '', message: '', preferred_date: '', preferred_time: '' })
   const [status, setStatus]     = useState(null)
   const [payMode, setPayMode]   = useState('clinic') // 'online' | 'clinic'
   const [rzpReady, setRzpReady] = useState(false)
@@ -84,6 +84,8 @@ export default function Contact() {
       email: form.email || null,
       service: form.program || null,
       message: `Concern: ${form.concern}${form.message ? '\n' + form.message : ''}`,
+      preferred_date: form.preferred_date || null,
+      preferred_time: form.preferred_time || null,
       status: 'pending',
     })
 
@@ -109,7 +111,7 @@ export default function Contact() {
     window.open(`https://wa.me/${adminPhone}?text=${waMsg}`, '_blank')
 
     setStatus('success')
-    setForm({ name: '', phone: '', email: '', program: '', concern: '', message: '' })
+    setForm({ name: '', phone: '', email: '', program: '', concern: '', message: '', preferred_date: '', preferred_time: '' })
   }
 
   const handleSubmit = () => {
@@ -269,6 +271,42 @@ export default function Contact() {
                   <input name="concern" value={form.concern} onChange={handleChange} placeholder="Brief description of your health concern" style={inp}
                     onFocus={e => e.target.style.borderColor = 'rgba(199,166,106,0.6)'}
                     onBlur={e => e.target.style.borderColor = 'rgba(199,166,106,0.2)'} />
+                </div>
+
+                {/* Date & Time */}
+                <div className="form-row-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+                  <div>
+                    <label style={{ fontSize: '10px', color: 'var(--gold)', letterSpacing: '1.5px', textTransform: 'uppercase', display: 'block', marginBottom: '8px' }}>Preferred Date</label>
+                    <input
+                      type="date"
+                      name="preferred_date"
+                      value={form.preferred_date}
+                      onChange={handleChange}
+                      min={new Date().toISOString().split('T')[0]}
+                      style={{ ...inp, colorScheme: 'dark', cursor: 'pointer' }}
+                      onFocus={e => e.target.style.borderColor = 'rgba(199,166,106,0.6)'}
+                      onBlur={e => e.target.style.borderColor = 'rgba(199,166,106,0.2)'}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ fontSize: '10px', color: 'var(--gold)', letterSpacing: '1.5px', textTransform: 'uppercase', display: 'block', marginBottom: '8px' }}>Preferred Time</label>
+                    <select name="preferred_time" value={form.preferred_time} onChange={handleChange} style={{ ...inp, cursor: 'pointer' }}>
+                      <option value="" style={{ background: '#0F2744' }}>Select time slot</option>
+                      <optgroup label="Morning" style={{ background: '#0F2744' }}>
+                        <option value="9:00 AM" style={{ background: '#0F2744' }}>9:00 AM</option>
+                        <option value="10:00 AM" style={{ background: '#0F2744' }}>10:00 AM</option>
+                        <option value="11:00 AM" style={{ background: '#0F2744' }}>11:00 AM</option>
+                        <option value="12:00 PM" style={{ background: '#0F2744' }}>12:00 PM</option>
+                      </optgroup>
+                      <optgroup label="Afternoon / Evening" style={{ background: '#0F2744' }}>
+                        <option value="2:00 PM" style={{ background: '#0F2744' }}>2:00 PM</option>
+                        <option value="3:00 PM" style={{ background: '#0F2744' }}>3:00 PM</option>
+                        <option value="4:00 PM" style={{ background: '#0F2744' }}>4:00 PM</option>
+                        <option value="5:00 PM" style={{ background: '#0F2744' }}>5:00 PM</option>
+                        <option value="6:00 PM" style={{ background: '#0F2744' }}>6:00 PM</option>
+                      </optgroup>
+                    </select>
+                  </div>
                 </div>
 
                 <div>
