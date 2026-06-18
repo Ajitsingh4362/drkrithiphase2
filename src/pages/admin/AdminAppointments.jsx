@@ -116,7 +116,10 @@ export default function AdminAppointments() {
                   </button>
                 )}
                 <a className="admin-btn-outline admin-btn-sm" href={`https://wa.me/${cleanPhone(a.phone)}`} target="_blank" rel="noreferrer">
-                  Open WhatsApp
+                  WhatsApp
+                </a>
+                <a className="admin-btn-outline admin-btn-sm" href={`/admin/patients/new`} target="_blank" rel="noreferrer">
+                  + Add as Patient
                 </a>
               </div>
             </div>

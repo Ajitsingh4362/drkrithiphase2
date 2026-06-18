@@ -7,6 +7,8 @@ import AdminGallery from './admin/AdminGallery'
 import AdminAppointments from './admin/AdminAppointments'
 import AdminSettings from './admin/AdminSettings'
 import AdminNotes from './admin/AdminNotes'
+import AdminPatients from './admin/AdminPatients'
+import AdminPatientProfile from './admin/AdminPatientProfile'
 
 const AUTH_KEY = 'mmm_admin_authed'
 
@@ -64,6 +66,7 @@ export default function Admin() {
   }
 
   const navItems = [
+    { to: '/admin/patients', label: 'Patients', icon: '👥' },
     { to: '/admin/posts', label: 'Blog Posts', icon: '📝' },
     { to: '/admin/gallery', label: 'Gallery', icon: '🖼️' },
     { to: '/admin/appointments', label: 'Appointments', icon: '📅' },
@@ -94,7 +97,9 @@ export default function Admin() {
 
       <main className="admin-main">
         <Routes>
-          <Route index element={<Navigate to="posts" replace />} />
+          <Route index element={<Navigate to="patients" replace />} />
+          <Route path="patients" element={<AdminPatients />} />
+          <Route path="patients/:id" element={<AdminPatientProfile />} />
           <Route path="posts" element={<AdminBlogList />} />
           <Route path="posts/:id" element={<AdminBlogEditor />} />
           <Route path="gallery" element={<AdminGallery />} />
