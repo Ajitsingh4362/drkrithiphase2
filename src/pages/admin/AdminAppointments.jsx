@@ -14,7 +14,23 @@ export default function AdminAppointments() {
   const [tab, setTab] = useState('all')
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => { fetchAppts() }, [])
+  useEffect(() => {
+    fetchAppts()
+
+    // Real-time — naya appointment aate hi turant dikh jaye
+    const channel = supabase
+      .channel('appointments-realtime')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'appointments',
+      }, () => {
+        fetchAppts()
+      })
+      .subscribe()
+
+    return () => supabase.removeChannel(channel)
+  }, [])
 
   async function fetchAppts() {
     const { data } = await supabase.from('appointments').select('*').order('created_at', { ascending: false })
