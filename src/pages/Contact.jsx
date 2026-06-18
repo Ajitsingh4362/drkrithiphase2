@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import emailjs from '@emailjs/browser'
+import { supabase } from '../lib/supabase'
 
 const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID'
 const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID'
@@ -75,6 +76,18 @@ export default function Contact() {
 
   const submitForm = async (paymentId = null) => {
     setStatus('loading')
+
+    // Save to Supabase — admin panel mein dikhega
+    await supabase.from('appointments').insert({
+      name: form.name,
+      phone: form.phone,
+      email: form.email || null,
+      service: form.program || null,
+      message: `Concern: ${form.concern}${form.message ? '\n' + form.message : ''}`,
+      status: 'pending',
+    })
+
+    // EmailJS bhi try karo (optional, fail hone pe bhi booking save rahegi)
     try {
       await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
         name:       form.name,
@@ -87,6 +100,14 @@ export default function Contact() {
         payment_id: paymentId || 'N/A',
       }, EMAILJS_PUBLIC_KEY)
     } catch (_) {}
+
+    // WhatsApp notification to admin
+    const adminPhone = '919019372125'
+    const waMsg = encodeURIComponent(
+      `🌿 New Appointment Request\n\nName: ${form.name}\nPhone: ${form.phone}\nEmail: ${form.email || 'N/A'}\nProgram: ${form.program || 'General'}\nConcern: ${form.concern}\nPayment: ${payMode === 'online' ? 'Online' : 'At Clinic'}`
+    )
+    window.open(`https://wa.me/${adminPhone}?text=${waMsg}`, '_blank')
+
     setStatus('success')
     setForm({ name: '', phone: '', email: '', program: '', concern: '', message: '' })
   }
