@@ -319,7 +319,7 @@ export default function Home() {
               }}>
                 {[
                   { num: '15+', label: 'Years Experience' },
-                  { num: '2', label: 'Countries Trained' },
+                  { num: '1000+', label: 'Lives Impacted' },
                   { num: '6', label: 'Healing Disciplines' },
                 ].map((s, i) => (
                   <div key={i}>
@@ -344,7 +344,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- everything below unchanged --- */}
+      {/* TAGLINE STRIP */}
+      <section style={{ background: 'var(--navy-700, #0f2744)', padding: '20px 0', borderBottom: '1px solid rgba(199,166,106,0.15)' }}>
+        <div className="container" style={{ textAlign: 'center' }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(16px, 2vw, 22px)', color: 'var(--gold-pale)', fontWeight: 600, margin: 0, fontStyle: 'italic', letterSpacing: '0.3px' }}>
+            "Restoring Health. Renewing Hope. Transforming Lives."
+          </p>
+        </div>
+      </section>
 
       {/* INTRO STRIP */}
       <section style={{ background: 'var(--gold)', padding: '28px 0' }}>

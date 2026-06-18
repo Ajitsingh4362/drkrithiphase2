@@ -32,8 +32,22 @@ export default function Gallery() {
             <div style={{ width: '32px', height: '1px', background: 'var(--gold)' }} />
             <span style={{ fontSize: '11px', fontFamily: 'var(--font-body)', fontWeight: 600, color: 'var(--gold)', letterSpacing: '2.5px', textTransform: 'uppercase' }}>Gallery</span>
           </div>
-          <h1>Moments of Healing</h1>
-          <p>A glimpse into the clinic, events, and the community we've built together.</p>
+          <h1>Moments of Healing, Growth & Transformation</h1>
+          <p style={{ maxWidth: '640px', lineHeight: '1.9' }}>
+            This gallery captures meaningful milestones from consultations, workshops, speaking engagements, wellness programs, client achievements, community initiatives, and transformational journeys.
+          </p>
+          <p style={{ maxWidth: '600px', lineHeight: '1.9', marginTop: '16px', fontSize: '14px', color: 'rgba(255,255,255,0.4)', fontFamily: 'var(--font-body)', fontWeight: 300 }}>
+            Each image reflects a story of courage, resilience, learning, and hope. Behind every smile is a journey of overcoming challenges, embracing change, and moving towards a healthier and more fulfilling life.
+          </p>
+        </div>
+      </section>
+
+      {/* Gallery thank you strip */}
+      <section style={{ background: 'var(--gold)', padding: '28px 0' }}>
+        <div className="container" style={{ textAlign: 'center' }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(14px, 2vw, 18px)', color: 'var(--navy-800)', fontWeight: 600, margin: 0, lineHeight: 1.6 }}>
+            Together, we continue to create healthier minds, stronger bodies, and empowered lives.
+          </p>
         </div>
       </section>
 

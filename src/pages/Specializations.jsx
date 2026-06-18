@@ -47,9 +47,9 @@ const SPECS = [
   {
     icon: '🌿',
     title: 'Allied Healing Sciences',
-    tagline: 'Integrative Approaches for Whole-Person Wellness',
-    desc: 'Healing is enhanced when multiple evidence-informed disciplines work together. A truly integrative approach designed around the individual rather than a diagnosis.',
-    points: ['Homeopathy', 'Counseling & Psychotherapy', 'Acupuncture Principles', 'Positive Psychology', 'Mindfulness Practices', 'NLP-Based Coaching & Lifestyle Optimization'],
+    tagline: 'Integrative Supportive Healing Modalities',
+    desc: 'Healing is multidimensional. Alongside homeopathy and psychotherapy, supportive healing modalities may be incorporated based on individual needs to support emotional balance, relaxation, and personal growth.',
+    points: ['Sound Healing', 'Crystal Healing', 'Mindfulness Practices', 'Guided Relaxation Techniques', 'Positive Psychology Interventions', 'Neuro-Linguistic Programming (NLP)', 'Somato-Psychic Awareness Practices', 'Breath-Based Relaxation Methods', 'Emotional Release Techniques'],
     highlight: false,
   },
 ]
@@ -66,13 +66,22 @@ export default function Specializations() {
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', marginBottom: '24px' }}>
             <div style={{ width: '32px', height: '1px', background: 'var(--gold)' }} />
-            <span style={{ fontSize: '11px', fontFamily: 'var(--font-body)', fontWeight: 600, color: 'var(--gold)', letterSpacing: '2.5px', textTransform: 'uppercase' }}>Healing Areas</span>
+            <span style={{ fontSize: '11px', fontFamily: 'var(--font-body)', fontWeight: 600, color: 'var(--gold)', letterSpacing: '2.5px', textTransform: 'uppercase' }}>Services</span>
           </div>
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(38px, 5vw, 64px)', color: 'var(--white)', fontWeight: 600, marginBottom: '20px' }}>
-            Specialized Healing Pathways
+            Transforming Health Beyond Symptoms
           </h1>
-          <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.55)', maxWidth: '560px', lineHeight: '1.85', fontWeight: 300 }}>
-            Each specialization addresses the complete individual — physical, emotional, and psychological — with evidence-informed integrative approaches.
+          <p style={{ fontSize: '16px', color: 'var(--gold)', fontFamily: 'var(--font-display)', fontStyle: 'italic', marginBottom: '20px' }}>
+            Where Science, Psychology & Holistic Healing Meet
+          </p>
+          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.55)', maxWidth: '620px', lineHeight: '1.9', fontWeight: 300, fontFamily: 'var(--font-body)', marginBottom: '16px' }}>
+            With over 15 years of experience in Homeopathy, Psychotherapy, Emotional Wellness, and Integrative Healing Sciences, I work with individuals who are seeking deeper and sustainable healing beyond temporary symptom management.
+          </p>
+          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.45)', maxWidth: '620px', lineHeight: '1.9', fontWeight: 300, fontFamily: 'var(--font-body)', marginBottom: '16px' }}>
+            My approach combines evidence-informed homeopathic care, mind-body interventions, emotional resilience coaching, lifestyle transformation, and complementary healing modalities to help individuals restore balance, vitality, and overall well-being.
+          </p>
+          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.45)', maxWidth: '620px', lineHeight: '1.9', fontWeight: 300, fontFamily: 'var(--font-body)' }}>
+            Whether you are struggling with infertility, cancer recovery, chronic illness, emotional distress, or unexplained health challenges, the goal is to help you reconnect with your body's innate healing potential while improving your quality of life.
           </p>
         </div>
       </section>
@@ -130,6 +139,52 @@ export default function Specializations() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* WHY CLIENTS CHOOSE US */}
+      <section style={{ padding: '100px 0', background: 'var(--navy-900)' }}>
+        <div className="container">
+          <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+            <span className="section-tag">Why Clients Choose Us</span>
+            <div className="gold-line center" />
+            <h2 className="section-title light">A Truly Integrative Healing Experience</h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '2px' }}>
+            {[
+              '15+ Years of Clinical Experience',
+              '1000+ Lives Impacted',
+              'Expertise in Homeopathy & Psychotherapy',
+              'Fertility & Women\'s Health Specialist',
+              'Emotional Wellness & Resilience Coach',
+              'Chronic Disease Recovery Consultant',
+              'Personalised One-on-One Care',
+              'Long-Term Health Transformation Approach',
+              'Compassionate and Confidential Support',
+            ].map((w, i) => (
+              <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(199,166,106,0.08)', padding: '24px 20px', display: 'flex', alignItems: 'flex-start', gap: '12px', transition: 'var(--transition)' }}
+                onMouseEnter={e => e.currentTarget.style.background = 'rgba(199,166,106,0.06)'}
+                onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.03)'}>
+                <span style={{ color: 'var(--gold)', fontSize: '16px', flexShrink: 0, marginTop: '2px' }}>✔</span>
+                <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.65)', lineHeight: '1.6', fontFamily: 'var(--font-body)' }}>{w}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CLIENT SUCCESS STORIES */}
+      <section style={{ padding: '80px 0', background: 'var(--ivory)' }}>
+        <div className="container" style={{ maxWidth: '720px', textAlign: 'center' }}>
+          <span className="section-tag">Client Success Stories</span>
+          <div className="gold-line center" />
+          <h2 className="section-title">Real People. Real Transformations.</h2>
+          <p style={{ fontSize: '15px', color: 'var(--text-muted)', lineHeight: '1.9', fontFamily: 'var(--font-body)', fontWeight: 300, marginBottom: '12px' }}>
+            Every healing journey is unique. The greatest reward is witnessing individuals rediscover hope, resilience, confidence, and renewed health.
+          </p>
+          <p style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: '1.9', fontFamily: 'var(--font-body)', fontWeight: 300 }}>
+            From couples who found their path towards parenthood, to individuals navigating cancer recovery, chronic illness, emotional burnout, and life transitions — these stories stand as a testament to the power of holistic healing and personalised care.
+          </p>
         </div>
       </section>
 
