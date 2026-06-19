@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 
 const TABS = ['all', 'pending', 'confirmed', 'cancelled']
@@ -13,6 +14,7 @@ export default function AdminAppointments() {
   const [appts, setAppts] = useState([])
   const [tab, setTab] = useState('all')
   const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetchAppts()
@@ -118,9 +120,18 @@ export default function AdminAppointments() {
                 <a className="admin-btn-outline admin-btn-sm" href={`https://wa.me/${cleanPhone(a.phone)}`} target="_blank" rel="noreferrer">
                   WhatsApp
                 </a>
-                <a className="admin-btn-outline admin-btn-sm" href={`/admin/patients/new`} target="_blank" rel="noreferrer">
+                <button className="admin-btn-primary admin-btn-sm" onClick={() => {
+                  const params = new URLSearchParams({
+                    name: a.name || '',
+                    phone: a.phone || '',
+                    email: a.email || '',
+                    service: a.service || '',
+                    message: a.message || '',
+                  })
+                  navigate(`/admin/patients/new?${params.toString()}`)
+                }}>
                   + Add as Patient
-                </a>
+                </button>
               </div>
             </div>
           ))}

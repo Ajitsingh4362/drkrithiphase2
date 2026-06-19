@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { useParams, useNavigate, Link } from 'react-router-dom'
+import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 
 const TABS = ['Overview', 'Medical History', 'Consultations', 'Notes', 'Documents', 'Appointments']
@@ -33,22 +33,27 @@ function Field({ label, value, onChange, type = 'text', multiline, options }) {
 export default function AdminPatientProfile() {
   const { id } = useParams()
   const navigate = useNavigate()
+  const location = useLocation()
   const isNew = id === 'new'
   const [activeTab, setActiveTab] = useState('Overview')
   const [saving, setSaving] = useState(false)
   const [msg, setMsg] = useState('')
   const [loading, setLoading] = useState(!isNew)
 
+  // Auto-fill from appointment data (query params)
+  const prefill = isNew ? Object.fromEntries(new URLSearchParams(location.search)) : {}
+
   // Patient basic info
   const [patient, setPatient] = useState({
-    name: '', phone: '', email: '', age: '', gender: '', blood_group: '',
-    address: '', occupation: '', referred_by: '', emergency_contact_name: '',
-    emergency_contact_phone: '', avatar_color: '#b9914f', tags: [], status: 'active'
+    name: prefill.name || '', phone: prefill.phone || '', email: prefill.email || '',
+    age: '', gender: '', blood_group: '', address: '', occupation: '',
+    referred_by: '', emergency_contact_name: '', emergency_contact_phone: '',
+    avatar_color: '#b9914f', tags: prefill.service ? [prefill.service].filter(s => TAGS.includes(s)) : [], status: 'active'
   })
 
-  // Medical history
+  // Medical history — pre-fill chief complaint from appointment message
   const [medical, setMedical] = useState({
-    chief_complaint: '', past_medical_history: '', family_history: '',
+    chief_complaint: prefill.message || '', past_medical_history: '', family_history: '',
     allergies: '', current_medications: '', lifestyle_notes: '',
     diet_type: '', sleep_pattern: '', stress_level: ''
   })
