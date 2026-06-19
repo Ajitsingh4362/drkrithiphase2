@@ -11,6 +11,7 @@ import AdminPatients from './admin/AdminPatients'
 import AdminPatientProfile from './admin/AdminPatientProfile'
 import AdminAnalytics from './admin/AdminAnalytics'
 import AdminCalendar from './admin/AdminCalendar'
+import AdminTestimonials from './admin/AdminTestimonials'
 
 const AUTH_KEY = 'mmm_admin_authed'
 
@@ -72,6 +73,7 @@ export default function Admin() {
     { to: '/admin/calendar', label: 'Calendar', icon: '📅' },
     { to: '/admin/patients', label: 'Patients', icon: '👥' },
     { to: '/admin/appointments', label: 'Appointments', icon: '📋' },
+    { to: '/admin/testimonials', label: 'Testimonials', icon: '⭐' },
     { to: '/admin/posts', label: 'Blog Posts', icon: '📝' },
     { to: '/admin/gallery', label: 'Gallery', icon: '🖼️' },
     { to: '/admin/settings', label: 'Popup Settings', icon: '⚙️' },
@@ -110,6 +112,7 @@ export default function Admin() {
           <Route path="posts/:id" element={<AdminBlogEditor />} />
           <Route path="gallery" element={<AdminGallery />} />
           <Route path="appointments" element={<AdminAppointments />} />
+          <Route path="testimonials" element={<AdminTestimonials />} />
           <Route path="settings" element={<AdminSettings />} />
           <Route path="notes" element={<AdminNotes />} />
         </Routes>
