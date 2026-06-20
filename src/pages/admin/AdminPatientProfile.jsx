@@ -58,14 +58,16 @@ export default function AdminPatientProfile() {
     setPdfLoading(true)
     setShowPdfDropdown(false)
     try {
-      // Generate PDF as blob, then share via WhatsApp
-      const pdfBlob = await generatePatientPDFBlob({ patient, medical, consultations })
+      // Pehle PDF download karo
+      await generatePatientPDF({ patient, medical, consultations })
+      // Phir WhatsApp kholo with message
       const phone = (patient.phone || '').replace(/[^\d]/g, '')
       const msg = encodeURIComponent(
-        `Dear ${patient.name}, please find your health report from Mind Motion Matrix attached.\n\nFor appointments: www.mindmotionmatrix.com\n\n— Dr. Kirthi Jawalkar`
+        `Dear ${patient.name},\n\nYour health report from Mind Motion Matrix has been downloaded on your device.\n\nPlease find it in your Downloads folder and attach it here if needed.\n\nFor appointments: www.mindmotionmatrix.com\n\n— Dr. Kirthi Jawalkar, Mind Motion Matrix`
       )
-      // WhatsApp Web with pre-filled message (file sharing via web is not possible directly, so we open chat with message)
-      window.open(`https://wa.me/${phone}?text=${msg}`, '_blank')
+      setTimeout(() => {
+        window.open(`https://wa.me/${phone}?text=${msg}`, '_blank')
+      }, 800)
     } catch(e) {
       console.error(e)
     }
@@ -246,42 +248,69 @@ export default function AdminPatientProfile() {
             {showPdfDropdown && (
               <>
                 <div style={{ position: 'fixed', inset: 0, zIndex: 98 }} onClick={() => setShowPdfDropdown(false)} />
-                <div style={{ position: 'absolute', top: 'calc(100% + 6px)', right: 0, background: 'var(--white)', border: '1px solid rgba(15,39,68,0.12)', borderRadius: '4px', boxShadow: '0 8px 28px rgba(7,15,28,0.12)', zIndex: 99, minWidth: '190px', overflow: 'hidden' }}>
-                  
-                  <button onClick={downloadPDF} style={{ width: '100%', padding: '11px 16px', border: 'none', background: 'none', display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13px', fontFamily: 'var(--font-body)', cursor: 'pointer', color: 'var(--navy-800)', textAlign: 'left', transition: 'background 0.15s' }}
+                <div style={{
+                  position: 'fixed',
+                  top: 'auto',
+                  bottom: '0',
+                  left: '0',
+                  right: '0',
+                  background: 'var(--white)',
+                  border: 'none',
+                  borderTop: '1px solid rgba(15,39,68,0.1)',
+                  borderRadius: '16px 16px 0 0',
+                  boxShadow: '0 -8px 32px rgba(7,15,28,0.15)',
+                  zIndex: 99,
+                  overflow: 'hidden',
+                  maxWidth: '480px',
+                  margin: '0 auto',
+                }}>
+                  {/* Handle bar */}
+                  <div style={{ display: 'flex', justifyContent: 'center', padding: '10px 0 4px' }}>
+                    <div style={{ width: '36px', height: '4px', borderRadius: '2px', background: 'rgba(15,39,68,0.15)' }} />
+                  </div>
+
+                  {/* Title */}
+                  <div style={{ padding: '8px 20px 14px', borderBottom: '1px solid rgba(15,39,68,0.06)' }}>
+                    <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 600, color: 'var(--navy-800)' }}>Patient Report</p>
+                    <p style={{ margin: '2px 0 0', fontSize: '12px', color: 'var(--text-muted)', fontFamily: 'var(--font-body)' }}>{patient.name}</p>
+                  </div>
+
+                  <button onClick={downloadPDF} style={{ width: '100%', padding: '16px 20px', border: 'none', borderBottom: '1px solid rgba(15,39,68,0.06)', background: 'none', display: 'flex', alignItems: 'center', gap: '14px', fontFamily: 'var(--font-body)', cursor: 'pointer', textAlign: 'left' }}
                     onMouseEnter={e => e.currentTarget.style.background = 'var(--ivory)'}
                     onMouseLeave={e => e.currentTarget.style.background = 'none'}>
-                    <span style={{ fontSize: '16px' }}>⬇️</span>
+                    <div style={{ width: '44px', height: '44px', borderRadius: '10px', background: 'rgba(15,39,68,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', flexShrink: 0 }}>⬇️</div>
                     <div>
-                      <p style={{ margin: 0, fontWeight: 600, fontSize: '12px' }}>Download PDF</p>
-                      <p style={{ margin: 0, fontSize: '10px', color: 'var(--text-muted)' }}>Save to device</p>
+                      <p style={{ margin: 0, fontWeight: 600, fontSize: '14px', color: 'var(--navy-800)' }}>Download PDF</p>
+                      <p style={{ margin: '2px 0 0', fontSize: '12px', color: 'var(--text-muted)' }}>Save report to device</p>
                     </div>
                   </button>
 
-                  <div style={{ height: '1px', background: 'rgba(15,39,68,0.06)' }} />
-
-                  <button onClick={shareOnWhatsApp} style={{ width: '100%', padding: '11px 16px', border: 'none', background: 'none', display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13px', fontFamily: 'var(--font-body)', cursor: 'pointer', color: 'var(--navy-800)', textAlign: 'left', transition: 'background 0.15s' }}
+                  <button onClick={shareOnWhatsApp} style={{ width: '100%', padding: '16px 20px', border: 'none', borderBottom: '1px solid rgba(15,39,68,0.06)', background: 'none', display: 'flex', alignItems: 'center', gap: '14px', fontFamily: 'var(--font-body)', cursor: 'pointer', textAlign: 'left' }}
                     onMouseEnter={e => e.currentTarget.style.background = 'var(--ivory)'}
                     onMouseLeave={e => e.currentTarget.style.background = 'none'}>
-                    <span style={{ fontSize: '16px' }}>💬</span>
+                    <div style={{ width: '44px', height: '44px', borderRadius: '10px', background: 'rgba(37,211,102,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', flexShrink: 0 }}>💬</div>
                     <div>
-                      <p style={{ margin: 0, fontWeight: 600, fontSize: '12px' }}>Share on WhatsApp</p>
-                      <p style={{ margin: 0, fontSize: '10px', color: 'var(--text-muted)' }}>Send to {patient.name?.split(' ')[0]}</p>
+                      <p style={{ margin: 0, fontWeight: 600, fontSize: '14px', color: 'var(--navy-800)' }}>Share on WhatsApp</p>
+                      <p style={{ margin: '2px 0 0', fontSize: '12px', color: 'var(--text-muted)' }}>PDF downloads + WhatsApp opens</p>
                     </div>
                   </button>
 
-                  <div style={{ height: '1px', background: 'rgba(15,39,68,0.06)' }} />
-
-                  <button onClick={printPDF} style={{ width: '100%', padding: '11px 16px', border: 'none', background: 'none', display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13px', fontFamily: 'var(--font-body)', cursor: 'pointer', color: 'var(--navy-800)', textAlign: 'left', transition: 'background 0.15s' }}
+                  <button onClick={printPDF} style={{ width: '100%', padding: '16px 20px', border: 'none', background: 'none', display: 'flex', alignItems: 'center', gap: '14px', fontFamily: 'var(--font-body)', cursor: 'pointer', textAlign: 'left' }}
                     onMouseEnter={e => e.currentTarget.style.background = 'var(--ivory)'}
                     onMouseLeave={e => e.currentTarget.style.background = 'none'}>
-                    <span style={{ fontSize: '16px' }}>🖨️</span>
+                    <div style={{ width: '44px', height: '44px', borderRadius: '10px', background: 'rgba(15,39,68,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', flexShrink: 0 }}>🖨️</div>
                     <div>
-                      <p style={{ margin: 0, fontWeight: 600, fontSize: '12px' }}>Print</p>
-                      <p style={{ margin: 0, fontSize: '10px', color: 'var(--text-muted)' }}>Open print dialog</p>
+                      <p style={{ margin: 0, fontWeight: 600, fontSize: '14px', color: 'var(--navy-800)' }}>Print</p>
+                      <p style={{ margin: '2px 0 0', fontSize: '12px', color: 'var(--text-muted)' }}>Open print dialog</p>
                     </div>
                   </button>
 
+                  {/* Cancel button */}
+                  <div style={{ padding: '8px 16px 24px' }}>
+                    <button onClick={() => setShowPdfDropdown(false)} style={{ width: '100%', padding: '13px', border: '1px solid rgba(15,39,68,0.12)', borderRadius: '8px', background: 'var(--ivory)', fontSize: '14px', fontWeight: 600, fontFamily: 'var(--font-body)', cursor: 'pointer', color: 'var(--text-muted)' }}>
+                      Cancel
+                    </button>
+                  </div>
                 </div>
               </>
             )}
