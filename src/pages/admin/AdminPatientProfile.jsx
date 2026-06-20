@@ -206,11 +206,24 @@ export default function AdminPatientProfile() {
     const path = `${id}/${Date.now()}-${file.name}`
     const { error } = await supabase.storage.from('patient-documents').upload(path, file)
     if (!error) {
-      const { data } = supabase.storage.from('patient-documents').getPublicUrl(path)
-      await supabase.from('patient_documents').insert({ patient_id: id, name: file.name, file_url: data.publicUrl, file_type: file.type })
+      // Store the storage path, not public URL
+      await supabase.from('patient_documents').insert({
+        patient_id: id,
+        name: file.name,
+        file_url: path, // store path only
+        file_type: file.type
+      })
       fetchAll()
     }
     setUploading(false)
+  }
+
+  async function viewDocument(doc) {
+    // Generate signed URL valid for 1 hour
+    const { data } = await supabase.storage.from('patient-documents').createSignedUrl(doc.file_url, 3600)
+    if (data?.signedUrl) {
+      window.open(data.signedUrl, '_blank')
+    }
   }
 
   async function deleteDoc(did) {
@@ -511,7 +524,7 @@ export default function AdminPatientProfile() {
                   <p style={{ fontSize: '12px', color: 'var(--navy-800)', fontFamily: 'var(--font-body)', fontWeight: 600, margin: 0, textAlign: 'center', wordBreak: 'break-all' }}>{d.name}</p>
                   <p style={{ fontSize: '10px', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', margin: 0, textAlign: 'center' }}>{new Date(d.created_at).toLocaleDateString('en-IN')}</p>
                   <div style={{ display: 'flex', gap: '6px' }}>
-                    <a href={d.file_url} target="_blank" rel="noreferrer" className="admin-btn-outline admin-btn-sm" style={{ flex: 1, textAlign: 'center' }}>View</a>
+                    <button onClick={() => viewDocument(d)} className="admin-btn-outline admin-btn-sm" style={{ flex: 1, textAlign: 'center' }}>View</button>
                     <button className="admin-btn-danger admin-btn-sm" onClick={() => deleteDoc(d.id)}>✕</button>
                   </div>
                 </div>
