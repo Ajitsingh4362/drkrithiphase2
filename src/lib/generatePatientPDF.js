@@ -3,7 +3,7 @@
 
 export async function generatePatientPDF({ patient, medical, consultations }) {
   // Load jsPDF dynamically
-  if (!window.jsPDF) {
+  if (!window.jspdf) {
     await new Promise((resolve, reject) => {
       const script = document.createElement('script')
       script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'
@@ -12,6 +12,287 @@ export async function generatePatientPDF({ patient, medical, consultations }) {
       document.head.appendChild(script)
     })
   }
+
+  const { jsPDF } = window.jspdf
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' })
+
+  const W = 210
+  const H = 297
+  const margin = 16
+  const contentW = W - margin * 2
+
+  // Colors
+  const NAVY  = [15, 39, 68]
+  const GOLD  = [185, 145, 79]
+  const TEAL  = [30, 111, 106]
+  const LIGHT = [247, 244, 240]
+  const WHITE = [255, 255, 255]
+  const GREY  = [130, 130, 130]
+  const DARK  = [35, 35, 35]
+
+  // Helpers
+  const setFont = (style = 'normal', size = 10) => {
+    doc.setFontSize(size)
+    doc.setFont('helvetica', style)
+  }
+
+  const drawRect = (x, y, w, h, color) => {
+    doc.setFillColor(...color)
+    doc.rect(x, y, w, h, 'F')
+  }
+
+  const drawLine = (x1, y1, x2, y2, color, width = 0.3) => {
+    doc.setDrawColor(...color)
+    doc.setLineWidth(width)
+    doc.line(x1, y1, x2, y2)
+  }
+
+  const writeText = (str, x, y, color, style, size, opts = {}) => {
+    if (!str && str !== 0) return
+    doc.setTextColor(...color)
+    setFont(style, size)
+    doc.text(String(str), x, y, opts)
+  }
+
+  // Wrap text and return new Y position
+  const wrapText = (str, x, y, maxW, color, style, size, lineH = 5) => {
+    if (!str) return y
+    doc.setTextColor(...color)
+    setFont(style, size)
+    const lines = doc.splitTextToSize(String(str), maxW)
+    doc.text(lines, x, y)
+    return y + lines.length * lineH
+  }
+
+  // ─── LOAD LOGO ───────────────────────────────────────────
+  let logoDataUrl = null
+  try {
+    const response = await fetch('/mind_motion_matrix_navbar_logo.png')
+    const blob = await response.blob()
+    logoDataUrl = await new Promise(res => {
+      const reader = new FileReader()
+      reader.onload = () => res(reader.result)
+      reader.readAsDataURL(blob)
+    })
+  } catch (_) {}
+
+  // ─── HEADER ──────────────────────────────────────────────
+  drawRect(0, 0, W, 46, NAVY)
+
+  // Gold bottom line
+  drawRect(0, 45, W, 1.5, GOLD)
+
+  // Logo (left side)
+  if (logoDataUrl) {
+    doc.addImage(logoDataUrl, 'PNG', margin, 6, 32, 32)
+  } else {
+    // Fallback gold circle with M
+    doc.setFillColor(...GOLD)
+    doc.circle(margin + 12, 23, 11, 'F')
+    doc.setTextColor(...NAVY)
+    setFont('bold', 16)
+    doc.text('M', margin + 12, 27.5, { align: 'center' })
+  }
+
+  // Clinic name & details (right of logo)
+  const textX = logoDataUrl ? margin + 38 : margin + 28
+
+  writeText('Mind Motion Matrix', textX, 14, WHITE, 'bold', 14)
+  writeText('Dr. Kirthi Jawalkar', textX, 20, [220, 195, 140], 'normal', 8.5)
+  writeText('C-Suite Mind Body Specialist', textX, 25.5, [180, 160, 120], 'normal', 7.5)
+  writeText('Homeopathy  ·  Psychotherapy  ·  Integrative Healing', textX, 31, [160, 140, 100], 'normal', 7)
+  writeText('Bangalore, India', textX, 36.5, [140, 120, 90], 'normal', 7)
+
+  // Report label (top right)
+  writeText('PATIENT REPORT', W - margin, 13, [199, 166, 106], 'bold', 8, { align: 'right' })
+  writeText(`Generated: ${new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}`, W - margin, 20, [160, 140, 100], 'normal', 7, { align: 'right' })
+  writeText(`Report ID: MMM-${Date.now().toString().slice(-6)}`, W - margin, 26, [140, 120, 90], 'normal', 7, { align: 'right' })
+
+  // ─── PATIENT INFO ─────────────────────────────────────────
+  let y = 53
+
+  drawRect(margin, y, contentW, 42, LIGHT)
+  drawRect(margin, y, 3, 42, GOLD)
+
+  // Patient name
+  writeText(patient.name || '—', margin + 8, y + 9, NAVY, 'bold', 15)
+
+  // Status badge
+  if (patient.status) {
+    drawRect(margin + 8, y + 12, 24, 6, TEAL)
+    writeText((patient.status || '').toUpperCase(), margin + 20, y + 16.5, WHITE, 'bold', 6.5, { align: 'center' })
+  }
+
+  // Details — 3 columns, clean layout
+  const details = [
+    ['Phone', patient.phone],
+    ['Email', patient.email],
+    ['Age / Gender', [patient.age, patient.gender].filter(Boolean).join(' / ') || '—'],
+    ['Blood Group', patient.blood_group || '—'],
+    ['Occupation', patient.occupation || '—'],
+    ['Referred By', patient.referred_by || '—'],
+  ]
+
+  const cols = [margin + 8, margin + 70, margin + 135]
+  const rows = [y + 26, y + 35]
+
+  details.forEach(([label, val], i) => {
+    const col = cols[i % 3]
+    const row = rows[Math.floor(i / 3)]
+    writeText(label, col, row, GREY, 'normal', 7)
+    writeText(val || '—', col, row + 5, DARK, 'bold', 8)
+  })
+
+  y += 48
+
+  // ─── SECTION HEADER HELPER ───────────────────────────────
+  const sectionHeader = (title) => {
+    drawRect(margin, y, contentW, 8, NAVY)
+    writeText(title, margin + 5, y + 5.5, WHITE, 'bold', 8)
+    y += 12
+  }
+
+  const fieldLabel = (label) => {
+    writeText(label, margin + 4, y, GOLD, 'bold', 7.5)
+    y += 5
+  }
+
+  // ─── CHIEF COMPLAINT ─────────────────────────────────────
+  if (medical?.chief_complaint) {
+    sectionHeader('CHIEF COMPLAINT / PRIMARY HEALTH CONCERN')
+    y = wrapText(medical.chief_complaint, margin + 4, y, contentW - 8, DARK, 'normal', 9, 5.5)
+    y += 6
+  }
+
+  // ─── MEDICAL HISTORY ─────────────────────────────────────
+  const medFields = [
+    ['Past Medical History', medical?.past_medical_history],
+    ['Family History', medical?.family_history],
+    ['Known Allergies', medical?.allergies],
+    ['Current Medications / Supplements', medical?.current_medications],
+    ['Lifestyle Notes', medical?.lifestyle_notes],
+  ].filter(([, v]) => v)
+
+  if (medFields.length) {
+    sectionHeader('MEDICAL HISTORY')
+    medFields.forEach(([label, val]) => {
+      if (y > H - 40) { doc.addPage(); y = margin + 10 }
+      fieldLabel(label)
+      y = wrapText(val, margin + 4, y, contentW - 8, DARK, 'normal', 8.5, 5)
+      y += 5
+    })
+  }
+
+  // ─── LIFESTYLE ───────────────────────────────────────────
+  const lifestyleItems = [
+    ['Diet Type', medical?.diet_type],
+    ['Sleep Pattern', medical?.sleep_pattern],
+    ['Stress Level', medical?.stress_level],
+  ].filter(([, v]) => v)
+
+  if (lifestyleItems.length) {
+    if (y > H - 30) { doc.addPage(); y = margin + 10 }
+    drawRect(margin, y, contentW, 16, LIGHT)
+    drawRect(margin, y, 3, 16, TEAL)
+    lifestyleItems.forEach(([label, val], i) => {
+      const lx = margin + 8 + i * 60
+      writeText(label, lx, y + 5, GREY, 'normal', 7)
+      writeText(val, lx, y + 11, DARK, 'bold', 8.5)
+    })
+    y += 22
+  }
+
+  // ─── CONSULTATIONS ───────────────────────────────────────
+  if (consultations?.length) {
+    if (y > H - 60) { doc.addPage(); y = margin + 10 }
+    sectionHeader(`CONSULTATION HISTORY  (${consultations.length} records)`)
+
+    consultations.slice(0, 10).forEach((c, i) => {
+      if (y > H - 45) { doc.addPage(); y = margin + 10 }
+
+      // Card background
+      drawRect(margin, y, contentW, 2, i % 2 === 0 ? WHITE : LIGHT)
+      const cardStartY = y
+
+      // Left accent stripe
+      drawRect(margin, y, 3, 2, i === 0 ? GOLD : TEAL)
+
+      y += 3
+
+      // Date + type
+      const dateStr = c.date ? new Date(c.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '—'
+      writeText(dateStr, margin + 6, y + 3, NAVY, 'bold', 9)
+      if (c.consultation_type) {
+        writeText(`[${c.consultation_type}]`, margin + 45, y + 3, GREY, 'normal', 7)
+      }
+      if (c.follow_up_date) {
+        writeText(`Follow-up: ${new Date(c.follow_up_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}`, W - margin, y + 3, TEAL, 'bold', 7.5, { align: 'right' })
+      }
+      y += 8
+
+      if (c.chief_complaint) {
+        y = wrapText(c.chief_complaint, margin + 6, y, contentW - 10, DARK, 'normal', 8.5, 5)
+        y += 3
+      }
+
+      if (c.observations) {
+        y = wrapText(`Observations: ${c.observations}`, margin + 6, y, contentW - 10, GREY, 'italic', 8, 5)
+        y += 3
+      }
+
+      if (c.prescription) {
+        // Green prescription box
+        const rxLines = doc.splitTextToSize(c.prescription, contentW - 16)
+        const rxH = rxLines.length * 5 + 12
+        drawRect(margin + 4, y, contentW - 8, rxH, [238, 248, 246])
+        drawRect(margin + 4, y, 3, rxH, TEAL)
+        writeText('Rx  PRESCRIPTION', margin + 10, y + 6, TEAL, 'bold', 7.5)
+        y += 10
+        y = wrapText(c.prescription, margin + 10, y, contentW - 18, DARK, 'normal', 8.5, 5)
+        y += 5
+      }
+
+      if (c.follow_up_notes) {
+        y = wrapText(`Note: ${c.follow_up_notes}`, margin + 6, y, contentW - 10, GREY, 'italic', 7.5, 4.5)
+        y += 2
+      }
+
+      // Fix card height now that we know it
+      const cardH = y - cardStartY
+      drawRect(margin, cardStartY, contentW, cardH, i % 2 === 0 ? WHITE : LIGHT)
+      drawRect(margin, cardStartY, 3, cardH, i === 0 ? GOLD : TEAL)
+
+      // Re-draw content on top of background (since we drew bg after)
+      writeText(dateStr, margin + 6, cardStartY + 6, NAVY, 'bold', 9)
+      if (c.consultation_type) writeText(`[${c.consultation_type}]`, margin + 45, cardStartY + 6, GREY, 'normal', 7)
+      if (c.follow_up_date) writeText(`Follow-up: ${new Date(c.follow_up_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}`, W - margin, cardStartY + 6, TEAL, 'bold', 7.5, { align: 'right' })
+
+      // Separator line
+      drawLine(margin, y, W - margin, y, [220, 215, 210], 0.2)
+      y += 5
+    })
+
+    if (consultations.length > 10) {
+      writeText(`... and ${consultations.length - 10} more consultation records`, margin + 4, y, GREY, 'italic', 8)
+      y += 8
+    }
+  }
+
+  // ─── FOOTER (all pages) ──────────────────────────────────
+  const totalPages = doc.getNumberOfPages()
+  for (let pg = 1; pg <= totalPages; pg++) {
+    doc.setPage(pg)
+    drawLine(margin, H - 16, W - margin, H - 16, GOLD, 0.5)
+    writeText('Mind Motion Matrix  ·  Dr. Kirthi Jawalkar', margin, H - 10, NAVY, 'bold', 7.5)
+    writeText('Bangalore, India  ·  This report is confidential and intended for medical use only.', margin, H - 5.5, GREY, 'normal', 6.5)
+    writeText(`Page ${pg} of ${totalPages}`, W - margin, H - 8, GOLD, 'bold', 7.5, { align: 'right' })
+  }
+
+  // ─── SAVE ────────────────────────────────────────────────
+  const filename = `MMM-Report-${(patient.name || 'Patient').replace(/\s+/g, '-')}-${new Date().toISOString().split('T')[0]}.pdf`
+  doc.save(filename)
+}
+
 
   const { jsPDF } = window.jspdf
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' })
