@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
+import { generatePatientPDF } from '../../lib/generatePatientPDF'
 
 const TABS = ['Overview', 'Medical History', 'Consultations', 'Notes', 'Documents', 'Appointments']
 const TAGS = ['Cancer Support', 'Fertility', 'Chronic Illness', 'Psychotherapy', 'Allied Healing', 'VIP', 'Follow-up Due']
@@ -39,6 +40,17 @@ export default function AdminPatientProfile() {
   const [saving, setSaving] = useState(false)
   const [msg, setMsg] = useState('')
   const [loading, setLoading] = useState(!isNew)
+  const [pdfLoading, setPdfLoading] = useState(false)
+
+  async function downloadPDF() {
+    setPdfLoading(true)
+    try {
+      await generatePatientPDF({ patient, medical, consultations })
+    } catch(e) {
+      console.error(e)
+    }
+    setPdfLoading(false)
+  }
 
   // Auto-fill from appointment data (query params)
   const prefill = isNew ? Object.fromEntries(new URLSearchParams(location.search)) : {}
@@ -191,6 +203,11 @@ export default function AdminPatientProfile() {
         <div style={{ flex: 1 }} />
         {msg && <span className="admin-save-msg">{msg}</span>}
         <button className="admin-btn-outline admin-btn-sm" onClick={savePatient} disabled={saving}>{saving ? 'Saving...' : 'Save Changes'}</button>
+        {!isNew && (
+          <button className="admin-btn-outline admin-btn-sm" onClick={downloadPDF} disabled={pdfLoading} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            {pdfLoading ? '⏳ Generating...' : '📄 Download PDF'}
+          </button>
+        )}
         {!isNew && (
           <a href={`https://wa.me/${(patient.phone || '').replace(/[^\d]/g, '')}`} target="_blank" rel="noreferrer" className="admin-btn-primary admin-btn-sm">WhatsApp</a>
         )}
