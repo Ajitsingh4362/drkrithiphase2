@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
-import { generatePatientPDF } from '../../lib/generatePatientPDF'
+import { generatePatientPDF, generatePatientPDFBlob } from '../../lib/generatePatientPDF'
 
 const TABS = ['Overview', 'Medical History', 'Consultations', 'Notes', 'Documents', 'Appointments']
 const TAGS = ['Cancer Support', 'Fertility', 'Chronic Illness', 'Psychotherapy', 'Allied Healing', 'VIP', 'Follow-up Due']
@@ -41,11 +41,42 @@ export default function AdminPatientProfile() {
   const [msg, setMsg] = useState('')
   const [loading, setLoading] = useState(!isNew)
   const [pdfLoading, setPdfLoading] = useState(false)
+  const [showPdfDropdown, setShowPdfDropdown] = useState(false)
 
   async function downloadPDF() {
     setPdfLoading(true)
+    setShowPdfDropdown(false)
     try {
       await generatePatientPDF({ patient, medical, consultations })
+    } catch(e) {
+      console.error(e)
+    }
+    setPdfLoading(false)
+  }
+
+  async function shareOnWhatsApp() {
+    setPdfLoading(true)
+    setShowPdfDropdown(false)
+    try {
+      // Generate PDF as blob, then share via WhatsApp
+      const pdfBlob = await generatePatientPDFBlob({ patient, medical, consultations })
+      const phone = (patient.phone || '').replace(/[^\d]/g, '')
+      const msg = encodeURIComponent(
+        `Dear ${patient.name}, please find your health report from Mind Motion Matrix attached.\n\nFor appointments: www.mindmotionmatrix.com\n\n— Dr. Kirthi Jawalkar`
+      )
+      // WhatsApp Web with pre-filled message (file sharing via web is not possible directly, so we open chat with message)
+      window.open(`https://wa.me/${phone}?text=${msg}`, '_blank')
+    } catch(e) {
+      console.error(e)
+    }
+    setPdfLoading(false)
+  }
+
+  async function printPDF() {
+    setPdfLoading(true)
+    setShowPdfDropdown(false)
+    try {
+      await generatePatientPDF({ patient, medical, consultations, autoPrint: true })
     } catch(e) {
       console.error(e)
     }
@@ -204,9 +235,57 @@ export default function AdminPatientProfile() {
         {msg && <span className="admin-save-msg">{msg}</span>}
         <button className="admin-btn-outline admin-btn-sm" onClick={savePatient} disabled={saving}>{saving ? 'Saving...' : 'Save Changes'}</button>
         {!isNew && (
-          <button className="admin-btn-outline admin-btn-sm" onClick={downloadPDF} disabled={pdfLoading} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            {pdfLoading ? '⏳ Generating...' : '📄 Download PDF'}
-          </button>
+          <div style={{ position: 'relative' }}>
+            <button
+              onClick={() => setShowPdfDropdown(p => !p)}
+              disabled={pdfLoading}
+              style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 14px', border: '1px solid rgba(15,39,68,0.15)', borderRadius: '2px', background: 'var(--white)', fontSize: '11px', fontWeight: 600, fontFamily: 'var(--font-body)', cursor: 'pointer', color: 'var(--navy-800)', letterSpacing: '0.5px' }}>
+              {pdfLoading ? '⏳' : '📄'} {pdfLoading ? 'Generating...' : 'Report'} {!pdfLoading && '▾'}
+            </button>
+
+            {showPdfDropdown && (
+              <>
+                <div style={{ position: 'fixed', inset: 0, zIndex: 98 }} onClick={() => setShowPdfDropdown(false)} />
+                <div style={{ position: 'absolute', top: 'calc(100% + 6px)', right: 0, background: 'var(--white)', border: '1px solid rgba(15,39,68,0.12)', borderRadius: '4px', boxShadow: '0 8px 28px rgba(7,15,28,0.12)', zIndex: 99, minWidth: '190px', overflow: 'hidden' }}>
+                  
+                  <button onClick={downloadPDF} style={{ width: '100%', padding: '11px 16px', border: 'none', background: 'none', display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13px', fontFamily: 'var(--font-body)', cursor: 'pointer', color: 'var(--navy-800)', textAlign: 'left', transition: 'background 0.15s' }}
+                    onMouseEnter={e => e.currentTarget.style.background = 'var(--ivory)'}
+                    onMouseLeave={e => e.currentTarget.style.background = 'none'}>
+                    <span style={{ fontSize: '16px' }}>⬇️</span>
+                    <div>
+                      <p style={{ margin: 0, fontWeight: 600, fontSize: '12px' }}>Download PDF</p>
+                      <p style={{ margin: 0, fontSize: '10px', color: 'var(--text-muted)' }}>Save to device</p>
+                    </div>
+                  </button>
+
+                  <div style={{ height: '1px', background: 'rgba(15,39,68,0.06)' }} />
+
+                  <button onClick={shareOnWhatsApp} style={{ width: '100%', padding: '11px 16px', border: 'none', background: 'none', display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13px', fontFamily: 'var(--font-body)', cursor: 'pointer', color: 'var(--navy-800)', textAlign: 'left', transition: 'background 0.15s' }}
+                    onMouseEnter={e => e.currentTarget.style.background = 'var(--ivory)'}
+                    onMouseLeave={e => e.currentTarget.style.background = 'none'}>
+                    <span style={{ fontSize: '16px' }}>💬</span>
+                    <div>
+                      <p style={{ margin: 0, fontWeight: 600, fontSize: '12px' }}>Share on WhatsApp</p>
+                      <p style={{ margin: 0, fontSize: '10px', color: 'var(--text-muted)' }}>Send to {patient.name?.split(' ')[0]}</p>
+                    </div>
+                  </button>
+
+                  <div style={{ height: '1px', background: 'rgba(15,39,68,0.06)' }} />
+
+                  <button onClick={printPDF} style={{ width: '100%', padding: '11px 16px', border: 'none', background: 'none', display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13px', fontFamily: 'var(--font-body)', cursor: 'pointer', color: 'var(--navy-800)', textAlign: 'left', transition: 'background 0.15s' }}
+                    onMouseEnter={e => e.currentTarget.style.background = 'var(--ivory)'}
+                    onMouseLeave={e => e.currentTarget.style.background = 'none'}>
+                    <span style={{ fontSize: '16px' }}>🖨️</span>
+                    <div>
+                      <p style={{ margin: 0, fontWeight: 600, fontSize: '12px' }}>Print</p>
+                      <p style={{ margin: 0, fontSize: '10px', color: 'var(--text-muted)' }}>Open print dialog</p>
+                    </div>
+                  </button>
+
+                </div>
+              </>
+            )}
+          </div>
         )}
         {!isNew && (
           <a href={`https://wa.me/${(patient.phone || '').replace(/[^\d]/g, '')}`} target="_blank" rel="noreferrer" className="admin-btn-primary admin-btn-sm">WhatsApp</a>

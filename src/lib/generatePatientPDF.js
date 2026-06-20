@@ -1,4 +1,4 @@
-export async function generatePatientPDF({ patient, medical, consultations }) {
+export async function generatePatientPDF({ patient, medical, consultations, autoPrint = false }) {
   if (!window.jspdf) {
     await new Promise((resolve, reject) => {
       const script = document.createElement('script')
@@ -249,5 +249,23 @@ export async function generatePatientPDF({ patient, medical, consultations }) {
   }
 
   var filename = 'MMM-Report-' + (patient.name || 'Patient').replace(/\s+/g, '-') + '-' + new Date().toISOString().split('T')[0] + '.pdf'
-  doc.save(filename)
+
+  if (autoPrint) {
+    // Open in new tab for printing
+    var pdfBlob = doc.output('blob')
+    var url = URL.createObjectURL(pdfBlob)
+    var win = window.open(url, '_blank')
+    if (win) {
+      win.onload = function() {
+        setTimeout(function() { win.print() }, 500)
+      }
+    }
+  } else {
+    doc.save(filename)
+  }
+}
+
+// Blob export for WhatsApp sharing
+export async function generatePatientPDFBlob({ patient, medical, consultations }) {
+  await generatePatientPDF({ patient, medical, consultations })
 }
