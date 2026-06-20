@@ -87,16 +87,19 @@ function AdminHeader() {
               {/* Backdrop */}
               <div style={{ position: 'fixed', inset: 0, zIndex: 998 }} onClick={() => setShowDropdown(false)} />
 
-              <div style={{ position: 'absolute', top: 'calc(100% + 8px)', right: 0, width: '340px', background: 'var(--white)', border: '1px solid rgba(15,39,68,0.1)', borderRadius: '4px', boxShadow: '0 12px 40px rgba(7,15,28,0.15)', zIndex: 999, overflow: 'hidden' }}>
+              <div style={{ position: 'fixed', top: '64px', right: '12px', left: '12px', maxWidth: '380px', marginLeft: 'auto', background: 'var(--white)', border: '1px solid rgba(15,39,68,0.1)', borderRadius: '4px', boxShadow: '0 12px 40px rgba(7,15,28,0.15)', zIndex: 999, overflow: 'hidden' }}>
                 {/* Dropdown header */}
                 <div style={{ background: 'var(--navy-800)', padding: '14px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div>
                     <p style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 600, color: 'var(--gold-pale)', margin: 0 }}>Pending Appointments</p>
                     <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', fontFamily: 'var(--font-body)', margin: '2px 0 0' }}>{pending.length} awaiting confirmation</p>
                   </div>
-                  <button onClick={() => { navigate('/admin/appointments'); setShowDropdown(false) }} style={{ fontSize: '10px', color: 'var(--gold)', fontFamily: 'var(--font-body)', fontWeight: 600, background: 'none', border: '1px solid rgba(199,166,106,0.3)', borderRadius: '2px', padding: '4px 10px', cursor: 'pointer', letterSpacing: '0.5px', whiteSpace: 'nowrap' }}>
-                    View All →
-                  </button>
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <button onClick={() => { navigate('/admin/appointments'); setShowDropdown(false) }} style={{ fontSize: '10px', color: 'var(--gold)', fontFamily: 'var(--font-body)', fontWeight: 600, background: 'none', border: '1px solid rgba(199,166,106,0.3)', borderRadius: '2px', padding: '4px 10px', cursor: 'pointer', letterSpacing: '0.5px', whiteSpace: 'nowrap' }}>
+                      View All →
+                    </button>
+                    <button onClick={() => setShowDropdown(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: '18px', padding: '0', lineHeight: 1 }}>✕</button>
+                  </div>
                 </div>
 
                 {/* List */}
@@ -106,32 +109,32 @@ function AdminHeader() {
                     <p style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', margin: 0 }}>All caught up! No pending appointments.</p>
                   </div>
                 ) : (
-                  <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                  <div style={{ maxHeight: '60vh', overflowY: 'auto' }}>
                     {pending.map((a, i) => (
-                      <div key={a.id} style={{ padding: '14px 16px', borderBottom: i < pending.length - 1 ? '1px solid rgba(15,39,68,0.06)' : 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      <div key={a.id} style={{ padding: '14px 16px', borderBottom: i < pending.length - 1 ? '1px solid rgba(15,39,68,0.06)' : 'none' }}>
                         {/* Patient info */}
-                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                          <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'var(--gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700, fontSize: '13px', fontFamily: 'var(--font-display)', flexShrink: 0 }}>
+                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginBottom: '10px' }}>
+                          <div style={{ width: '38px', height: '38px', borderRadius: '50%', background: 'var(--gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700, fontSize: '14px', fontFamily: 'var(--font-display)', flexShrink: 0 }}>
                             {(a.name || '?')[0].toUpperCase()}
                           </div>
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <p style={{ fontWeight: 600, fontSize: '13px', color: 'var(--navy-800)', margin: '0 0 2px', fontFamily: 'var(--font-body)' }}>{a.name}</p>
-                            <p style={{ fontSize: '11px', color: 'var(--text-muted)', margin: 0, fontFamily: 'var(--font-body)' }}>
+                            <p style={{ fontSize: '11px', color: 'var(--text-muted)', margin: '0 0 2px', fontFamily: 'var(--font-body)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                               {a.service || 'General'}{a.preferred_date ? ` · ${fmtDate(a.preferred_date)}` : ''}{a.preferred_time ? ` · ${a.preferred_time}` : ''}
                             </p>
-                            <p style={{ fontSize: '11px', color: 'var(--text-muted)', margin: '2px 0 0', fontFamily: 'var(--font-body)' }}>📞 {a.phone}</p>
+                            <p style={{ fontSize: '11px', color: 'var(--text-muted)', margin: 0, fontFamily: 'var(--font-body)' }}>📞 {a.phone}</p>
                           </div>
                           <span style={{ fontSize: '10px', color: 'var(--text-light)', fontFamily: 'var(--font-body)', whiteSpace: 'nowrap', flexShrink: 0 }}>
                             {new Date(a.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
                           </span>
                         </div>
 
-                        {/* Action buttons */}
-                        <div style={{ display: 'flex', gap: '6px', paddingLeft: '46px' }}>
-                          <button onClick={() => confirm(a)} style={{ flex: 1, background: '#1e6f6a', color: '#fff', border: 'none', borderRadius: '2px', padding: '7px 10px', fontSize: '11px', fontWeight: 600, fontFamily: 'var(--font-body)', cursor: 'pointer', letterSpacing: '0.3px' }}>
+                        {/* Action buttons - full width on mobile */}
+                        <div style={{ display: 'flex', gap: '6px' }}>
+                          <button onClick={() => confirm(a)} style={{ flex: 1, background: '#1e6f6a', color: '#fff', border: 'none', borderRadius: '2px', padding: '9px 10px', fontSize: '11px', fontWeight: 600, fontFamily: 'var(--font-body)', cursor: 'pointer', letterSpacing: '0.3px' }}>
                             ✅ Confirm & WhatsApp
                           </button>
-                          <a href={`https://wa.me/${(a.phone || '').replace(/[^\d]/g, '')}`} target="_blank" rel="noreferrer" style={{ background: '#25d366', color: '#fff', border: 'none', borderRadius: '2px', padding: '7px 10px', fontSize: '11px', fontWeight: 600, fontFamily: 'var(--font-body)', cursor: 'pointer', textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+                          <a href={`https://wa.me/${(a.phone || '').replace(/[^\d]/g, '')}`} target="_blank" rel="noreferrer" style={{ background: '#25d366', color: '#fff', border: 'none', borderRadius: '2px', padding: '9px 14px', fontSize: '16px', fontWeight: 600, fontFamily: 'var(--font-body)', cursor: 'pointer', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                             💬
                           </a>
                         </div>
