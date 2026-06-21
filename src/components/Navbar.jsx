@@ -21,6 +21,7 @@ export default function Navbar() {
     { to: '/programs', label: 'Programs' },
     { to: '/blog', label: 'Blog' },
     { to: '/gallery', label: 'Gallery' },
+    { to: '/faq', label: 'FAQ' },
     { to: '/contact', label: 'Contact' },
   ]
 

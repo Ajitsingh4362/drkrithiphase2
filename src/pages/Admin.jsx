@@ -13,6 +13,7 @@ import AdminAnalytics from './admin/AdminAnalytics'
 import AdminCalendar from './admin/AdminCalendar'
 import AdminTestimonials from './admin/AdminTestimonials'
 import AdminPrescriptionTemplates from './admin/AdminPrescriptionTemplates'
+import AdminFAQ from './admin/AdminFAQ'
 import NotificationBell from '../components/NotificationBell'
 
 const AUTH_KEY = 'mmm_admin_authed'
@@ -236,6 +237,7 @@ export default function Admin() {
     { to: '/admin/patients', label: 'Patients', icon: '👥' },
     { to: '/admin/appointments', label: 'Appointments', icon: '📋' },
     { to: '/admin/templates', label: 'Rx Templates', icon: '💊' },
+    { to: '/admin/faq', label: 'FAQ Manager', icon: '❓' },
     { to: '/admin/testimonials', label: 'Testimonials', icon: '⭐' },
     { to: '/admin/posts', label: 'Blog Posts', icon: '📝' },
     { to: '/admin/gallery', label: 'Gallery', icon: '🖼️' },
@@ -276,6 +278,7 @@ export default function Admin() {
           <Route path="gallery" element={<AdminGallery />} />
           <Route path="appointments" element={<AdminAppointments />} />
           <Route path="templates" element={<AdminPrescriptionTemplates />} />
+          <Route path="faq" element={<AdminFAQ />} />
           <Route path="testimonials" element={<AdminTestimonials />} />
           <Route path="settings" element={<AdminSettings />} />
           <Route path="notes" element={<AdminNotes />} />

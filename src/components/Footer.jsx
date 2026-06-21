@@ -35,6 +35,9 @@ export default function Footer() {
               {to:'/about',l:'About Dr. Kirthi'},
               {to:'/specializations',l:'Specializations'},
               {to:'/programs',l:'Programs'},
+              {to:'/blog',l:'Blog'},
+              {to:'/gallery',l:'Gallery'},
+              {to:'/faq',l:'FAQ'},
               {to:'/contact',l:'Book Consultation'}
             ].map(link => (
               <NavLink key={link.to} to={link.to}
