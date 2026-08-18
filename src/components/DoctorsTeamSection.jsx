@@ -32,7 +32,7 @@ export default function DoctorsTeamSection() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px, 100%), 300px))',
             gap: '28px',
             justifyContent: 'center',
           }}
