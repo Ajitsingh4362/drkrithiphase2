@@ -27,7 +27,7 @@ function StarRating({ value, onChange }) {
   )
 }
 
-const EMPTY = { name: '', location: '', program: '', rating: 5, review: '', avatar_color: '#b9914f', photo_url: '', visible: true, featured: false }
+const EMPTY = { name: '', location: '', program: '', rating: 5, title: '', review: '', avatar_color: '#b9914f', photo_url: '', audio_url: '', screenshot_url: '', visible: true, featured: false }
 
 export default function AdminTestimonials() {
   const [list, setList] = useState([])
@@ -53,7 +53,10 @@ export default function AdminTestimonials() {
   function setF(key, val) { setForm(f => ({ ...f, [key]: val })) }
 
   async function save() {
-    if (!form.name || !form.review) { setMsg('Name and review required'); return }
+    if (!form.name) { setMsg('Patient name is required'); return }
+    if (!form.review && !form.audio_url && !form.screenshot_url) {
+      setMsg('Add at least one: written review, voice note, or screenshot'); return
+    }
     setSaving(true)
     if (editing === 'new') {
       await supabase.from('testimonials').insert({ ...form, sort_order: list.length })
@@ -105,6 +108,23 @@ export default function AdminTestimonials() {
     setUploading(false)
   }
 
+  // generic uploader for voice-note / screenshot — used below
+  async function uploadMedia(e, field, folder) {
+    const file = e.target.files[0]
+    if (!file) return
+    setUploading(true)
+    setMsg('')
+    const path = `testimonials-${folder}/${Date.now()}-${file.name}`
+    const { error } = await supabase.storage.from('gallery-images').upload(path, file)
+    if (!error) {
+      const { data } = supabase.storage.from('gallery-images').getPublicUrl(path)
+      setF(field, data.publicUrl)
+    } else {
+      setMsg('Upload failed: ' + error.message)
+    }
+    setUploading(false)
+  }
+
   const featured = list.filter(t => t.featured && t.visible)
   const all = list
 
@@ -152,9 +172,13 @@ export default function AdminTestimonials() {
             </div>
             <div style={{ flex: 1 }}>
               <StarRating value={form.rating} />
-              <p style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 600, color: 'var(--navy-800)', margin: '6px 0 2px' }}>{form.name || 'Patient Name'}</p>
+              {form.title && <p style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', fontWeight: 700, color: 'var(--navy-800)', margin: '6px 0 2px' }}>{form.title}</p>}
+              <p style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 600, color: 'var(--navy-800)', margin: form.title ? '0 0 2px' : '6px 0 2px' }}>{form.name || 'Patient Name'}</p>
               <p style={{ fontSize: '11px', color: 'var(--gold-deep)', fontFamily: 'var(--font-body)', margin: '0 0 8px' }}>{form.program}{form.location ? ` · ${form.location}` : ''}</p>
-              <p style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontStyle: 'italic', lineHeight: '1.7', margin: 0 }}>"{form.review || 'Review text will appear here...'}"</p>
+              {form.review && <p style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontStyle: 'italic', lineHeight: '1.7', margin: 0 }}>"{form.review}"</p>}
+              {form.audio_url && <audio controls src={form.audio_url} style={{ marginTop: '10px', width: '100%', height: '32px' }} />}
+              {form.screenshot_url && <img src={form.screenshot_url} alt="screenshot" style={{ marginTop: '10px', maxWidth: '160px', borderRadius: '6px', border: '1px solid rgba(15,39,68,0.12)' }} />}
+              {!form.review && !form.audio_url && !form.screenshot_url && <p style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontStyle: 'italic', lineHeight: '1.7', margin: 0 }}>Review text, voice note, or screenshot will appear here...</p>}
             </div>
           </div>
 
@@ -163,6 +187,11 @@ export default function AdminTestimonials() {
             <div>
               <label style={{ fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 600, display: 'block', marginBottom: '6px' }}>Patient Name *</label>
               <input value={form.name} onChange={e => setF('name', e.target.value)} placeholder="Priya Sharma" style={{ width: '100%', padding: '9px 12px', border: '1px solid rgba(15,39,68,0.12)', borderRadius: '2px', fontSize: '0.88rem', fontFamily: 'var(--font-body)', outline: 'none' }} />
+            </div>
+            {/* Title */}
+            <div>
+              <label style={{ fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 600, display: 'block', marginBottom: '6px' }}>Review Title (optional)</label>
+              <input value={form.title} onChange={e => setF('title', e.target.value)} placeholder="Amazing recovery experience!" style={{ width: '100%', padding: '9px 12px', border: '1px solid rgba(15,39,68,0.12)', borderRadius: '2px', fontSize: '0.88rem', fontFamily: 'var(--font-body)', outline: 'none' }} />
             </div>
             {/* Location */}
             <div>
@@ -186,8 +215,41 @@ export default function AdminTestimonials() {
 
           {/* Review */}
           <div style={{ marginTop: '14px' }}>
-            <label style={{ fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 600, display: 'block', marginBottom: '6px' }}>Review / Testimonial *</label>
+            <label style={{ fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 600, display: 'block', marginBottom: '6px' }}>Written Review (optional)</label>
             <textarea value={form.review} onChange={e => setF('review', e.target.value)} rows={4} placeholder="Patient's experience in their own words..." style={{ width: '100%', padding: '10px 12px', border: '1px solid rgba(15,39,68,0.12)', borderRadius: '2px', fontSize: '0.88rem', fontFamily: 'var(--font-body)', outline: 'none', resize: 'vertical' }} />
+          </div>
+
+          {/* Voice note + screenshot */}
+          <p style={{ fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 600, margin: '18px 0 8px' }}>Patient Sent This In Instead? (voice note / screenshot)</p>
+          <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap', alignItems: 'flex-start' }}>
+            {/* Voice note upload */}
+            <div>
+              <label style={{ fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 600, display: 'block', marginBottom: '8px' }}>🎤 Voice Note (thank-you audio)</label>
+              <label className="admin-file-btn" style={{ fontSize: '12px', padding: '7px 14px' }}>
+                {uploading ? 'Uploading...' : form.audio_url ? 'Change Audio' : 'Upload Audio'}
+                <input type="file" accept="audio/*" onChange={e => uploadMedia(e, 'audio_url', 'audio')} hidden />
+              </label>
+              {form.audio_url && (
+                <div style={{ marginTop: '8px' }}>
+                  <audio controls src={form.audio_url} style={{ height: '32px', maxWidth: '220px' }} />
+                  <button onClick={() => setF('audio_url', '')} style={{ display: 'block', marginTop: '4px', background: 'none', border: 'none', color: '#c0392b', fontSize: '12px', cursor: 'pointer', fontFamily: 'var(--font-body)', padding: 0 }}>Remove</button>
+                </div>
+              )}
+            </div>
+            {/* Screenshot upload */}
+            <div>
+              <label style={{ fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 600, display: 'block', marginBottom: '8px' }}>📷 Screenshot (WhatsApp / message)</label>
+              <label className="admin-file-btn" style={{ fontSize: '12px', padding: '7px 14px' }}>
+                {uploading ? 'Uploading...' : form.screenshot_url ? 'Change Screenshot' : 'Upload Screenshot'}
+                <input type="file" accept="image/*" onChange={e => uploadMedia(e, 'screenshot_url', 'screenshots')} hidden />
+              </label>
+              {form.screenshot_url && (
+                <div style={{ marginTop: '8px' }}>
+                  <img src={form.screenshot_url} alt="screenshot" style={{ width: '80px', borderRadius: '4px', border: '1px solid rgba(15,39,68,0.12)', display: 'block' }} />
+                  <button onClick={() => setF('screenshot_url', '')} style={{ background: 'none', border: 'none', color: '#c0392b', fontSize: '12px', cursor: 'pointer', fontFamily: 'var(--font-body)', padding: 0, marginTop: '4px' }}>Remove</button>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Avatar color + photo */}
@@ -251,9 +313,14 @@ export default function AdminTestimonials() {
                   <StarRating value={t.rating} />
                   {t.featured && <span style={{ fontSize: '10px', padding: '1px 8px', borderRadius: '100px', background: 'rgba(199,166,106,0.15)', color: '#9c7a3c', fontFamily: 'var(--font-body)', fontWeight: 600 }}>⭐ Featured</span>}
                   {!t.visible && <span style={{ fontSize: '10px', padding: '1px 8px', borderRadius: '100px', background: 'rgba(15,39,68,0.06)', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 600 }}>Hidden</span>}
+                  {t.audio_url && <span style={{ fontSize: '10px', padding: '1px 8px', borderRadius: '100px', background: 'rgba(30,111,106,0.12)', color: 'var(--teal)', fontFamily: 'var(--font-body)', fontWeight: 600 }}>🎤 Voice</span>}
+                  {t.screenshot_url && <span style={{ fontSize: '10px', padding: '1px 8px', borderRadius: '100px', background: 'rgba(30,111,106,0.12)', color: 'var(--teal)', fontFamily: 'var(--font-body)', fontWeight: 600 }}>📷 Screenshot</span>}
                 </div>
                 {t.program && <p style={{ fontSize: '11px', color: 'var(--gold-deep)', fontFamily: 'var(--font-body)', margin: '0 0 6px', fontWeight: 600 }}>{t.program}</p>}
-                <p style={{ fontSize: '12px', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontStyle: 'italic', lineHeight: '1.6', margin: 0, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>"{t.review}"</p>
+                {t.title && <p style={{ fontSize: '13px', color: 'var(--navy-800)', fontFamily: 'var(--font-display)', fontWeight: 700, margin: '0 0 4px' }}>{t.title}</p>}
+                {t.review && <p style={{ fontSize: '12px', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontStyle: 'italic', lineHeight: '1.6', margin: 0, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>"{t.review}"</p>}
+                {t.audio_url && <audio controls src={t.audio_url} style={{ height: '28px', marginTop: '6px', maxWidth: '220px' }} />}
+                {t.screenshot_url && <img src={t.screenshot_url} alt="screenshot" style={{ width: '56px', borderRadius: '4px', marginTop: '6px', border: '1px solid rgba(15,39,68,0.1)', display: 'block' }} />}
               </div>
 
               {/* Controls */}
