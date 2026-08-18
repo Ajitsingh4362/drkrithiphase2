@@ -4,6 +4,7 @@ import HealingMap from '../components/HealingMap'
 import BlogPreview from '../components/BlogPreview'
 import ConsultationPopup from '../components/ConsultationPopup'
 import TestimonialsSection from '../components/TestimonialsSection'
+import DoctorsTeamSection from '../components/DoctorsTeamSection'
 
 const HIGHLIGHTS = [
   { icon: '🎗️', title: 'Cancer Revival & Support', desc: 'Integrative complementary support during treatment — rebuilding strength, resilience, and hope alongside your medical care.', highlight: true },
@@ -370,6 +371,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* DOCTOR'S TEAM */}
+      <DoctorsTeamSection />
 
       {/* SPECIALIZATIONS PREVIEW */}
       <section style={{ padding: '100px 0', background: 'var(--ivory)' }}>
