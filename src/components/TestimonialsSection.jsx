@@ -90,7 +90,7 @@ export default function TestimonialsSection() {
   useEffect(() => {
     supabase.from('testimonials').select('*')
       .eq('visible', true).eq('featured', true)
-      .order('sort_order').limit(9)
+      .order('sort_order').limit(15)
       .then(({ data }) => setTestimonials(data || []))
   }, [])
 
@@ -118,7 +118,7 @@ export default function TestimonialsSection() {
         </div>
 
         {/* Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '22px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))', gap: '24px' }}>
           {testimonials.map(t => <TestimonialCard key={t.id} t={t} />)}
         </div>
       </div>

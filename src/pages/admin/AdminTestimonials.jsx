@@ -35,7 +35,7 @@ export default function AdminTestimonials() {
   const [editing, setEditing] = useState(null) // null | 'new' | {id}
   const [form, setForm] = useState(EMPTY)
   const [saving, setSaving] = useState(false)
-  const [uploading, setUploading] = useState(false)
+  const [uploading, setUploading] = useState({ photo: false, audio: false, screenshot: false })
   const [msg, setMsg] = useState('')
 
   useEffect(() => { fetchList() }, [])
@@ -98,21 +98,21 @@ export default function AdminTestimonials() {
   async function uploadPhoto(e) {
     const file = e.target.files[0]
     if (!file) return
-    setUploading(true)
+    setUploading(u => ({ ...u, photo: true }))
     const path = `testimonials/${Date.now()}-${file.name}`
     const { error } = await supabase.storage.from('gallery-images').upload(path, file)
     if (!error) {
       const { data } = supabase.storage.from('gallery-images').getPublicUrl(path)
       setF('photo_url', data.publicUrl)
     }
-    setUploading(false)
+    setUploading(u => ({ ...u, photo: false }))
   }
 
   // generic uploader for voice-note / screenshot — used below
-  async function uploadMedia(e, field, folder) {
+  async function uploadMedia(e, field, folder, key) {
     const file = e.target.files[0]
     if (!file) return
-    setUploading(true)
+    setUploading(u => ({ ...u, [key]: true }))
     setMsg('')
     const path = `testimonials-${folder}/${Date.now()}-${file.name}`
     const { error } = await supabase.storage.from('gallery-images').upload(path, file)
@@ -122,7 +122,7 @@ export default function AdminTestimonials() {
     } else {
       setMsg('Upload failed: ' + error.message)
     }
-    setUploading(false)
+    setUploading(u => ({ ...u, [key]: false }))
   }
 
   const featured = list.filter(t => t.featured && t.visible)
@@ -226,8 +226,8 @@ export default function AdminTestimonials() {
             <div>
               <label style={{ fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 600, display: 'block', marginBottom: '8px' }}>🎤 Voice Note (thank-you audio)</label>
               <label className="admin-file-btn" style={{ fontSize: '12px', padding: '7px 14px' }}>
-                {uploading ? 'Uploading...' : form.audio_url ? 'Change Audio' : 'Upload Audio'}
-                <input type="file" accept="audio/*" onChange={e => uploadMedia(e, 'audio_url', 'audio')} hidden />
+                {uploading.audio ? 'Uploading...' : form.audio_url ? 'Change Audio' : 'Upload Audio'}
+                <input type="file" accept="audio/*" onChange={e => uploadMedia(e, 'audio_url', 'audio', 'audio')} hidden />
               </label>
               {form.audio_url && (
                 <div style={{ marginTop: '8px' }}>
@@ -240,8 +240,8 @@ export default function AdminTestimonials() {
             <div>
               <label style={{ fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 600, display: 'block', marginBottom: '8px' }}>📷 Screenshot (WhatsApp / message)</label>
               <label className="admin-file-btn" style={{ fontSize: '12px', padding: '7px 14px' }}>
-                {uploading ? 'Uploading...' : form.screenshot_url ? 'Change Screenshot' : 'Upload Screenshot'}
-                <input type="file" accept="image/*" onChange={e => uploadMedia(e, 'screenshot_url', 'screenshots')} hidden />
+                {uploading.screenshot ? 'Uploading...' : form.screenshot_url ? 'Change Screenshot' : 'Upload Screenshot'}
+                <input type="file" accept="image/*" onChange={e => uploadMedia(e, 'screenshot_url', 'screenshots', 'screenshot')} hidden />
               </label>
               {form.screenshot_url && (
                 <div style={{ marginTop: '8px' }}>
@@ -265,7 +265,7 @@ export default function AdminTestimonials() {
             <div>
               <label style={{ fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 600, display: 'block', marginBottom: '8px' }}>Photo (optional)</label>
               <label className="admin-file-btn" style={{ fontSize: '12px', padding: '7px 14px' }}>
-                {uploading ? 'Uploading...' : form.photo_url ? 'Change Photo' : 'Upload Photo'}
+                {uploading.photo ? 'Uploading...' : form.photo_url ? 'Change Photo' : 'Upload Photo'}
                 <input type="file" accept="image/*" onChange={uploadPhoto} hidden />
               </label>
               {form.photo_url && <button onClick={() => setF('photo_url', '')} style={{ marginLeft: '8px', background: 'none', border: 'none', color: '#c0392b', fontSize: '12px', cursor: 'pointer', fontFamily: 'var(--font-body)' }}>Remove</button>}
