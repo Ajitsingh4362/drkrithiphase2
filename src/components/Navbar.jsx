@@ -29,10 +29,10 @@ export default function Navbar() {
     <>
       <nav style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
-        background: scrolled ? 'rgba(255,255,255,0.97)' : 'rgba(255,255,255,0.85)',
+        background: scrolled ? 'rgba(30,111,106,0.97)' : 'rgba(30,111,106,0.88)',
         backdropFilter: 'blur(20px)',
-        borderBottom: scrolled ? '1px solid rgba(15,39,68,0.08)' : '1px solid rgba(199,166,106,0.15)',
-        boxShadow: scrolled ? '0 2px 16px rgba(15,39,68,0.06)' : 'none',
+        borderBottom: scrolled ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(199,166,106,0.2)',
+        boxShadow: scrolled ? '0 2px 16px rgba(15,39,68,0.15)' : 'none',
         padding: scrolled ? '10px 0' : '14px 0',
         transition: 'all 0.4s ease',
       }}>
@@ -59,10 +59,10 @@ export default function Navbar() {
                 style={({ isActive }) => ({
                   fontFamily: 'var(--font-body)',
                   fontSize: '11px', fontWeight: isActive ? 600 : 400,
-                  color: isActive ? 'var(--teal)' : 'var(--navy-800)',
+                  color: isActive ? 'var(--gold-pale)' : 'rgba(255,255,255,0.85)',
                   letterSpacing: '1.5px', textTransform: 'uppercase',
                   paddingBottom: '3px',
-                  borderBottom: isActive ? '1px solid var(--teal)' : '1px solid transparent',
+                  borderBottom: isActive ? '1px solid var(--gold)' : '1px solid transparent',
                   transition: 'all 0.25s',
                 })}>
                 {link.label}
@@ -82,7 +82,7 @@ export default function Navbar() {
             {[0,1,2].map(i => (
               <span key={i} style={{
                 display: 'block', width: '22px', height: '2px',
-                background: 'var(--navy-800)', borderRadius: '2px', transition: 'var(--transition)',
+                background: 'var(--white)', borderRadius: '2px', transition: 'var(--transition)',
                 transform: menuOpen
                   ? (i===0 ? 'translateY(7px) rotate(45deg)' : i===2 ? 'translateY(-7px) rotate(-45deg)' : 'scaleX(0)')
                   : 'none',
@@ -95,7 +95,7 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       <div style={{
-        position: 'fixed', inset: 0, background: 'var(--ivory)',
+        position: 'fixed', inset: 0, background: 'var(--teal)',
         zIndex: 999, display: 'flex', flexDirection: 'column',
         alignItems: 'center', justifyContent: 'center', gap: '28px',
         transition: 'opacity 0.3s, visibility 0.3s',
@@ -108,13 +108,13 @@ export default function Navbar() {
           style={{ height: '80px', width: 'auto', marginBottom: '8px' }}
         />
 
-        <div style={{ width: '40px', height: '1px', background: 'rgba(30,111,106,0.3)' }} />
+        <div style={{ width: '40px', height: '1px', background: 'rgba(255,255,255,0.3)' }} />
 
         {links.map(link => (
           <NavLink key={link.to} to={link.to} end={link.to === '/'}
             style={({ isActive }) => ({
               fontFamily: 'var(--font-display)', fontSize: '32px', fontWeight: 600,
-              color: isActive ? 'var(--teal)' : 'var(--navy-800)',
+              color: isActive ? 'var(--gold-pale)' : 'rgba(255,255,255,0.9)',
               letterSpacing: '1px',
             })}>
             {link.label}
