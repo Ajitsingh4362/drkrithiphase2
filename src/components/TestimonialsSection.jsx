@@ -28,6 +28,9 @@ function TestimonialCard({ t }) {
         boxShadow: '0 2px 14px rgba(15,39,68,0.05)',
         display: 'flex',
         flexDirection: 'column',
+        minWidth: 0,
+        overflowWrap: 'break-word',
+        wordBreak: 'break-word',
         transition: 'transform 0.25s, box-shadow 0.25s',
       }}
       onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 10px 28px rgba(15,39,68,0.1)' }}
@@ -118,7 +121,7 @@ export default function TestimonialsSection() {
         </div>
 
         {/* Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))', gap: '24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(380px, 100%), 1fr))', gap: '24px' }}>
           {testimonials.map(t => <TestimonialCard key={t.id} t={t} />)}
         </div>
       </div>
