@@ -93,20 +93,20 @@ export default function FAQPage() {
     <div style={{ overflowX: 'hidden' }}>
 
       {/* Hero */}
-      <section style={{ background: 'linear-gradient(160deg, var(--navy-900), var(--navy-800))', padding: '120px 0 70px', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(199,166,106,0.04) 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+      <section style={{ background: 'linear-gradient(160deg, var(--ivory) 0%, #eef6f3 100%)', padding: '120px 0 70px', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(30,111,106,0.05) 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
             <div style={{ width: '32px', height: '1px', background: 'var(--gold)' }} />
-            <span style={{ fontSize: '11px', fontFamily: 'var(--font-body)', fontWeight: 600, color: 'var(--gold)', letterSpacing: '2.5px', textTransform: 'uppercase' }}>FAQ</span>
+            <span style={{ fontSize: '11px', fontFamily: 'var(--font-body)', fontWeight: 600, color: '#9c7a3c', letterSpacing: '2.5px', textTransform: 'uppercase' }}>FAQ</span>
           </div>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(36px, 5vw, 60px)', color: 'var(--white)', fontWeight: 600, margin: '0 0 16px', lineHeight: 1.15 }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(36px, 5vw, 60px)', color: 'var(--navy-800)', fontWeight: 600, margin: '0 0 16px', lineHeight: 1.15 }}>
             Frequently Asked Questions
           </h1>
-          <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.5)', maxWidth: '520px', lineHeight: 1.85, fontFamily: 'var(--font-body)', fontWeight: 300, margin: '0 0 32px' }}>
+          <p style={{ fontSize: '15px', color: 'var(--text-muted)', maxWidth: '520px', lineHeight: 1.85, fontFamily: 'var(--font-body)', fontWeight: 300, margin: '0 0 32px' }}>
             Everything you need to know about Dr. Kirthi's integrative healing approach, programs, and consultations.
           </p>
-          <Link to="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 28px', background: 'var(--gold)', color: 'var(--navy-800)', borderRadius: '2px', fontSize: '12px', fontWeight: 600, fontFamily: 'var(--font-body)', textDecoration: 'none', letterSpacing: '1px', textTransform: 'uppercase' }}>
+          <Link to="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 28px', background: 'var(--teal)', color: 'var(--white)', borderRadius: '2px', fontSize: '12px', fontWeight: 600, fontFamily: 'var(--font-body)', textDecoration: 'none', letterSpacing: '1px', textTransform: 'uppercase' }}>
             Still have questions? Book a consultation →
           </Link>
         </div>

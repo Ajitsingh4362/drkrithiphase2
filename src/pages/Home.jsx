@@ -96,15 +96,15 @@ function HeroVisual() {
         position: 'absolute', top: '50%', left: '50%',
         transform: 'translate(-50%,-50%)',
         width: '170px', height: '170px', borderRadius: '50%',
-        background: 'linear-gradient(135deg, rgba(199,166,106,0.22) 0%, rgba(30,111,106,0.15) 100%)',
-        border: '1px solid rgba(199,166,106,0.3)',
+        background: 'linear-gradient(135deg, rgba(199,166,106,0.18) 0%, rgba(30,111,106,0.14) 100%)',
+        border: '1px solid rgba(30,111,106,0.3)',
         display: 'flex', flexDirection: 'column',
         alignItems: 'center', justifyContent: 'center',
         textAlign: 'center', padding: '20px',
       }}>
         <div style={{ fontSize: '32px', marginBottom: '6px' }}>⚕️</div>
-        <div style={{ fontSize: '10px', color: 'var(--gold)', letterSpacing: '1.5px', textTransform: 'uppercase', fontWeight: 600 }}>Integrative</div>
-        <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.5)', letterSpacing: '1px', textTransform: 'uppercase' }}>Healing</div>
+        <div style={{ fontSize: '10px', color: 'var(--teal)', letterSpacing: '1.5px', textTransform: 'uppercase', fontWeight: 600 }}>Integrative</div>
+        <div style={{ fontSize: '10px', color: 'var(--text-muted)', letterSpacing: '1px', textTransform: 'uppercase' }}>Healing</div>
       </div>
 
       {/* Orbit dot A */}
@@ -137,41 +137,44 @@ function HeroVisual() {
       {/* Floating tag 1 — top left */}
       <div style={{
         position: 'absolute', top: '60px', left: '20px',
-        background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(8px)',
-        border: '1px solid rgba(199,166,106,0.2)',
+        background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(8px)',
+        border: '1px solid rgba(199,166,106,0.3)',
+        boxShadow: '0 4px 16px rgba(15,39,68,0.08)',
         borderRadius: '8px', padding: '12px 16px',
         animation: 'float-tag 3.5s ease-in-out infinite',
         minWidth: '140px',
       }}>
-        <div style={{ fontSize: '11px', color: 'var(--gold)', fontWeight: 600, letterSpacing: '1px' }}>🎗️ Cancer Support</div>
-        <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', marginTop: '3px' }}>Core Specialty</div>
+        <div style={{ fontSize: '11px', color: '#9c7a3c', fontWeight: 600, letterSpacing: '1px' }}>🎗️ Cancer Support</div>
+        <div style={{ fontSize: '10px', color: 'var(--text-light)', marginTop: '3px' }}>Core Specialty</div>
       </div>
 
       {/* Floating tag 2 — bottom right */}
       <div style={{
         position: 'absolute', bottom: '70px', right: '10px',
-        background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(8px)',
-        border: '1px solid rgba(30,111,106,0.3)',
+        background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(8px)',
+        border: '1px solid rgba(30,111,106,0.35)',
+        boxShadow: '0 4px 16px rgba(15,39,68,0.08)',
         borderRadius: '8px', padding: '12px 16px',
         animation: 'float-tag 4.2s ease-in-out infinite 0.8s',
         minWidth: '145px',
       }}>
-        <div style={{ fontSize: '11px', color: '#4ecdc4', fontWeight: 600, letterSpacing: '1px' }}>🧠 Mind-Body</div>
-        <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', marginTop: '3px' }}>Medicine</div>
+        <div style={{ fontSize: '11px', color: 'var(--teal)', fontWeight: 600, letterSpacing: '1px' }}>🧠 Mind-Body</div>
+        <div style={{ fontSize: '10px', color: 'var(--text-light)', marginTop: '3px' }}>Medicine</div>
       </div>
 
       {/* Floating tag 3 — mid right */}
       <div style={{
         position: 'absolute', top: '50%', right: '0px',
         transform: 'translateY(-50%)',
-        background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(8px)',
-        border: '1px solid rgba(199,166,106,0.15)',
+        background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(8px)',
+        border: '1px solid rgba(199,166,106,0.25)',
+        boxShadow: '0 4px 16px rgba(15,39,68,0.08)',
         borderRadius: '8px', padding: '12px 16px',
         animation: 'float-tag 5s ease-in-out infinite 1.5s',
         minWidth: '130px',
       }}>
-        <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.7)', fontWeight: 600, letterSpacing: '1px' }}>🌸 Women\'s</div>
-        <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', marginTop: '3px' }}>Wellness</div>
+        <div style={{ fontSize: '11px', color: 'var(--navy-800)', fontWeight: 600, letterSpacing: '1px' }}>🌸 Women\'s</div>
+        <div style={{ fontSize: '10px', color: 'var(--text-light)', marginTop: '3px' }}>Wellness</div>
       </div>
 
       {/* Drifting geometric shapes */}
@@ -228,14 +231,14 @@ export default function Home() {
 
       {/* HERO */}
       <section style={{
-        background: 'linear-gradient(160deg, var(--navy-900) 0%, var(--navy-800) 60%, #122040 100%)',
+        background: 'linear-gradient(160deg, var(--ivory) 0%, #eef6f3 55%, var(--ivory) 100%)',
         minHeight: '100vh', display: 'flex', alignItems: 'center',
         position: 'relative', overflow: 'hidden',
         paddingTop: '100px', paddingBottom: '80px',
       }}>
         {/* Background decorative blobs */}
-        <div style={{ position: 'absolute', top: '-5%', right: '-8%', width: '600px', height: '600px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(30,111,106,0.1) 0%, transparent 70%)', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', bottom: '-10%', left: '-5%', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(199,166,106,0.06) 0%, transparent 70%)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', top: '-5%', right: '-8%', width: '600px', height: '600px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(30,111,106,0.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: '-10%', left: '-5%', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(199,166,106,0.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
 
         <div className="container" style={{ width: '100%' }}>
           {/* Two-column hero layout */}
@@ -253,8 +256,8 @@ export default function Home() {
               <div style={{
                 display: 'inline-flex', alignItems: 'center', gap: '16px',
                 marginBottom: '32px',
-                background: 'rgba(199,166,106,0.08)',
-                border: '1px solid rgba(199,166,106,0.25)',
+                background: 'rgba(199,166,106,0.1)',
+                border: '1px solid rgba(199,166,106,0.3)',
                 borderLeft: '3px solid var(--gold)',
                 borderRadius: '2px',
                 padding: '14px 22px',
@@ -263,14 +266,14 @@ export default function Home() {
                   <div style={{
                     fontFamily: 'var(--font-display)',
                     fontSize: '22px', fontWeight: 700,
-                    color: 'var(--gold)',
+                    color: '#9c7a3c',
                     letterSpacing: '0.5px',
                     lineHeight: 1.2,
                   }}>
                     Dr. Kirthi
                   </div>
                   <div style={{
-                    fontSize: '10px', color: 'rgba(255,255,255,0.45)',
+                    fontSize: '10px', color: 'var(--text-muted)',
                     letterSpacing: '2px', textTransform: 'uppercase',
                     marginTop: '4px', fontFamily: 'var(--font-body)',
                   }}>
@@ -282,17 +285,17 @@ export default function Home() {
               <h1 style={{
                 fontFamily: 'var(--font-display)',
                 fontSize: 'clamp(36px, 4.5vw, 68px)',
-                fontWeight: 600, color: 'var(--white)',
+                fontWeight: 600, color: 'var(--navy-800)',
                 lineHeight: 1.1, marginBottom: '24px',
               }}>
                 Where Medicine<br />Meets Mindset,{' '}
-                <span style={{ color: 'var(--gold)', fontStyle: 'italic', display: 'block' }}>
+                <span style={{ color: 'var(--teal)', fontStyle: 'italic', display: 'block' }}>
                   and Healing Becomes<br />Transformation
                 </span>
               </h1>
 
               <p style={{
-                fontSize: '15px', color: 'rgba(255,255,255,0.6)',
+                fontSize: '15px', color: 'var(--text-muted)',
                 lineHeight: '1.85', maxWidth: '520px', marginBottom: '14px',
                 fontFamily: 'var(--font-body)', fontWeight: 300,
               }}>
@@ -301,7 +304,7 @@ export default function Home() {
                 even when conventional pathways seem exhausted.
               </p>
               <p style={{
-                fontSize: '13px', color: 'rgba(255,255,255,0.38)',
+                fontSize: '13px', color: 'var(--text-light)',
                 lineHeight: '1.7', maxWidth: '480px', marginBottom: '36px',
                 fontFamily: 'var(--font-body)',
               }}>
@@ -311,13 +314,13 @@ export default function Home() {
 
               <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', marginBottom: '48px' }}>
                 <Link to="/contact"><button className="btn-primary">Book a Consultation</button></Link>
-                <Link to="/programs"><button className="btn-outline">Explore Programs</button></Link>
+                <Link to="/programs"><button className="btn-outline-dark">Explore Programs</button></Link>
               </div>
 
               {/* Stats */}
               <div style={{
                 display: 'flex', gap: '44px', flexWrap: 'wrap',
-                paddingTop: '36px', borderTop: '1px solid rgba(199,166,106,0.15)',
+                paddingTop: '36px', borderTop: '1px solid rgba(30,111,106,0.2)',
               }}>
                 {[
                   { num: '15+', label: 'Years Experience' },
@@ -325,8 +328,8 @@ export default function Home() {
                   { num: '6', label: 'Healing Disciplines' },
                 ].map((s, i) => (
                   <div key={i}>
-                    <div style={{ fontFamily: 'var(--font-display)', fontSize: '40px', fontWeight: 700, color: 'var(--gold)', lineHeight: 1 }}>{s.num}</div>
-                    <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', marginTop: '6px', letterSpacing: '1px', textTransform: 'uppercase', fontFamily: 'var(--font-body)' }}>{s.label}</div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontSize: '40px', fontWeight: 700, color: 'var(--teal)', lineHeight: 1 }}>{s.num}</div>
+                    <div style={{ fontSize: '10px', color: 'var(--text-light)', marginTop: '6px', letterSpacing: '1px', textTransform: 'uppercase', fontFamily: 'var(--font-body)' }}>{s.label}</div>
                   </div>
                 ))}
               </div>
@@ -341,13 +344,13 @@ export default function Home() {
 
         {/* Scroll indicator */}
         <div style={{ position: 'absolute', bottom: '32px', left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', animation: 'float 2.5s ease-in-out infinite' }}>
-          <div style={{ width: '1px', height: '40px', background: 'linear-gradient(180deg, var(--gold), transparent)' }} />
-          <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.3)', letterSpacing: '2px', textTransform: 'uppercase' }}>Scroll</span>
+          <div style={{ width: '1px', height: '40px', background: 'linear-gradient(180deg, var(--teal), transparent)' }} />
+          <span style={{ fontSize: '10px', color: 'var(--text-light)', letterSpacing: '2px', textTransform: 'uppercase' }}>Scroll</span>
         </div>
       </section>
 
       {/* TAGLINE STRIP */}
-      <section style={{ background: 'var(--navy-700, #0f2744)', padding: '20px 0', borderBottom: '1px solid rgba(199,166,106,0.15)' }}>
+      <section style={{ background: 'var(--teal)', padding: '20px 0' }}>
         <div className="container" style={{ textAlign: 'center' }}>
           <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(16px, 2vw, 22px)', color: 'var(--gold-pale)', fontWeight: 600, margin: 0, fontStyle: 'italic', letterSpacing: '0.3px' }}>
             "Restoring Health. Renewing Hope. Transforming Lives."
@@ -390,13 +393,13 @@ export default function Home() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2px', background: 'rgba(15,39,68,0.06)' }}>
             {HIGHLIGHTS.map((h, i) => (
               <div key={i} style={{
-                background: h.highlight ? 'var(--navy-800)' : 'var(--white)',
+                background: h.highlight ? 'var(--teal)' : 'var(--white)',
                 padding: '36px 32px',
                 position: 'relative', overflow: 'hidden',
                 transition: 'var(--transition)',
               }}
-              onMouseEnter={e => { e.currentTarget.style.background = h.highlight ? 'var(--navy-700)' : 'var(--ivory-dark)' }}
-              onMouseLeave={e => { e.currentTarget.style.background = h.highlight ? 'var(--navy-800)' : 'var(--white)' }}>
+              onMouseEnter={e => { e.currentTarget.style.background = h.highlight ? 'var(--teal-light)' : 'var(--ivory-dark)' }}
+              onMouseLeave={e => { e.currentTarget.style.background = h.highlight ? 'var(--teal)' : 'var(--white)' }}>
                 {h.highlight && (
                   <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--gold)' }} />
                 )}
@@ -424,14 +427,14 @@ export default function Home() {
       </section>
 
       {/* WHY CHOOSE */}
-      <section style={{ padding: '100px 0', background: 'linear-gradient(160deg, var(--navy-800), var(--navy-900))' }}>
+      <section style={{ padding: '100px 0', background: 'var(--white)' }}>
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }} className="two-col-grid">
             <div>
               <span className="section-tag">Why Dr. Kirthi</span>
               <div className="gold-line" />
-              <h2 className="section-title light">A Different Kind of Healthcare Experience</h2>
-              <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.6)', lineHeight: '1.85', marginBottom: '32px', fontWeight: 300 }}>
+              <h2 className="section-title">A Different Kind of Healthcare Experience</h2>
+              <p style={{ fontSize: '15px', color: 'var(--text-muted)', lineHeight: '1.85', marginBottom: '32px', fontWeight: 300 }}>
                 Not just a practitioner — a trusted health strategist who bridges medicine, psychology, and holistic healing for complete transformation.
               </p>
               <Link to="/contact"><button className="btn-primary">Begin Your Journey</button></Link>
@@ -439,13 +442,13 @@ export default function Home() {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2px' }}>
               {WHY.map((w, i) => (
                 <div key={i} style={{
-                  background: 'rgba(255,255,255,0.04)',
-                  border: '1px solid rgba(199,166,106,0.1)',
+                  background: 'var(--ivory)',
+                  border: '1px solid rgba(30,111,106,0.15)',
                   padding: '20px 18px',
                   display: 'flex', alignItems: 'flex-start', gap: '10px',
                 }}>
-                  <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--gold)', flexShrink: 0, marginTop: '5px' }} />
-                  <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.7)', lineHeight: '1.6', fontFamily: 'var(--font-body)' }}>{w}</span>
+                  <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--teal)', flexShrink: 0, marginTop: '5px' }} />
+                  <span style={{ fontSize: '12px', color: 'var(--text-muted)', lineHeight: '1.6', fontFamily: 'var(--font-body)' }}>{w}</span>
                 </div>
               ))}
             </div>

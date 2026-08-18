@@ -61,26 +61,26 @@ export default function Specializations() {
   return (
     <div ref={ref} style={{ overflowX: 'hidden' }}>
       {/* Hero */}
-      <section style={{ background: 'linear-gradient(160deg, var(--navy-900), var(--navy-800))', padding: '140px 0 80px', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(199,166,106,0.04) 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+      <section style={{ background: 'linear-gradient(160deg, var(--ivory) 0%, #eef6f3 100%)', padding: '140px 0 80px', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(30,111,106,0.05) 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', marginBottom: '24px' }}>
             <div style={{ width: '32px', height: '1px', background: 'var(--gold)' }} />
-            <span style={{ fontSize: '11px', fontFamily: 'var(--font-body)', fontWeight: 600, color: 'var(--gold)', letterSpacing: '2.5px', textTransform: 'uppercase' }}>Services</span>
+            <span style={{ fontSize: '11px', fontFamily: 'var(--font-body)', fontWeight: 600, color: '#9c7a3c', letterSpacing: '2.5px', textTransform: 'uppercase' }}>Services</span>
           </div>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(38px, 5vw, 64px)', color: 'var(--white)', fontWeight: 600, marginBottom: '20px' }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(38px, 5vw, 64px)', color: 'var(--navy-800)', fontWeight: 600, marginBottom: '20px' }}>
             Transforming Health Beyond Symptoms
           </h1>
-          <p style={{ fontSize: '16px', color: 'var(--gold)', fontFamily: 'var(--font-display)', fontStyle: 'italic', marginBottom: '20px' }}>
+          <p style={{ fontSize: '16px', color: 'var(--teal)', fontFamily: 'var(--font-display)', fontStyle: 'italic', marginBottom: '20px' }}>
             Where Science, Psychology & Holistic Healing Meet
           </p>
-          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.55)', maxWidth: '620px', lineHeight: '1.9', fontWeight: 300, fontFamily: 'var(--font-body)', marginBottom: '16px' }}>
+          <p style={{ fontSize: '14px', color: 'var(--text-muted)', maxWidth: '620px', lineHeight: '1.9', fontWeight: 300, fontFamily: 'var(--font-body)', marginBottom: '16px' }}>
             With over 15 years of experience in Homeopathy, Psychotherapy, Emotional Wellness, and Integrative Healing Sciences, I work with individuals who are seeking deeper and sustainable healing beyond temporary symptom management.
           </p>
-          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.45)', maxWidth: '620px', lineHeight: '1.9', fontWeight: 300, fontFamily: 'var(--font-body)', marginBottom: '16px' }}>
+          <p style={{ fontSize: '14px', color: 'var(--text-light)', maxWidth: '620px', lineHeight: '1.9', fontWeight: 300, fontFamily: 'var(--font-body)', marginBottom: '16px' }}>
             My approach combines evidence-informed homeopathic care, mind-body interventions, emotional resilience coaching, lifestyle transformation, and complementary healing modalities to help individuals restore balance, vitality, and overall well-being.
           </p>
-          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.45)', maxWidth: '620px', lineHeight: '1.9', fontWeight: 300, fontFamily: 'var(--font-body)' }}>
+          <p style={{ fontSize: '14px', color: 'var(--text-light)', maxWidth: '620px', lineHeight: '1.9', fontWeight: 300, fontFamily: 'var(--font-body)' }}>
             Whether you are struggling with infertility, cancer recovery, chronic illness, emotional distress, or unexplained health challenges, the goal is to help you reconnect with your body's innate healing potential while improving your quality of life.
           </p>
         </div>
@@ -143,12 +143,12 @@ export default function Specializations() {
       </section>
 
       {/* WHY CLIENTS CHOOSE US */}
-      <section style={{ padding: '100px 0', background: 'var(--navy-900)' }}>
+      <section style={{ padding: '100px 0', background: 'var(--white)' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '64px' }}>
             <span className="section-tag">Why Clients Choose Us</span>
             <div className="gold-line center" />
-            <h2 className="section-title light">A Truly Integrative Healing Experience</h2>
+            <h2 className="section-title">A Truly Integrative Healing Experience</h2>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '2px' }}>
             {[
@@ -162,11 +162,11 @@ export default function Specializations() {
               'Long-Term Health Transformation Approach',
               'Compassionate and Confidential Support',
             ].map((w, i) => (
-              <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(199,166,106,0.08)', padding: '24px 20px', display: 'flex', alignItems: 'flex-start', gap: '12px', transition: 'var(--transition)' }}
-                onMouseEnter={e => e.currentTarget.style.background = 'rgba(199,166,106,0.06)'}
-                onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.03)'}>
-                <span style={{ color: 'var(--gold)', fontSize: '16px', flexShrink: 0, marginTop: '2px' }}>✔</span>
-                <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.65)', lineHeight: '1.6', fontFamily: 'var(--font-body)' }}>{w}</span>
+              <div key={i} style={{ background: 'var(--ivory)', border: '1px solid rgba(30,111,106,0.12)', padding: '24px 20px', display: 'flex', alignItems: 'flex-start', gap: '12px', transition: 'var(--transition)' }}
+                onMouseEnter={e => e.currentTarget.style.background = 'var(--ivory-dark)'}
+                onMouseLeave={e => e.currentTarget.style.background = 'var(--ivory)'}>
+                <span style={{ color: 'var(--teal)', fontSize: '16px', flexShrink: 0, marginTop: '2px' }}>✔</span>
+                <span style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: '1.6', fontFamily: 'var(--font-body)' }}>{w}</span>
               </div>
             ))}
           </div>

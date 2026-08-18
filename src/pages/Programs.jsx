@@ -68,20 +68,20 @@ export default function Programs() {
     <div ref={ref} style={{ overflowX: 'hidden' }}>
 
       {/* HERO */}
-      <section style={{ background: 'linear-gradient(160deg, var(--navy-900), var(--navy-800))', padding: '140px 0 80px', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', top: '-10%', right: '-5%', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(199,166,106,0.07) 0%, transparent 70%)', pointerEvents: 'none' }} />
+      <section style={{ background: 'linear-gradient(160deg, var(--ivory) 0%, #eef6f3 100%)', padding: '140px 0 80px', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: '-10%', right: '-5%', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(30,111,106,0.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
         <div className="container">
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', marginBottom: '24px' }}>
             <div style={{ width: '32px', height: '1px', background: 'var(--gold)' }} />
-            <span style={{ fontSize: '11px', fontFamily: 'var(--font-body)', fontWeight: 600, color: 'var(--gold)', letterSpacing: '2.5px', textTransform: 'uppercase' }}>Signature Programs</span>
+            <span style={{ fontSize: '11px', fontFamily: 'var(--font-body)', fontWeight: 600, color: '#9c7a3c', letterSpacing: '2.5px', textTransform: 'uppercase' }}>Signature Programs</span>
           </div>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(36px, 5vw, 64px)', color: 'var(--white)', fontWeight: 600, lineHeight: 1.15, marginBottom: '24px', maxWidth: '700px' }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(36px, 5vw, 64px)', color: 'var(--navy-800)', fontWeight: 600, lineHeight: 1.15, marginBottom: '24px', maxWidth: '700px' }}>
             Transforming Health Beyond Symptoms
           </h1>
-          <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.55)', maxWidth: '600px', lineHeight: '1.9', fontWeight: 300, fontFamily: 'var(--font-body)', marginBottom: '16px' }}>
+          <p style={{ fontSize: '16px', color: 'var(--teal)', maxWidth: '600px', lineHeight: '1.9', fontWeight: 400, fontFamily: 'var(--font-body)', marginBottom: '16px' }}>
             Where Science, Psychology & Holistic Healing Meet
           </p>
-          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.45)', maxWidth: '640px', lineHeight: '1.9', fontWeight: 300, fontFamily: 'var(--font-body)' }}>
+          <p style={{ fontSize: '14px', color: 'var(--text-muted)', maxWidth: '640px', lineHeight: '1.9', fontWeight: 300, fontFamily: 'var(--font-body)' }}>
             With over 15 years of experience in Homeopathy, Psychotherapy, Emotional Wellness, and Integrative Healing Sciences, I work with individuals seeking deeper and sustainable healing beyond temporary symptom management.
           </p>
         </div>
@@ -183,20 +183,20 @@ export default function Programs() {
       </section>
 
       {/* WHY CHOOSE */}
-      <section style={{ padding: '100px 0', background: 'var(--navy-900)' }}>
+      <section style={{ padding: '100px 0', background: 'var(--white)' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '64px' }}>
             <span className="section-tag">Why Clients Choose Us</span>
             <div className="gold-line center" />
-            <h2 className="section-title light">A Truly Integrative Healing Experience</h2>
+            <h2 className="section-title">A Truly Integrative Healing Experience</h2>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '2px' }}>
             {WHY.map((w, i) => (
-              <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(199,166,106,0.08)', padding: '24px 20px', display: 'flex', alignItems: 'flex-start', gap: '12px', transition: 'var(--transition)' }}
-                onMouseEnter={e => e.currentTarget.style.background = 'rgba(199,166,106,0.06)'}
-                onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.03)'}>
-                <span style={{ color: 'var(--gold)', fontSize: '16px', flexShrink: 0, marginTop: '2px' }}>✔</span>
-                <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.65)', lineHeight: '1.6', fontFamily: 'var(--font-body)' }}>{w}</span>
+              <div key={i} style={{ background: 'var(--ivory)', border: '1px solid rgba(30,111,106,0.12)', padding: '24px 20px', display: 'flex', alignItems: 'flex-start', gap: '12px', transition: 'var(--transition)' }}
+                onMouseEnter={e => e.currentTarget.style.background = 'var(--ivory-dark)'}
+                onMouseLeave={e => e.currentTarget.style.background = 'var(--ivory)'}>
+                <span style={{ color: 'var(--teal)', fontSize: '16px', flexShrink: 0, marginTop: '2px' }}>✔</span>
+                <span style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: '1.6', fontFamily: 'var(--font-body)' }}>{w}</span>
               </div>
             ))}
           </div>

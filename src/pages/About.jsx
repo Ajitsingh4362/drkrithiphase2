@@ -16,21 +16,21 @@ export default function About() {
   return (
     <div ref={ref} style={{ overflowX: 'hidden' }}>
       {/* Hero */}
-      <section style={{ background: 'linear-gradient(160deg, var(--navy-900), var(--navy-800))', padding: '140px 0 80px', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(199,166,106,0.04) 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
-        <div style={{ position: 'absolute', top: '100px', right: '80px', width: '250px', height: '250px', border: '1px solid rgba(199,166,106,0.08)', transform: 'rotate(45deg)' }} />
+      <section style={{ background: 'linear-gradient(160deg, var(--ivory) 0%, #eef6f3 100%)', padding: '140px 0 80px', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(30,111,106,0.05) 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+        <div style={{ position: 'absolute', top: '100px', right: '80px', width: '250px', height: '250px', border: '1px solid rgba(199,166,106,0.12)', transform: 'rotate(45deg)' }} />
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', marginBottom: '24px' }}>
             <div style={{ width: '32px', height: '1px', background: 'var(--gold)' }} />
-            <span style={{ fontSize: '11px', fontFamily: 'var(--font-body)', fontWeight: 600, color: 'var(--gold)', letterSpacing: '2.5px', textTransform: 'uppercase' }}>About</span>
+            <span style={{ fontSize: '11px', fontFamily: 'var(--font-body)', fontWeight: 600, color: '#9c7a3c', letterSpacing: '2.5px', textTransform: 'uppercase' }}>About</span>
           </div>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(38px, 5vw, 68px)', color: 'var(--white)', fontWeight: 600, marginBottom: '20px' }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(38px, 5vw, 68px)', color: 'var(--navy-800)', fontWeight: 600, marginBottom: '20px' }}>
             Dr. Kirthi Jawalkar
           </h1>
-          <p style={{ fontSize: '18px', color: 'var(--gold)', fontFamily: 'var(--font-display)', fontStyle: 'italic', marginBottom: '16px' }}>
+          <p style={{ fontSize: '18px', color: 'var(--teal)', fontFamily: 'var(--font-display)', fontStyle: 'italic', marginBottom: '16px' }}>
             Healing Beyond Symptoms. Transforming Lives Beyond Diagnosis.
           </p>
-          <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.55)', maxWidth: '580px', lineHeight: '1.8', fontWeight: 300 }}>
+          <p style={{ fontSize: '15px', color: 'var(--text-muted)', maxWidth: '580px', lineHeight: '1.8', fontWeight: 300 }}>
             Internationally trained Homeopathic Physician, Psychotherapist, and Mind-Body Wellness Specialist with 15+ years of experience.
           </p>
         </div>

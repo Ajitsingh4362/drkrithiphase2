@@ -76,7 +76,7 @@
    ============================================================ */
 .healing-map-section {
   padding: 100px 0;
-  background: linear-gradient(160deg, var(--navy-800), var(--navy-900));
+  background: linear-gradient(160deg, var(--navy-800), #0f2e28);
   position: relative; overflow: hidden;
 }
 .healing-map-grid {
