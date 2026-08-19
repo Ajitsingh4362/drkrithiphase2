@@ -18,7 +18,7 @@ export default function DoctorsTeamSection() {
   if (!doctors.length) return null
 
   return (
-    <section style={{ padding: '90px 0', background: 'var(--white)' }}>
+    <section style={{ padding: '45px 0', background: 'var(--white)' }}>
       <div className="container">
         <div style={{ textAlign: 'center', marginBottom: '52px' }}>
           <span className="section-tag">Meet The Team</span>
@@ -55,7 +55,7 @@ export default function DoctorsTeamSection() {
               onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none' }}
             >
               <div style={{
-                width: '96px', height: '96px', borderRadius: '50%', margin: '0 auto 18px',
+                width: '100%', height: '220px', borderRadius: '10px', margin: '0 auto 18px',
                 background: 'var(--gold)', overflow: 'hidden', display: 'flex',
                 alignItems: 'center', justifyContent: 'center', border: '3px solid rgba(199,166,106,0.3)',
               }}>
