@@ -216,7 +216,6 @@ export default function Home() {
               alt="Healing Areas"
               style={{
                 width: '100%',
-                maxWidth: '900px',
                 height: 'auto',
                 borderRadius: '16px',
                 boxShadow: '0 20px 50px rgba(15,39,68,0.12)',
