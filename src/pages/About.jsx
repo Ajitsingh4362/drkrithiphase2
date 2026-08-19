@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
+import drKirthiProfileImg from '../assets/dr-kirthi-profile.jpg'
 
 const QUALS = [
   { icon: '🎓', year: 'Foundation', title: 'Homeopathic Medicine', sub: 'BHMS — Core clinical training in Homeopathic Medicine' },
@@ -43,7 +44,9 @@ export default function About() {
 
             {/* Card */}
             <div style={{ background: 'var(--navy-800)', borderRadius: '2px', padding: '40px', border: '1px solid rgba(199,166,106,0.15)', position: 'sticky', top: '100px' }}>
-              <div style={{ width: '100px', height: '100px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--teal), var(--navy-600))', margin: '0 auto 20px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '44px', border: '2px solid rgba(199,166,106,0.3)' }}>👩‍⚕️</div>
+              <div style={{ width: '140px', height: '140px', borderRadius: '50%', margin: '0 auto 20px', border: '2px solid rgba(199,166,106,0.3)', overflow: 'hidden' }}>
+                <img src={drKirthiProfileImg} alt="Dr. Kirthi Jawalkar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </div>
               <div style={{ textAlign: 'center', marginBottom: '28px' }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: '22px', color: 'var(--gold-pale)', fontWeight: 600 }}>Dr. Kirthi Jawalkar</div>
                 <div style={{ fontSize: '11px', color: 'var(--gold)', letterSpacing: '1.5px', textTransform: 'uppercase', marginTop: '6px' }}>Mind Motion Matrix</div>
