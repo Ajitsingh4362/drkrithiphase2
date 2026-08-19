@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import doctorHeroImg from '../assets/doctor-hero.jpg'
+import healingCollageImg from '../assets/healing-collage.jpg'
 import HealingMap from '../components/HealingMap'
 import BlogPreview from '../components/BlogPreview'
 import ConsultationPopup from '../components/ConsultationPopup'
@@ -209,6 +210,20 @@ export default function Home() {
       {/* SPECIALIZATIONS PREVIEW */}
       <section style={{ padding: '100px 0', background: 'var(--ivory)' }}>
         <div className="container">
+          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <img
+              src={healingCollageImg}
+              alt="Healing Areas"
+              style={{
+                width: '100%',
+                maxWidth: '900px',
+                height: 'auto',
+                borderRadius: '16px',
+                boxShadow: '0 20px 50px rgba(15,39,68,0.12)',
+                marginBottom: '48px',
+              }}
+            />
+          </div>
           <div style={{ textAlign: 'center', marginBottom: '64px' }}>
             <span className="section-tag">Healing Areas</span>
             <div className="gold-line center" />
