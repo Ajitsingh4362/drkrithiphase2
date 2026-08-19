@@ -15,6 +15,7 @@ import ConsultationPopup from '../components/ConsultationPopup'
 import TestimonialsSection from '../components/TestimonialsSection'
 import DoctorsTeamSection from '../components/DoctorsTeamSection'
 import GalleryScroll from '../components/GalleryScroll'
+import SatvamSection from '../components/SatvamSection'
 
 const HIGHLIGHTS = [
   { icon: '🎗️', image: cancerRevivalImg, title: 'Cancer Revival & Support', desc: 'Integrative complementary support during treatment — rebuilding strength, resilience, and hope alongside your medical care.', highlight: true },
@@ -214,6 +215,9 @@ export default function Home() {
 
       {/* DOCTOR'S TEAM */}
       <DoctorsTeamSection />
+
+      {/* SATVAM INTEGRATIVE ONCOLOGY */}
+      <SatvamSection />
 
       {/* SPECIALIZATIONS PREVIEW */}
       <section style={{ padding: '100px 0', background: 'var(--ivory)' }}>
