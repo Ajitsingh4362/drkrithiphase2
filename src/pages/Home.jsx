@@ -272,7 +272,7 @@ export default function Home() {
       {/* WHY CHOOSE */}
       <section style={{ padding: '50px 0 100px', background: 'var(--white)' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '48px', marginLeft: 0, marginRight: 0 }}>
             <img
               src={whyChooseBannerImg}
               alt="Why Dr. Kirthi"
@@ -281,6 +281,8 @@ export default function Home() {
                 height: 'auto',
                 borderRadius: '16px',
                 boxShadow: '0 20px 50px rgba(15,39,68,0.12)',
+                marginLeft: 0,
+                marginRight: 0,
               }}
             />
           </div>
