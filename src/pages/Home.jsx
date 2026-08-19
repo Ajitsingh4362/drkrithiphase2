@@ -14,6 +14,7 @@ import BlogPreview from '../components/BlogPreview'
 import ConsultationPopup from '../components/ConsultationPopup'
 import TestimonialsSection from '../components/TestimonialsSection'
 import DoctorsTeamSection from '../components/DoctorsTeamSection'
+import GalleryScroll from '../components/GalleryScroll'
 
 const HIGHLIGHTS = [
   { icon: '🎗️', image: cancerRevivalImg, title: 'Cancer Revival & Support', desc: 'Integrative complementary support during treatment — rebuilding strength, resilience, and hope alongside your medical care.', highlight: true },
@@ -402,6 +403,9 @@ export default function Home() {
           <HealingMap />
         </div>
       </section>
+
+      {/* GALLERY SCROLL */}
+      <GalleryScroll />
 
       {/* BLOG PREVIEW */}
       <BlogPreview />
