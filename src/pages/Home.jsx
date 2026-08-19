@@ -261,8 +261,8 @@ export default function Home() {
                     />
                   </div>
                 )}
-                <div style={{ padding: '0 32px' }}>
-                <div style={{ fontSize: '32px', marginBottom: '16px' }}>{h.icon}</div>
+                <div style={{ padding: '28px 32px 0' }}>
+                <div style={{ fontSize: '32px', marginBottom: '16px', lineHeight: 1.4 }}>{h.icon}</div>
                 <h3 style={{
                   fontFamily: 'var(--font-display)',
                   fontSize: '22px', fontWeight: 600,
