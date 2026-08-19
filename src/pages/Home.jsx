@@ -162,6 +162,10 @@ export default function Home() {
                   boxShadow: '0 20px 50px rgba(15,39,68,0.15)',
                 }}
               />
+              <div style={{ textAlign: 'center', marginTop: '16px' }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: '20px', fontWeight: 700, color: 'var(--navy-800)' }}>Dr. Kirthi</div>
+                <div style={{ fontSize: '13px', color: 'var(--text-light)', marginTop: '4px', letterSpacing: '0.5px' }}>C-Suite Mind Body Specialist</div>
+              </div>
             </div>
           </div>
         </div>
