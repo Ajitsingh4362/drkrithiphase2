@@ -3,6 +3,12 @@ import { Link } from 'react-router-dom'
 import doctorHeroImg from '../assets/doctor-hero.jpg'
 import healingCollageImg from '../assets/healing-collage.jpg'
 import whyChooseBannerImg from '../assets/why-choose-banner.jpg'
+import cancerRevivalImg from '../assets/specializations/cancer-revival.jpg'
+import mindBodyMedicineImg from '../assets/specializations/mind-body-medicine.jpg'
+import fertilityWellnessImg from '../assets/specializations/fertility-wellness.jpg'
+import emotionalWellbeingImg from '../assets/specializations/emotional-wellbeing.jpg'
+import chronicDisordersImg from '../assets/specializations/chronic-disorders.jpg'
+import alliedHealingImg from '../assets/specializations/allied-healing.jpg'
 import HealingMap from '../components/HealingMap'
 import BlogPreview from '../components/BlogPreview'
 import ConsultationPopup from '../components/ConsultationPopup'
@@ -10,12 +16,12 @@ import TestimonialsSection from '../components/TestimonialsSection'
 import DoctorsTeamSection from '../components/DoctorsTeamSection'
 
 const HIGHLIGHTS = [
-  { icon: '🎗️', title: 'Cancer Revival & Support', desc: 'Integrative complementary support during treatment — rebuilding strength, resilience, and hope alongside your medical care.', highlight: true },
-  { icon: '🧠', title: 'Mind-Body Medicine', desc: 'Understanding the deep connection between emotional states and physical health — addressing the root, not just the symptom.', highlight: true },
-  { icon: '🌸', title: 'Fertility & Women\'s Wellness', desc: 'Holistic, personalised support for the journey to motherhood — hormonal balance, emotional well-being, and mind-body fertility optimization.' },
-  { icon: '💆', title: 'Emotional Well-being', desc: 'Sustainable resilience for modern professionals — moving beyond stress management to lasting emotional strength.' },
-  { icon: '🔬', title: 'Chronic Systemic Disorders', desc: 'Comprehensive root-cause evaluation of long-term health challenges — autoimmune, metabolic, thyroid, digestive, and more.' },
-  { icon: '🌿', title: 'Allied Healing Sciences', desc: 'Homeopathy, Psychotherapy, Acupuncture, NLP, Mindfulness — multiple evidence-informed disciplines working together.' },
+  { icon: '🎗️', image: cancerRevivalImg, title: 'Cancer Revival & Support', desc: 'Integrative complementary support during treatment — rebuilding strength, resilience, and hope alongside your medical care.', highlight: true },
+  { icon: '🧠', image: mindBodyMedicineImg, title: 'Mind-Body Medicine', desc: 'Understanding the deep connection between emotional states and physical health — addressing the root, not just the symptom.', highlight: true },
+  { icon: '🌸', image: fertilityWellnessImg, title: 'Fertility & Women\'s Wellness', desc: 'Holistic, personalised support for the journey to motherhood — hormonal balance, emotional well-being, and mind-body fertility optimization.' },
+  { icon: '💆', image: emotionalWellbeingImg, title: 'Emotional Well-being', desc: 'Sustainable resilience for modern professionals — moving beyond stress management to lasting emotional strength.' },
+  { icon: '🔬', image: chronicDisordersImg, title: 'Chronic Systemic Disorders', desc: 'Comprehensive root-cause evaluation of long-term health challenges — autoimmune, metabolic, thyroid, digestive, and more.' },
+  { icon: '🌿', image: alliedHealingImg, title: 'Allied Healing Sciences', desc: 'Homeopathy, Psychotherapy, Acupuncture, NLP, Mindfulness — multiple evidence-informed disciplines working together.' },
 ]
 
 const WHY = [
@@ -237,15 +243,25 @@ export default function Home() {
             {HIGHLIGHTS.map((h, i) => (
               <div key={i} style={{
                 background: h.highlight ? 'var(--teal)' : 'var(--white)',
-                padding: '36px 32px',
+                padding: '0 0 36px',
                 position: 'relative', overflow: 'hidden',
                 transition: 'var(--transition)',
               }}
               onMouseEnter={e => { e.currentTarget.style.background = h.highlight ? 'var(--teal-light)' : 'var(--ivory-dark)' }}
               onMouseLeave={e => { e.currentTarget.style.background = h.highlight ? 'var(--teal)' : 'var(--white)' }}>
                 {h.highlight && (
-                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--gold)' }} />
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--gold)', zIndex: 2 }} />
                 )}
+                {h.image && (
+                  <div style={{ width: '100%', height: '200px', overflow: 'hidden', marginBottom: '24px' }}>
+                    <img
+                      src={h.image}
+                      alt={h.title}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                    />
+                  </div>
+                )}
+                <div style={{ padding: '0 32px' }}>
                 <div style={{ fontSize: '32px', marginBottom: '16px' }}>{h.icon}</div>
                 <h3 style={{
                   fontFamily: 'var(--font-display)',
@@ -259,6 +275,7 @@ export default function Home() {
                     Core Specialty →
                   </div>
                 )}
+                </div>
               </div>
             ))}
           </div>
