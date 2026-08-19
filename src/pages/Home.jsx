@@ -233,7 +233,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2px', background: 'rgba(15,39,68,0.06)' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px', background: 'rgba(15,39,68,0.06)' }}>
             {HIGHLIGHTS.map((h, i) => (
               <div key={i} style={{
                 background: h.highlight ? 'var(--teal)' : 'var(--white)',
