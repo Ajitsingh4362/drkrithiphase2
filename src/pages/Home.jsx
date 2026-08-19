@@ -270,7 +270,7 @@ export default function Home() {
       </section>
 
       {/* WHY CHOOSE */}
-      <section style={{ padding: '100px 0', background: 'var(--white)' }}>
+      <section style={{ padding: '50px 0 100px', background: 'var(--white)' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <img
