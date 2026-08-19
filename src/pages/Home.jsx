@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import doctorHeroImg from '../assets/doctor-hero.jpg'
 import HealingMap from '../components/HealingMap'
 import BlogPreview from '../components/BlogPreview'
 import ConsultationPopup from '../components/ConsultationPopup'
@@ -25,194 +26,6 @@ const WHY = [
   'Women\'s Health & Fertility Focus',
   'Compassionate, Confidential Care',
 ]
-
-/* ---------- animated right-side visual ---------- */
-function HeroVisual() {
-  return (
-    <div style={{ position: 'relative', width: '100%', height: '520px', flexShrink: 0 }}>
-      <style>{`
-        @keyframes orbitA {
-          from { transform: rotate(0deg) translateX(130px) rotate(0deg); }
-          to   { transform: rotate(360deg) translateX(130px) rotate(-360deg); }
-        }
-        @keyframes orbitB {
-          from { transform: rotate(120deg) translateX(180px) rotate(-120deg); }
-          to   { transform: rotate(480deg) translateX(180px) rotate(-480deg); }
-        }
-        @keyframes orbitC {
-          from { transform: rotate(240deg) translateX(220px) rotate(-240deg); }
-          to   { transform: rotate(600deg) translateX(220px) rotate(-600deg); }
-        }
-        @keyframes pulse-ring {
-          0%   { transform: scale(0.9); opacity: 0.6; }
-          50%  { transform: scale(1.05); opacity: 0.25; }
-          100% { transform: scale(0.9); opacity: 0.6; }
-        }
-        @keyframes float-tag {
-          0%, 100% { transform: translateY(0px); }
-          50%       { transform: translateY(-10px); }
-        }
-        @keyframes drift1 {
-          0%, 100% { transform: translate(0,0) rotate(0deg); }
-          33%       { transform: translate(12px,-18px) rotate(12deg); }
-          66%       { transform: translate(-8px,10px) rotate(-8deg); }
-        }
-        @keyframes drift2 {
-          0%, 100% { transform: translate(0,0) rotate(0deg); }
-          50%       { transform: translate(-14px,16px) rotate(-15deg); }
-        }
-        @keyframes shimmer {
-          0%   { opacity: 0.3; }
-          50%  { opacity: 0.8; }
-          100% { opacity: 0.3; }
-        }
-      `}</style>
-
-      {/* Centre glow */}
-      <div style={{
-        position: 'absolute', top: '50%', left: '50%',
-        transform: 'translate(-50%,-50%)',
-        width: '260px', height: '260px', borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(199,166,106,0.18) 0%, transparent 70%)',
-        animation: 'pulse-ring 4s ease-in-out infinite',
-      }} />
-
-      {/* Outer ring */}
-      <div style={{
-        position: 'absolute', top: '50%', left: '50%',
-        transform: 'translate(-50%,-50%)',
-        width: '440px', height: '440px', borderRadius: '50%',
-        border: '1px solid rgba(199,166,106,0.12)',
-      }} />
-      <div style={{
-        position: 'absolute', top: '50%', left: '50%',
-        transform: 'translate(-50%,-50%)',
-        width: '320px', height: '320px', borderRadius: '50%',
-        border: '1px solid rgba(199,166,106,0.08)',
-      }} />
-
-      {/* Centre card */}
-      <div style={{
-        position: 'absolute', top: '50%', left: '50%',
-        transform: 'translate(-50%,-50%)',
-        width: '170px', height: '170px', borderRadius: '50%',
-        background: 'linear-gradient(135deg, rgba(199,166,106,0.18) 0%, rgba(30,111,106,0.14) 100%)',
-        border: '1px solid rgba(30,111,106,0.3)',
-        display: 'flex', flexDirection: 'column',
-        alignItems: 'center', justifyContent: 'center',
-        textAlign: 'center', padding: '20px',
-      }}>
-        <div style={{ fontSize: '32px', marginBottom: '6px' }}>⚕️</div>
-        <div style={{ fontSize: '10px', color: 'var(--teal)', letterSpacing: '1.5px', textTransform: 'uppercase', fontWeight: 600 }}>Integrative</div>
-        <div style={{ fontSize: '10px', color: 'var(--text-muted)', letterSpacing: '1px', textTransform: 'uppercase' }}>Healing</div>
-      </div>
-
-      {/* Orbit dot A */}
-      <div style={{
-        position: 'absolute', top: '50%', left: '50%',
-        animation: 'orbitA 8s linear infinite',
-        marginTop: '-8px', marginLeft: '-8px',
-      }}>
-        <div style={{ width: '16px', height: '16px', borderRadius: '50%', background: 'var(--gold)', opacity: 0.9, boxShadow: '0 0 12px rgba(199,166,106,0.6)' }} />
-      </div>
-
-      {/* Orbit dot B */}
-      <div style={{
-        position: 'absolute', top: '50%', left: '50%',
-        animation: 'orbitB 12s linear infinite',
-        marginTop: '-6px', marginLeft: '-6px',
-      }}>
-        <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#1E6F6A', opacity: 0.85, boxShadow: '0 0 10px rgba(30,111,106,0.5)' }} />
-      </div>
-
-      {/* Orbit dot C */}
-      <div style={{
-        position: 'absolute', top: '50%', left: '50%',
-        animation: 'orbitC 16s linear infinite',
-        marginTop: '-5px', marginLeft: '-5px',
-      }}>
-        <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'rgba(199,166,106,0.5)', boxShadow: '0 0 8px rgba(199,166,106,0.4)' }} />
-      </div>
-
-      {/* Floating tag 1 — top left */}
-      <div style={{
-        position: 'absolute', top: '60px', left: '20px',
-        background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(8px)',
-        border: '1px solid rgba(199,166,106,0.3)',
-        boxShadow: '0 4px 16px rgba(15,39,68,0.08)',
-        borderRadius: '8px', padding: '12px 16px',
-        animation: 'float-tag 3.5s ease-in-out infinite',
-        minWidth: '140px',
-      }}>
-        <div style={{ fontSize: '11px', color: '#9c7a3c', fontWeight: 600, letterSpacing: '1px' }}>🎗️ Cancer Support</div>
-        <div style={{ fontSize: '10px', color: 'var(--text-light)', marginTop: '3px' }}>Core Specialty</div>
-      </div>
-
-      {/* Floating tag 2 — bottom right */}
-      <div style={{
-        position: 'absolute', bottom: '70px', right: '10px',
-        background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(8px)',
-        border: '1px solid rgba(30,111,106,0.35)',
-        boxShadow: '0 4px 16px rgba(15,39,68,0.08)',
-        borderRadius: '8px', padding: '12px 16px',
-        animation: 'float-tag 4.2s ease-in-out infinite 0.8s',
-        minWidth: '145px',
-      }}>
-        <div style={{ fontSize: '11px', color: 'var(--teal)', fontWeight: 600, letterSpacing: '1px' }}>🧠 Mind-Body</div>
-        <div style={{ fontSize: '10px', color: 'var(--text-light)', marginTop: '3px' }}>Medicine</div>
-      </div>
-
-      {/* Floating tag 3 — mid right */}
-      <div style={{
-        position: 'absolute', top: '50%', right: '0px',
-        transform: 'translateY(-50%)',
-        background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(8px)',
-        border: '1px solid rgba(199,166,106,0.25)',
-        boxShadow: '0 4px 16px rgba(15,39,68,0.08)',
-        borderRadius: '8px', padding: '12px 16px',
-        animation: 'float-tag 5s ease-in-out infinite 1.5s',
-        minWidth: '130px',
-      }}>
-        <div style={{ fontSize: '11px', color: 'var(--navy-800)', fontWeight: 600, letterSpacing: '1px' }}>🌸 Women\'s</div>
-        <div style={{ fontSize: '10px', color: 'var(--text-light)', marginTop: '3px' }}>Wellness</div>
-      </div>
-
-      {/* Drifting geometric shapes */}
-      <div style={{
-        position: 'absolute', top: '30px', right: '60px',
-        width: '60px', height: '60px',
-        border: '1px solid rgba(199,166,106,0.15)',
-        transform: 'rotate(45deg)',
-        animation: 'drift1 7s ease-in-out infinite',
-      }} />
-      <div style={{
-        position: 'absolute', bottom: '40px', left: '30px',
-        width: '40px', height: '40px',
-        border: '1px solid rgba(30,111,106,0.2)',
-        borderRadius: '50%',
-        animation: 'drift2 5s ease-in-out infinite',
-      }} />
-
-      {/* Shimmer dots scattered */}
-      {[
-        { top: '15%', left: '10%', size: 3, delay: '0s' },
-        { top: '80%', left: '25%', size: 2, delay: '0.7s' },
-        { top: '25%', right: '15%', size: 4, delay: '1.2s' },
-        { top: '70%', right: '30%', size: 2, delay: '0.4s' },
-        { top: '45%', left: '5%', size: 3, delay: '1.8s' },
-      ].map((d, i) => (
-        <div key={i} style={{
-          position: 'absolute',
-          top: d.top, left: d.left, right: d.right,
-          width: `${d.size}px`, height: `${d.size}px`,
-          borderRadius: '50%',
-          background: 'var(--gold)',
-          animation: `shimmer 3s ease-in-out infinite ${d.delay}`,
-        }} />
-      ))}
-    </div>
-  )
-}
 
 export default function Home() {
   const ref = useRef(null)
@@ -335,9 +148,20 @@ export default function Home() {
               </div>
             </div>
 
-            {/* RIGHT — animated visual */}
+            {/* RIGHT — doctor photo */}
             <div className="hero-visual-wrapper">
-              <HeroVisual />
+              <img
+                src={doctorHeroImg}
+                alt="Dr Krithi"
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  maxHeight: '520px',
+                  objectFit: 'cover',
+                  borderRadius: '16px',
+                  boxShadow: '0 20px 50px rgba(15,39,68,0.15)',
+                }}
+              />
             </div>
           </div>
         </div>
@@ -543,7 +367,8 @@ export default function Home() {
             gap: 40px !important;
           }
           .hero-visual-wrapper {
-            display: none !important;
+            max-width: 340px !important;
+            margin: 0 auto !important;
           }
         }
         @media (max-width: 600px) {
