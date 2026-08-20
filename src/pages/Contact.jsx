@@ -126,9 +126,9 @@ export default function Contact() {
   }
 
   const inp = {
-    width: '100%', background: 'rgba(255,255,255,0.05)',
-    border: '1px solid rgba(199,166,106,0.2)', borderRadius: '2px',
-    padding: '13px 16px', color: 'var(--white)',
+    width: '100%', background: '#ffffff',
+    border: '1px solid rgba(199,166,106,0.4)', borderRadius: '2px',
+    padding: '13px 16px', color: 'var(--navy-800)',
     fontSize: '14px', fontFamily: 'var(--font-body)',
     outline: 'none', transition: 'border-color 0.25s', boxSizing: 'border-box',
   }
@@ -173,7 +173,7 @@ export default function Contact() {
                 <div key={i} style={{ display: 'flex', gap: '16px', padding: '20px 0', borderBottom: '1px solid rgba(15,39,68,0.08)', alignItems: 'flex-start' }}>
                   <div style={{ width: '44px', height: '44px', background: 'var(--navy-800)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', flexShrink: 0, borderRadius: '2px' }}>{item.icon}</div>
                   <div style={{ minWidth: 0 }}>
-                    <div style={{ fontSize: '10px', color: 'var(--gold)', fontWeight: 600, letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: '4px' }}>{item.title}</div>
+                    <div style={{ fontSize: '10px', color: '#9c7a3c', fontWeight: 600, letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: '4px' }}>{item.title}</div>
                     <div style={{ fontSize: '14px', color: 'var(--charcoal)', lineHeight: '1.7', whiteSpace: 'pre-line', wordBreak: 'break-word' }}>{item.desc}</div>
                   </div>
                 </div>
@@ -230,21 +230,21 @@ export default function Contact() {
             </div>
 
             {/* Form */}
-            <div style={{ background: 'var(--navy-800)', padding: '40px', borderRadius: '2px', border: '1px solid rgba(199,166,106,0.15)', minWidth: 0, position: 'relative', overflow: 'hidden' }}>
+            <div style={{ background: 'linear-gradient(160deg, #ffffff 0%, #f7ecd9 100%)', padding: '40px', borderRadius: '2px', border: '1px solid rgba(199,166,106,0.3)', minWidth: 0, position: 'relative', overflow: 'hidden' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'var(--gold)' }} />
-              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '28px', color: 'var(--gold-pale)', marginBottom: '6px' }}>Apply for Consultation</h3>
-              <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.45)', marginBottom: '28px' }}>We will reach out within 24 hours to schedule your assessment.</p>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '28px', color: 'var(--navy-800)', marginBottom: '6px' }}>Apply for Consultation</h3>
+              <p style={{ fontSize: '13px', color: 'rgba(15,39,68,0.6)', marginBottom: '28px' }}>We will reach out within 24 hours to schedule your assessment.</p>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <div className="form-row-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
                   <div>
-                    <label style={{ fontSize: '10px', color: 'var(--gold)', letterSpacing: '1.5px', textTransform: 'uppercase', display: 'block', marginBottom: '8px' }}>Full Name *</label>
+                    <label style={{ fontSize: '10px', color: '#9c7a3c', letterSpacing: '1.5px', textTransform: 'uppercase', display: 'block', marginBottom: '8px' }}>Full Name *</label>
                     <input name="name" value={form.name} onChange={handleChange} placeholder="Your name" style={inp}
                       onFocus={e => e.target.style.borderColor = 'rgba(199,166,106,0.6)'}
                       onBlur={e => e.target.style.borderColor = 'rgba(199,166,106,0.2)'} />
                   </div>
                   <div>
-                    <label style={{ fontSize: '10px', color: 'var(--gold)', letterSpacing: '1.5px', textTransform: 'uppercase', display: 'block', marginBottom: '8px' }}>Phone / WhatsApp *</label>
+                    <label style={{ fontSize: '10px', color: '#9c7a3c', letterSpacing: '1.5px', textTransform: 'uppercase', display: 'block', marginBottom: '8px' }}>Phone / WhatsApp *</label>
                     <input name="phone" value={form.phone} onChange={handleChange} placeholder="+91 XXXXX XXXXX" style={inp}
                       onFocus={e => e.target.style.borderColor = 'rgba(199,166,106,0.6)'}
                       onBlur={e => e.target.style.borderColor = 'rgba(199,166,106,0.2)'} />
@@ -252,22 +252,22 @@ export default function Contact() {
                 </div>
 
                 <div>
-                  <label style={{ fontSize: '10px', color: 'var(--gold)', letterSpacing: '1.5px', textTransform: 'uppercase', display: 'block', marginBottom: '8px' }}>Email Address</label>
+                  <label style={{ fontSize: '10px', color: '#9c7a3c', letterSpacing: '1.5px', textTransform: 'uppercase', display: 'block', marginBottom: '8px' }}>Email Address</label>
                   <input name="email" value={form.email} onChange={handleChange} placeholder="email@example.com" style={inp}
                     onFocus={e => e.target.style.borderColor = 'rgba(199,166,106,0.6)'}
                     onBlur={e => e.target.style.borderColor = 'rgba(199,166,106,0.2)'} />
                 </div>
 
                 <div>
-                  <label style={{ fontSize: '10px', color: 'var(--gold)', letterSpacing: '1.5px', textTransform: 'uppercase', display: 'block', marginBottom: '8px' }}>Program of Interest</label>
+                  <label style={{ fontSize: '10px', color: '#9c7a3c', letterSpacing: '1.5px', textTransform: 'uppercase', display: 'block', marginBottom: '8px' }}>Program of Interest</label>
                   <select name="program" value={form.program} onChange={handleChange} style={{ ...inp, cursor: 'pointer' }}>
-                    <option value="" style={{ background: '#0F2744' }}>Select a program...</option>
-                    {PROGRAMS.map(p => <option key={p} value={p} style={{ background: '#0F2744' }}>{p}</option>)}
+                    <option value="" style={{ background: '#ffffff', color: '#0F2744' }}>Select a program...</option>
+                    {PROGRAMS.map(p => <option key={p} value={p} style={{ background: '#ffffff', color: '#0F2744' }}>{p}</option>)}
                   </select>
                 </div>
 
                 <div>
-                  <label style={{ fontSize: '10px', color: 'var(--gold)', letterSpacing: '1.5px', textTransform: 'uppercase', display: 'block', marginBottom: '8px' }}>Primary Health Concern *</label>
+                  <label style={{ fontSize: '10px', color: '#9c7a3c', letterSpacing: '1.5px', textTransform: 'uppercase', display: 'block', marginBottom: '8px' }}>Primary Health Concern *</label>
                   <input name="concern" value={form.concern} onChange={handleChange} placeholder="Brief description of your health concern" style={inp}
                     onFocus={e => e.target.style.borderColor = 'rgba(199,166,106,0.6)'}
                     onBlur={e => e.target.style.borderColor = 'rgba(199,166,106,0.2)'} />
@@ -276,41 +276,41 @@ export default function Contact() {
                 {/* Date & Time */}
                 <div className="form-row-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
                   <div>
-                    <label style={{ fontSize: '10px', color: 'var(--gold)', letterSpacing: '1.5px', textTransform: 'uppercase', display: 'block', marginBottom: '8px' }}>Preferred Date</label>
+                    <label style={{ fontSize: '10px', color: '#9c7a3c', letterSpacing: '1.5px', textTransform: 'uppercase', display: 'block', marginBottom: '8px' }}>Preferred Date</label>
                     <input
                       type="date"
                       name="preferred_date"
                       value={form.preferred_date}
                       onChange={handleChange}
                       min={new Date().toISOString().split('T')[0]}
-                      style={{ ...inp, colorScheme: 'dark', cursor: 'pointer' }}
+                      style={{ ...inp, colorScheme: 'light', cursor: 'pointer' }}
                       onFocus={e => e.target.style.borderColor = 'rgba(199,166,106,0.6)'}
                       onBlur={e => e.target.style.borderColor = 'rgba(199,166,106,0.2)'}
                     />
                   </div>
                   <div>
-                    <label style={{ fontSize: '10px', color: 'var(--gold)', letterSpacing: '1.5px', textTransform: 'uppercase', display: 'block', marginBottom: '8px' }}>Preferred Time</label>
+                    <label style={{ fontSize: '10px', color: '#9c7a3c', letterSpacing: '1.5px', textTransform: 'uppercase', display: 'block', marginBottom: '8px' }}>Preferred Time</label>
                     <select name="preferred_time" value={form.preferred_time} onChange={handleChange} style={{ ...inp, cursor: 'pointer' }}>
-                      <option value="" style={{ background: '#0F2744' }}>Select time slot</option>
-                      <optgroup label="Morning" style={{ background: '#0F2744' }}>
-                        <option value="9:00 AM" style={{ background: '#0F2744' }}>9:00 AM</option>
-                        <option value="10:00 AM" style={{ background: '#0F2744' }}>10:00 AM</option>
-                        <option value="11:00 AM" style={{ background: '#0F2744' }}>11:00 AM</option>
-                        <option value="12:00 PM" style={{ background: '#0F2744' }}>12:00 PM</option>
+                      <option value="" style={{ background: '#ffffff', color: '#0F2744' }}>Select time slot</option>
+                      <optgroup label="Morning" style={{ background: '#ffffff', color: '#0F2744' }}>
+                        <option value="9:00 AM" style={{ background: '#ffffff', color: '#0F2744' }}>9:00 AM</option>
+                        <option value="10:00 AM" style={{ background: '#ffffff', color: '#0F2744' }}>10:00 AM</option>
+                        <option value="11:00 AM" style={{ background: '#ffffff', color: '#0F2744' }}>11:00 AM</option>
+                        <option value="12:00 PM" style={{ background: '#ffffff', color: '#0F2744' }}>12:00 PM</option>
                       </optgroup>
-                      <optgroup label="Afternoon / Evening" style={{ background: '#0F2744' }}>
-                        <option value="2:00 PM" style={{ background: '#0F2744' }}>2:00 PM</option>
-                        <option value="3:00 PM" style={{ background: '#0F2744' }}>3:00 PM</option>
-                        <option value="4:00 PM" style={{ background: '#0F2744' }}>4:00 PM</option>
-                        <option value="5:00 PM" style={{ background: '#0F2744' }}>5:00 PM</option>
-                        <option value="6:00 PM" style={{ background: '#0F2744' }}>6:00 PM</option>
+                      <optgroup label="Afternoon / Evening" style={{ background: '#ffffff', color: '#0F2744' }}>
+                        <option value="2:00 PM" style={{ background: '#ffffff', color: '#0F2744' }}>2:00 PM</option>
+                        <option value="3:00 PM" style={{ background: '#ffffff', color: '#0F2744' }}>3:00 PM</option>
+                        <option value="4:00 PM" style={{ background: '#ffffff', color: '#0F2744' }}>4:00 PM</option>
+                        <option value="5:00 PM" style={{ background: '#ffffff', color: '#0F2744' }}>5:00 PM</option>
+                        <option value="6:00 PM" style={{ background: '#ffffff', color: '#0F2744' }}>6:00 PM</option>
                       </optgroup>
                     </select>
                   </div>
                 </div>
 
                 <div>
-                  <label style={{ fontSize: '10px', color: 'var(--gold)', letterSpacing: '1.5px', textTransform: 'uppercase', display: 'block', marginBottom: '8px' }}>Additional Message</label>
+                  <label style={{ fontSize: '10px', color: '#9c7a3c', letterSpacing: '1.5px', textTransform: 'uppercase', display: 'block', marginBottom: '8px' }}>Additional Message</label>
                   <textarea name="message" value={form.message} onChange={handleChange}
                     placeholder="Any additional context, questions, or information..." rows={4}
                     style={{ ...inp, resize: 'vertical', lineHeight: '1.7' }}
@@ -320,7 +320,7 @@ export default function Contact() {
 
                 {/* ── PAYMENT MODE ── */}
                 <div>
-                  <label style={{ fontSize: '10px', color: 'var(--gold)', letterSpacing: '1.5px', textTransform: 'uppercase', display: 'block', marginBottom: '12px' }}>Payment Mode</label>
+                  <label style={{ fontSize: '10px', color: '#9c7a3c', letterSpacing: '1.5px', textTransform: 'uppercase', display: 'block', marginBottom: '12px' }}>Payment Mode</label>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                     {[
                       { id: 'online', icon: '💳', title: 'Pay Online', sub: 'Razorpay – UPI / Card' },
@@ -329,13 +329,13 @@ export default function Contact() {
                       <div key={opt.id} onClick={() => setPayMode(opt.id)}
                         style={{
                           padding: '14px 16px', borderRadius: '4px', cursor: 'pointer',
-                          border: payMode === opt.id ? '1.5px solid var(--gold)' : '1px solid rgba(199,166,106,0.2)',
-                          background: payMode === opt.id ? 'rgba(199,166,106,0.1)' : 'rgba(255,255,255,0.03)',
+                          border: payMode === opt.id ? '1.5px solid var(--gold)' : '1px solid rgba(199,166,106,0.3)',
+                          background: payMode === opt.id ? 'rgba(199,166,106,0.15)' : '#ffffff',
                           transition: 'all 0.2s',
                         }}>
                         <div style={{ fontSize: '20px', marginBottom: '6px' }}>{opt.icon}</div>
-                        <div style={{ fontSize: '13px', color: payMode === opt.id ? 'var(--gold)' : 'rgba(255,255,255,0.8)', fontWeight: 600, marginBottom: '3px' }}>{opt.title}</div>
-                        <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)' }}>{opt.sub}</div>
+                        <div style={{ fontSize: '13px', color: payMode === opt.id ? '#9c7a3c' : 'var(--navy-800)', fontWeight: 600, marginBottom: '3px' }}>{opt.title}</div>
+                        <div style={{ fontSize: '11px', color: 'rgba(15,39,68,0.5)' }}>{opt.sub}</div>
                       </div>
                     ))}
                   </div>
@@ -373,7 +373,7 @@ export default function Contact() {
                   {status === 'loading' ? 'Processing...' : payMode === 'online' ? '📅 Book & Pay Online' : '📅 Book Appointment'}
                 </button>
 
-                <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)', textAlign: 'center', lineHeight: '1.6' }}>
+                <p style={{ fontSize: '11px', color: 'rgba(15,39,68,0.45)', textAlign: 'center', lineHeight: '1.6' }}>
                   🔒 Your information is secure. We never share patient data.
                 </p>
               </div>
