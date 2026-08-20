@@ -340,7 +340,7 @@ export default function Home() {
       </section>
 
       {/* PROCESS */}
-      <section style={{ padding: '100px 0', background: 'var(--ivory)' }}>
+      <section style={{ paddingTop: '0', paddingBottom: '100px', background: 'var(--ivory)' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '64px' }}>
             <span className="section-tag">The Process</span>
