@@ -63,27 +63,37 @@ export default function Home() {
         <div style={{ position: 'absolute', top: '-5%', right: '-8%', width: '600px', height: '600px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(30,111,106,0.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', bottom: '-10%', left: '-5%', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(199,166,106,0.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
 
-        {/* Decorative diamond pattern — desktop only, top-right corner */}
-        <div className="hero-corner-pattern" style={{ position: 'absolute', top: '36px', right: '5%', zIndex: 1, pointerEvents: 'none' }}>
-          <svg width="112" height="70" viewBox="0 0 112 70" xmlns="http://www.w3.org/2000/svg">
-            {Array.from({ length: 15 }).map((_, i) => {
-              const cols = 5
-              const row = Math.floor(i / cols)
-              const col = i % cols
-              const x = col * 22 + 5
-              const y = row * 22 + 5
-              const dist = row + (cols - 1 - col)
-              const opacity = Math.max(0.85 - dist * 0.09, 0.15)
-              return (
-                <rect
-                  key={i}
-                  x={x} y={y} width="8" height="8"
-                  transform={`rotate(45 ${x + 4} ${y + 4})`}
-                  fill="#800020"
-                  opacity={opacity}
-                />
-              )
-            })}
+        {/* Decorative pattern — desktop only, top-right corner */}
+        <div className="hero-corner-pattern" style={{ position: 'absolute', top: '10px', right: '2%', zIndex: 1, pointerEvents: 'none' }}>
+          <svg width="260" height="100" viewBox="0 0 260 100" xmlns="http://www.w3.org/2000/svg">
+            {/* flourish outline diamonds */}
+            <rect x="184" y="-6" width="22" height="22" transform="rotate(45 195 5)" fill="none" stroke="#800020" strokeWidth="1.4" opacity="0.35" />
+            <rect x="142" y="37" width="16" height="16" transform="rotate(45 150 45)" fill="none" stroke="#800020" strokeWidth="1.2" opacity="0.22" />
+
+            {/* filled diamond scatter — dense top-right, fading toward bottom-left */}
+            <rect x="204" y="2" width="12" height="12" transform="rotate(45 210 8)" fill="#800020" opacity="0.85" />
+            <rect x="221" y="24" width="8" height="8" transform="rotate(45 225 28)" fill="#800020" opacity="0.7" />
+            <rect x="190" y="25" width="9" height="9" transform="rotate(48 195 30)" fill="#800020" opacity="0.6" />
+            <rect x="229" y="46" width="6" height="6" transform="rotate(42 232 50)" fill="#800020" opacity="0.5" />
+            <rect x="201" y="48" width="7" height="7" transform="rotate(45 205 52)" fill="#800020" opacity="0.55" />
+            <rect x="174" y="11" width="7" height="7" transform="rotate(45 178 15)" fill="#800020" opacity="0.5" />
+            <rect x="157" y="32" width="6" height="6" transform="rotate(50 160 35)" fill="#800020" opacity="0.4" />
+            <rect x="211" y="66" width="8" height="8" transform="rotate(45 215 70)" fill="#800020" opacity="0.45" />
+            <rect x="182" y="65" width="5" height="5" transform="rotate(40 185 68)" fill="#800020" opacity="0.35" />
+            <rect x="142" y="52" width="5" height="5" transform="rotate(45 145 55)" fill="#800020" opacity="0.3" />
+            <rect x="157" y="72" width="6" height="6" transform="rotate(45 160 75)" fill="#800020" opacity="0.28" />
+            <rect x="127" y="27" width="5" height="5" transform="rotate(45 130 30)" fill="#800020" opacity="0.25" />
+            <rect x="113" y="48" width="4" height="4" transform="rotate(45 115 50)" fill="#800020" opacity="0.2" />
+            <rect x="98" y="68" width="4" height="4" transform="rotate(45 100 70)" fill="#800020" opacity="0.15" />
+            <rect x="68" y="78" width="3" height="3" transform="rotate(45 70 80)" fill="#800020" opacity="0.12" />
+
+            {/* dots — texture */}
+            <circle cx="238" cy="15" r="3" fill="#800020" opacity="0.75" />
+            <circle cx="170" cy="55" r="2.5" fill="#800020" opacity="0.4" />
+            <circle cx="140" cy="75" r="2" fill="#800020" opacity="0.3" />
+            <circle cx="125" cy="15" r="2" fill="#800020" opacity="0.35" />
+            <circle cx="95" cy="40" r="2" fill="#800020" opacity="0.18" />
+            <circle cx="75" cy="60" r="1.5" fill="#800020" opacity="0.12" />
           </svg>
         </div>
 
