@@ -65,24 +65,24 @@ export default function DoctorsTeamSection() {
                 }
               </div>
 
-              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 700, color: 'var(--navy-800)', margin: '0 0 6px' }}>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.3rem', fontWeight: 700, color: '#0a0a0a', margin: '0 0 6px' }}>
                 {d.name}
               </h3>
 
               {d.designation && (
-                <p style={{ fontSize: '12px', color: 'var(--gold-deep, #9c7a3c)', fontFamily: 'var(--font-body)', fontWeight: 600, letterSpacing: '0.5px', margin: '0 0 8px', textTransform: 'uppercase' }}>
+                <p style={{ fontSize: '13px', color: 'var(--gold-deep, #9c7a3c)', fontFamily: 'var(--font-body)', fontWeight: 600, letterSpacing: '0.5px', margin: '0 0 8px', textTransform: 'uppercase' }}>
                   {d.designation}
                 </p>
               )}
 
               {d.qualification && (
-                <p style={{ fontSize: '16px', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', margin: '0 0 10px', lineHeight: 1.6 }}>
+                <p style={{ fontSize: '17px', color: '#1a1a1a', fontFamily: 'var(--font-body)', fontWeight: 500, margin: '0 0 10px', lineHeight: 1.6 }}>
                   {d.qualification}
                 </p>
               )}
 
               {d.bio && (
-                <p style={{ fontSize: '12.5px', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontStyle: 'italic', lineHeight: 1.7, margin: 0 }}>
+                <p style={{ fontSize: '13.5px', color: '#333', fontFamily: 'var(--font-body)', fontStyle: 'italic', lineHeight: 1.7, margin: 0 }}>
                   {d.bio}
                 </p>
               )}

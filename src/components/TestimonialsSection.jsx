@@ -45,8 +45,8 @@ function TestimonialCard({ t }) {
           }
         </div>
         <div style={{ minWidth: 0 }}>
-          <p style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 700, color: 'var(--navy-800)', margin: 0 }}>{t.name}</p>
-          <p style={{ fontSize: '11px', color: 'var(--text-light)', fontFamily: 'var(--font-body)', margin: 0 }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', fontWeight: 700, color: '#0a0a0a', margin: 0 }}>{t.name}</p>
+          <p style={{ fontSize: '12px', color: '#4a4a4a', fontFamily: 'var(--font-body)', margin: 0 }}>
             {t.program}{t.location ? ` · ${t.location}` : ''}
           </p>
         </div>
@@ -55,13 +55,13 @@ function TestimonialCard({ t }) {
       <StarRating value={t.rating} />
 
       {t.title && (
-        <p style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', fontWeight: 700, color: 'var(--navy-800)', margin: '0 0 8px', lineHeight: 1.3 }}>
+        <p style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 700, color: '#0a0a0a', margin: '0 0 8px', lineHeight: 1.3 }}>
           {t.title}
         </p>
       )}
 
       {t.review && (
-        <p style={{ fontSize: '13.5px', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.7, fontStyle: 'italic', margin: '0 0 12px', flex: 1 }}>
+        <p style={{ fontSize: '14.5px', color: '#222', fontFamily: 'var(--font-body)', lineHeight: 1.7, fontStyle: 'italic', margin: '0 0 12px', flex: 1 }}>
           "{t.review}"
         </p>
       )}
