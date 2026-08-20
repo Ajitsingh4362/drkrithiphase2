@@ -97,7 +97,7 @@ export default function Navbar() {
       <div style={{
         position: 'fixed', inset: 0, background: 'var(--teal)',
         zIndex: 999, display: 'flex', flexDirection: 'column',
-        alignItems: 'center', justifyContent: 'center', gap: '28px',
+        alignItems: 'center', justifyContent: 'center',
         transition: 'opacity 0.3s, visibility 0.3s',
         opacity: menuOpen ? 1 : 0, visibility: menuOpen ? 'visible' : 'hidden',
       }}>
@@ -105,23 +105,26 @@ export default function Navbar() {
         <img
           src="/mind_motion_matrix_navbar_logo.png"
           alt="Mind Motion Matrix"
-          style={{ height: '80px', width: 'auto', marginBottom: '8px' }}
+          style={{ height: '72px', width: 'auto', marginBottom: '18px' }}
         />
 
-        <div style={{ width: '40px', height: '1px', background: 'rgba(255,255,255,0.3)' }} />
+        <div style={{ width: '40px', height: '1px', background: 'rgba(255,255,255,0.3)', marginBottom: '6px' }} />
 
-        {links.map(link => (
-          <NavLink key={link.to} to={link.to} end={link.to === '/'}
-            style={({ isActive }) => ({
-              fontFamily: 'var(--font-display)', fontSize: '32px', fontWeight: 600,
-              color: isActive ? 'var(--gold-pale)' : 'rgba(255,255,255,0.9)',
-              letterSpacing: '1px',
-            })}>
-            {link.label}
-          </NavLink>
-        ))}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          {links.map(link => (
+            <NavLink key={link.to} to={link.to} end={link.to === '/'}
+              style={({ isActive }) => ({
+                fontFamily: 'var(--font-display)', fontSize: '22px', fontWeight: 600,
+                color: isActive ? 'var(--gold-pale)' : 'rgba(255,255,255,0.9)',
+                letterSpacing: '0.5px',
+                padding: '10px 0',
+              })}>
+              {link.label}
+            </NavLink>
+          ))}
+        </div>
 
-        <NavLink to="/contact" style={{ marginTop: '8px' }}>
+        <NavLink to="/contact" style={{ marginTop: '20px' }}>
           <button className="btn-primary">Book Consultation</button>
         </NavLink>
       </div>
