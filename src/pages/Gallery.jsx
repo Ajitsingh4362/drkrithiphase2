@@ -36,7 +36,7 @@ export default function Gallery() {
           <p style={{ maxWidth: '640px', lineHeight: '1.9' }}>
             This gallery captures meaningful milestones from consultations, workshops, speaking engagements, wellness programs, client achievements, community initiatives, and transformational journeys.
           </p>
-          <p style={{ maxWidth: '600px', lineHeight: '1.9', marginTop: '16px', fontSize: '14px', color: 'rgba(255,255,255,0.4)', fontFamily: 'var(--font-body)', fontWeight: 300 }}>
+          <p style={{ maxWidth: '600px', lineHeight: '1.9', marginTop: '16px', fontSize: '14px', color: 'rgba(255,255,255,0.4)', fontFamily: 'var(--font-body)', fontWeight: 400 }}>
             Each image reflects a story of courage, resilience, learning, and hope. Behind every smile is a journey of overcoming challenges, embracing change, and moving towards a healthier and more fulfilling life.
           </p>
         </div>

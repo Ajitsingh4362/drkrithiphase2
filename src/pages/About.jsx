@@ -31,7 +31,7 @@ export default function About() {
           <p style={{ fontSize: '18px', color: 'var(--teal)', fontFamily: 'var(--font-display)', fontStyle: 'italic', marginBottom: '16px' }}>
             Healing Beyond Symptoms. Transforming Lives Beyond Diagnosis.
           </p>
-          <p style={{ fontSize: '15px', color: 'var(--text-muted)', maxWidth: '580px', lineHeight: '1.8', fontWeight: 300 }}>
+          <p style={{ fontSize: '15px', color: 'var(--text-muted)', maxWidth: '580px', lineHeight: '1.8', fontWeight: 400 }}>
             Internationally trained Homeopathic Physician, Psychotherapist, and Mind-Body Wellness Specialist with 15+ years of experience.
           </p>
         </div>

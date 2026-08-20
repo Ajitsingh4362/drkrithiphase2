@@ -35,7 +35,7 @@ function FAQItem({ faq, index }) {
       {/* Answer */}
       <div style={{ maxHeight: open ? '500px' : '0', overflow: 'hidden', transition: 'max-height 0.4s cubic-bezier(0.22,1,0.36,1)' }}>
         <div style={{ paddingLeft: '44px', paddingBottom: '22px', paddingRight: '48px' }}>
-          <p style={{ fontSize: '15px', color: 'var(--text-muted)', lineHeight: 1.9, fontFamily: 'var(--font-body)', fontWeight: 300, margin: 0 }}>
+          <p style={{ fontSize: '15px', color: 'var(--text-muted)', lineHeight: 1.9, fontFamily: 'var(--font-body)', fontWeight: 400, margin: 0 }}>
             {faq.answer}
           </p>
         </div>
@@ -103,7 +103,7 @@ export default function FAQPage() {
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(36px, 5vw, 60px)', color: 'var(--navy-800)', fontWeight: 600, margin: '0 0 16px', lineHeight: 1.15 }}>
             Frequently Asked Questions
           </h1>
-          <p style={{ fontSize: '15px', color: 'var(--text-muted)', maxWidth: '520px', lineHeight: 1.85, fontFamily: 'var(--font-body)', fontWeight: 300, margin: '0 0 32px' }}>
+          <p style={{ fontSize: '15px', color: 'var(--text-muted)', maxWidth: '520px', lineHeight: 1.85, fontFamily: 'var(--font-body)', fontWeight: 400, margin: '0 0 32px' }}>
             Everything you need to know about Dr. Kirthi Kakade's integrative healing approach, programs, and consultations.
           </p>
           <Link to="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 28px', background: 'var(--teal)', color: 'var(--white)', borderRadius: '2px', fontSize: '12px', fontWeight: 600, fontFamily: 'var(--font-body)', textDecoration: 'none', letterSpacing: '1px', textTransform: 'uppercase' }}>
@@ -144,7 +144,7 @@ export default function FAQPage() {
             <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(20px, 3vw, 28px)', color: 'var(--gold-pale)', fontWeight: 600, margin: '0 0 12px' }}>
               Didn't find your answer?
             </p>
-            <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.5)', fontFamily: 'var(--font-body)', fontWeight: 300, margin: '0 0 28px' }}>
+            <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.5)', fontFamily: 'var(--font-body)', fontWeight: 400, margin: '0 0 28px' }}>
               Schedule a free 15-minute discovery call with Dr. Kirthi Kakade.
             </p>
             <Link to="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '13px 32px', background: 'var(--gold)', color: 'var(--navy-800)', borderRadius: '2px', fontSize: '12px', fontWeight: 600, fontFamily: 'var(--font-body)', textDecoration: 'none', letterSpacing: '1px', textTransform: 'uppercase' }}>

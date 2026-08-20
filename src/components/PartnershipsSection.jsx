@@ -39,7 +39,7 @@ export default function PartnershipsSection() {
           <div style={{ width: '60px', height: '2px', background: 'var(--gold-yellow)', margin: '0 auto 18px' }} />
           <p style={{
             maxWidth: '600px', margin: '0 auto', fontSize: '14px', lineHeight: '1.8',
-            color: '#3a3a3a', fontWeight: 300,
+            color: '#3a3a3a', fontWeight: 400,
           }}>
             Working alongside trusted organisations and specialists to extend the reach and depth of integrative care.
           </p>

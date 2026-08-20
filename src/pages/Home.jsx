@@ -120,7 +120,7 @@ export default function Home() {
               <p style={{
                 fontSize: '15px', color: 'var(--text-muted)',
                 lineHeight: '1.85', maxWidth: '520px', marginBottom: '14px',
-                fontFamily: 'var(--font-body)', fontWeight: 300,
+                fontFamily: 'var(--font-body)', fontWeight: 400,
               }}>
                 Combining 15+ years of expertise in Homeopathy, Psychotherapy, Women's Health,
                 and Integrative Healing Sciences — helping individuals reclaim health and vitality
@@ -313,7 +313,7 @@ export default function Home() {
               <span className="section-tag">Why Dr. Kirthi Kakade</span>
               <div className="gold-line" />
               <h2 className="section-title">A Different Kind of Healthcare Experience</h2>
-              <p style={{ fontSize: '15px', color: 'var(--text-muted)', lineHeight: '1.85', marginBottom: '32px', fontWeight: 300 }}>
+              <p style={{ fontSize: '15px', color: 'var(--text-muted)', lineHeight: '1.85', marginBottom: '32px', fontWeight: 400 }}>
                 Not just a practitioner — a trusted health strategist who bridges medicine, psychology, and holistic healing for complete transformation.
               </p>
               <Link to="/contact"><button className="btn-primary">Begin Your Journey</button></Link>
@@ -400,7 +400,7 @@ export default function Home() {
             <span className="section-tag" style={{ color: 'var(--gold)' }}>Explore Healing Areas</span>
             <div className="gold-line center" />
             <h2 className="section-title light">Interactive Healing Map</h2>
-            <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.5)', maxWidth: '480px', margin: '0 auto', lineHeight: '1.85', fontFamily: 'var(--font-body)', fontWeight: 300 }}>
+            <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.5)', maxWidth: '480px', margin: '0 auto', lineHeight: '1.85', fontFamily: 'var(--font-body)', fontWeight: 400 }}>
               Tap any glowing point to explore how Dr. Kirthi Kakade's integrative approach addresses each area of health.
             </p>
           </div>

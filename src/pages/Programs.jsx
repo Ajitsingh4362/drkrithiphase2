@@ -81,7 +81,7 @@ export default function Programs() {
           <p style={{ fontSize: '16px', color: 'var(--teal)', maxWidth: '600px', lineHeight: '1.9', fontWeight: 400, fontFamily: 'var(--font-body)', marginBottom: '16px' }}>
             Where Science, Psychology & Holistic Healing Meet
           </p>
-          <p style={{ fontSize: '14px', color: 'var(--text-muted)', maxWidth: '640px', lineHeight: '1.9', fontWeight: 300, fontFamily: 'var(--font-body)' }}>
+          <p style={{ fontSize: '14px', color: 'var(--text-muted)', maxWidth: '640px', lineHeight: '1.9', fontWeight: 400, fontFamily: 'var(--font-body)' }}>
             With over 15 years of experience in Homeopathy, Psychotherapy, Emotional Wellness, and Integrative Healing Sciences, I work with individuals seeking deeper and sustainable healing beyond temporary symptom management.
           </p>
         </div>
@@ -127,7 +127,7 @@ export default function Programs() {
                         <span style={{ fontSize: '10px', fontFamily: 'var(--font-body)', fontWeight: 600, letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--gold)', background: 'rgba(199,166,106,0.1)', padding: '4px 12px', borderRadius: '2px', border: '1px solid rgba(199,166,106,0.25)' }}>{prog.tag}</span>
                       </div>
                       <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(20px, 2vw, 26px)', fontWeight: 600, color: prog.highlight ? 'var(--gold-pale)' : 'var(--navy-800)', marginBottom: '16px', lineHeight: 1.3 }}>{prog.name}</h3>
-                      <p style={{ fontSize: '13px', color: prog.highlight ? 'rgba(255,255,255,0.55)' : 'var(--text-muted)', lineHeight: '1.85', fontFamily: 'var(--font-body)', fontWeight: 300, marginBottom: '24px' }}>{prog.desc}</p>
+                      <p style={{ fontSize: '13px', color: prog.highlight ? 'rgba(255,255,255,0.55)' : 'var(--text-muted)', lineHeight: '1.85', fontFamily: 'var(--font-body)', fontWeight: 400, marginBottom: '24px' }}>{prog.desc}</p>
                       <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap', marginBottom: '24px' }}>
                         <div>
                           <div style={{ fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: prog.highlight ? 'rgba(255,255,255,0.4)' : 'var(--text-light)', fontFamily: 'var(--font-body)', fontWeight: 600, marginBottom: '4px' }}>Investment</div>
@@ -224,7 +224,7 @@ export default function Programs() {
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 600, color: 'var(--navy-800)', marginBottom: '16px' }}>
             Ready to Begin Your Transformation?
           </h2>
-          <p style={{ fontSize: '15px', color: 'rgba(15,39,68,0.65)', marginBottom: '36px', maxWidth: '500px', margin: '0 auto 36px', lineHeight: '1.8', fontFamily: 'var(--font-body)', fontWeight: 300 }}>
+          <p style={{ fontSize: '15px', color: 'rgba(15,39,68,0.65)', marginBottom: '36px', maxWidth: '500px', margin: '0 auto 36px', lineHeight: '1.8', fontFamily: 'var(--font-body)', fontWeight: 400 }}>
             Schedule a detailed assessment to discover the most suitable healing program for your unique health needs.
           </p>
           <Link to="/contact">
