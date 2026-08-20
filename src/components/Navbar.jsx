@@ -82,7 +82,7 @@ export default function Navbar() {
             {[0,1,2].map(i => (
               <span key={i} style={{
                 display: 'block', width: '22px', height: '2px',
-                background: 'var(--white)', borderRadius: '2px', transition: 'var(--transition)',
+                background: '#0f2744', borderRadius: '2px', transition: 'var(--transition)',
                 transform: menuOpen
                   ? (i===0 ? 'translateY(7px) rotate(45deg)' : i===2 ? 'translateY(-7px) rotate(-45deg)' : 'scaleX(0)')
                   : 'none',
