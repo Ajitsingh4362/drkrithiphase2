@@ -15,7 +15,6 @@ import ConsultationPopup from '../components/ConsultationPopup'
 import TestimonialsSection from '../components/TestimonialsSection'
 import DoctorsTeamSection from '../components/DoctorsTeamSection'
 import GalleryScroll from '../components/GalleryScroll'
-import SatvamSection from '../components/SatvamSection'
 import PartnershipsSection from '../components/PartnershipsSection'
 
 const HIGHLIGHTS = [
@@ -216,9 +215,6 @@ export default function Home() {
 
       {/* DOCTOR'S TEAM */}
       <DoctorsTeamSection />
-
-      {/* SATVAM INTEGRATIVE ONCOLOGY */}
-      <SatvamSection />
 
       {/* PARTNERSHIPS & COLLABORATIONS */}
       <PartnershipsSection />
