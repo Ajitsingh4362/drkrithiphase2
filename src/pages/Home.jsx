@@ -235,6 +235,9 @@ export default function Home() {
               }}
             />
           </div>
+          <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+            <Link to="/contact"><button className="btn-primary">Book a Consultation</button></Link>
+          </div>
           <div style={{ textAlign: 'center', marginBottom: '64px' }}>
             <span className="section-tag">Healing Areas</span>
             <div className="gold-line center" />

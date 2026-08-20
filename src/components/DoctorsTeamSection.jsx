@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 
 function initials(name) {
@@ -88,6 +89,10 @@ export default function DoctorsTeamSection() {
               )}
             </div>
           ))}
+        </div>
+
+        <div style={{ textAlign: 'center', marginTop: '48px' }}>
+          <Link to="/contact"><button className="btn-primary">Book a Consultation</button></Link>
         </div>
       </div>
     </section>
