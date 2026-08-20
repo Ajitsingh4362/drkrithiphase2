@@ -46,7 +46,7 @@ export default function PartnershipsSection() {
         </div>
 
         <div style={{
-          display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '28px',
+          display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '28px',
           maxWidth: '1080px', margin: '0 auto',
         }}>
           {PARTNERS.map((partner, i) => (
@@ -56,6 +56,7 @@ export default function PartnershipsSection() {
               boxShadow: '0 8px 24px rgba(0,0,0,0.04)',
               display: 'flex', flexDirection: 'column', alignItems: 'center',
               transition: 'transform 0.25s, box-shadow 0.25s',
+              width: '280px', flex: '0 1 280px',
             }}
               onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 14px 32px rgba(0,0,0,0.08)' }}
               onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.04)' }}
