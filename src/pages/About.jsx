@@ -31,7 +31,7 @@ export default function About() {
           <p style={{ fontSize: '18px', color: 'var(--teal)', fontFamily: 'var(--font-display)', fontStyle: 'italic', marginBottom: '16px' }}>
             Healing Beyond Symptoms. Transforming Lives Beyond Diagnosis.
           </p>
-          <p style={{ fontSize: '16px', color: 'var(--text-muted)', maxWidth: '580px', lineHeight: '1.8', fontWeight: 400 }}>
+          <p style={{ fontSize: '17px', color: 'var(--text-muted)', maxWidth: '580px', lineHeight: '1.8', fontWeight: 400 }}>
             Internationally trained Homeopathic Physician, Psychotherapist, and Mind-Body Wellness Specialist with 15+ years of experience.
           </p>
         </div>
@@ -76,13 +76,13 @@ export default function About() {
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 3vw, 40px)', color: 'var(--navy-800)', marginBottom: '24px', fontWeight: 600 }}>
                 A Trusted Health Strategist
               </h2>
-              <p style={{ fontSize: '16px', color: 'var(--text-muted)', lineHeight: '1.95', marginBottom: '20px' }}>
+              <p style={{ fontSize: '17px', color: 'var(--text-muted)', lineHeight: '1.95', marginBottom: '20px' }}>
                 Dr. Kirthi Kakade is not just another practitioner — she is a health strategist who bridges medicine, psychology, and holistic healing. With over 15 years of clinical experience across India and Australia, she has helped individuals navigate some of the most challenging health journeys with compassion and precision.
               </p>
-              <p style={{ fontSize: '16px', color: 'var(--text-muted)', lineHeight: '1.95', marginBottom: '20px' }}>
+              <p style={{ fontSize: '17px', color: 'var(--text-muted)', lineHeight: '1.95', marginBottom: '20px' }}>
                 Her academic foundation spans Homeopathy, Counseling and Psychotherapy, Acupuncture, Positive Psychology, Mindfulness, NLP, and Integrative Healing Sciences — bringing together evidence-informed approaches that address not only disease but the person behind the diagnosis.
               </p>
-              <p style={{ fontSize: '16px', color: 'var(--text-muted)', lineHeight: '1.95', marginBottom: '36px' }}>
+              <p style={{ fontSize: '17px', color: 'var(--text-muted)', lineHeight: '1.95', marginBottom: '36px' }}>
                 Having worked across clinical, educational, and wellness settings — including international exposure in Newcastle, Australia — Dr. Kirthi Kakade believes that true healing begins when physical health, emotional resilience, and personal awareness are nurtured together.
               </p>
 
@@ -123,7 +123,7 @@ export default function About() {
                   onMouseLeave={e => e.currentTarget.style.borderBottom = '2px solid transparent'}>
                   <div style={{ fontSize: '10px', color: 'var(--gold)', fontWeight: 600, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '4px' }}>{q.year}</div>
                   <div style={{ fontFamily: 'var(--font-display)', fontSize: '20px', color: 'var(--navy-800)', fontWeight: 600, marginBottom: '4px' }}>{q.title}</div>
-                  <div style={{ fontSize: '16px', color: 'var(--text-muted)' }}>{q.sub}</div>
+                  <div style={{ fontSize: '17px', color: 'var(--text-muted)' }}>{q.sub}</div>
                 </div>
               </div>
             ))}

@@ -112,11 +112,11 @@ export default function TestimonialsSection() {
             <div style={{ width: '32px', height: '1px', background: 'var(--gold)' }} />
           </div>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 4vw, 44px)', color: 'var(--navy-800)', fontWeight: 600, margin: '0 0 12px', letterSpacing: '0.02em' }}>Real People. Real Transformations.</h2>
-          <p style={{ fontSize: '16px', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 400, marginBottom: '10px' }}>Every healing journey is unique.</p>
+          <p style={{ fontSize: '17px', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 400, marginBottom: '10px' }}>Every healing journey is unique.</p>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ color: '#C7A66A', fontSize: '15px' }}>{'★'.repeat(Math.round(avgRating))}</span>
             <span style={{ fontSize: '13px', color: 'var(--navy-800)', fontFamily: 'var(--font-body)', fontWeight: 600 }}>{avgRating} / 5</span>
-            <span style={{ fontSize: '12px', color: 'var(--text-light)', fontFamily: 'var(--font-body)' }}>from {testimonials.length} patients</span>
+            <span style={{ fontSize: '13px', color: 'var(--text-light)', fontFamily: 'var(--font-body)' }}>from {testimonials.length} patients</span>
           </div>
         </div>
 

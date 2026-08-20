@@ -15,7 +15,7 @@ import ConsultationPopup from '../components/ConsultationPopup'
 import TestimonialsSection from '../components/TestimonialsSection'
 import DoctorsTeamSection from '../components/DoctorsTeamSection'
 import GalleryScroll from '../components/GalleryScroll'
-import PartnershipsSection from '../components/PartnershipsSection'
+import SatvamSection from '../components/SatvamSection'
 
 const HIGHLIGHTS = [
   { icon: '🎗️', image: cancerRevivalImg, title: 'Cancer Revival & Support', desc: 'Integrative complementary support during treatment — rebuilding strength, resilience, and hope alongside your medical care.', highlight: true },
@@ -118,7 +118,7 @@ export default function Home() {
               </h1>
 
               <p style={{
-                fontSize: '16px', color: '#2a2a2a',
+                fontSize: '17px', color: '#2a2a2a',
                 lineHeight: '1.85', maxWidth: '520px', marginBottom: '14px',
                 fontFamily: 'var(--font-body)', fontWeight: 400,
               }}>
@@ -127,7 +127,7 @@ export default function Home() {
                 even when conventional pathways seem exhausted.
               </p>
               <p style={{
-                fontSize: '14px', color: '#2a2a2a',
+                fontSize: '15px', color: '#2a2a2a',
                 lineHeight: '1.7', maxWidth: '480px', marginBottom: '36px',
                 fontFamily: 'var(--font-body)',
               }}>
@@ -174,7 +174,7 @@ export default function Home() {
               />
               <div style={{ textAlign: 'center', marginTop: '16px' }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: '20px', fontWeight: 700, color: 'var(--navy-800)' }}>Dr. Kirthi Kakade</div>
-                <div style={{ fontSize: '16px', color: 'var(--text-light)', marginTop: '4px', letterSpacing: '0.5px' }}>C-Suite Mind Body Specialist</div>
+                <div style={{ fontSize: '17px', color: 'var(--text-light)', marginTop: '4px', letterSpacing: '0.5px' }}>C-Suite Mind Body Specialist</div>
               </div>
             </div>
           </div>
@@ -216,8 +216,8 @@ export default function Home() {
       {/* DOCTOR'S TEAM */}
       <DoctorsTeamSection />
 
-      {/* PARTNERSHIPS & COLLABORATIONS */}
-      <PartnershipsSection />
+      {/* SATVAM INTEGRATIVE ONCOLOGY */}
+      <SatvamSection />
 
       {/* SPECIALIZATIONS PREVIEW */}
       <section style={{ padding: '100px 0', background: 'var(--ivory)' }}>
@@ -274,7 +274,7 @@ export default function Home() {
                   color: h.highlight ? 'var(--gold-pale)' : 'var(--navy-800)',
                   marginBottom: '12px',
                 }}>{h.title}</h3>
-                <p style={{ fontSize: '16px', color: h.highlight ? 'rgba(255,255,255,0.6)' : 'var(--text-muted)', lineHeight: '1.8' }}>{h.desc}</p>
+                <p style={{ fontSize: '17px', color: h.highlight ? 'rgba(255,255,255,0.6)' : 'var(--text-muted)', lineHeight: '1.8' }}>{h.desc}</p>
                 {h.highlight && (
                   <div style={{ marginTop: '20px', fontSize: '11px', color: 'var(--gold)', letterSpacing: '1.5px', textTransform: 'uppercase', fontWeight: 600 }}>
                     Core Specialty →
@@ -313,7 +313,7 @@ export default function Home() {
               <span className="section-tag">Why Dr. Kirthi Kakade</span>
               <div className="gold-line" />
               <h2 className="section-title">A Different Kind of Healthcare Experience</h2>
-              <p style={{ fontSize: '16px', color: 'var(--text-muted)', lineHeight: '1.85', marginBottom: '32px', fontWeight: 400 }}>
+              <p style={{ fontSize: '17px', color: 'var(--text-muted)', lineHeight: '1.85', marginBottom: '32px', fontWeight: 400 }}>
                 Not just a practitioner — a trusted health strategist who bridges medicine, psychology, and holistic healing for complete transformation.
               </p>
               <Link to="/contact"><button className="btn-primary">Begin Your Journey</button></Link>
@@ -327,7 +327,7 @@ export default function Home() {
                   display: 'flex', alignItems: 'flex-start', gap: '10px',
                 }}>
                   <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--teal)', flexShrink: 0, marginTop: '5px' }} />
-                  <span style={{ fontSize: '12px', color: 'var(--text-muted)', lineHeight: '1.6', fontFamily: 'var(--font-body)' }}>{w}</span>
+                  <span style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: '1.6', fontFamily: 'var(--font-body)' }}>{w}</span>
                 </div>
               ))}
             </div>
@@ -362,7 +362,7 @@ export default function Home() {
               onMouseLeave={e => { e.currentTarget.style.borderBottom = '3px solid transparent'; e.currentTarget.style.background = 'var(--white)' }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: '48px', fontWeight: 700, color: 'rgb(7, 5, 14)', lineHeight: 1, marginBottom: '16px' }}>{step.num}</div>
                 <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: 600, color: 'var(--navy-800)', marginBottom: '10px' }}>{step.title}</h3>
-                <p style={{ fontSize: '12px', color: 'var(--text-muted)', lineHeight: '1.8' }}>{step.desc}</p>
+                <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: '1.8' }}>{step.desc}</p>
               </div>
             ))}
           </div>
@@ -400,7 +400,7 @@ export default function Home() {
             <span className="section-tag" style={{ color: 'var(--gold-yellow)' }}>Explore Healing Areas</span>
             <div className="gold-line center" />
             <h2 className="section-title">Interactive Healing Map</h2>
-            <p style={{ fontSize: '15px', color: '#333', maxWidth: '480px', margin: '0 auto', lineHeight: '1.85', fontFamily: 'var(--font-body)', fontWeight: 400 }}>
+            <p style={{ fontSize: '16px', color: '#333', maxWidth: '480px', margin: '0 auto', lineHeight: '1.85', fontFamily: 'var(--font-body)', fontWeight: 400 }}>
               Tap any glowing point to explore how Dr. Kirthi Kakade's integrative approach addresses each area of health.
             </p>
           </div>

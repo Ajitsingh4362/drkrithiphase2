@@ -1,10 +1,28 @@
 import { Link } from 'react-router-dom'
 import satvamLotusImg from '../assets/satvam-lotus.png'
 
+const PILLARS = [
+  {
+    title: 'Purpose',
+    desc: 'To support people undergoing chemotherapy toward better health, better vitals, and a better quality of life — alongside faster, more resilient recovery.',
+  },
+  {
+    title: 'Methodology',
+    desc: 'A personalised, curated homeopathic approach combined with structured nutritional support — working in tandem with conventional oncology care, never in place of it.',
+  },
+  {
+    title: 'What We Provide',
+    desc: 'Individualised care plans built around each patient\u2019s treatment stage, vitals, and tolerance — with ongoing monitoring and adjustment through the course of chemotherapy.',
+  },
+  {
+    title: 'How We\u2019re Different',
+    desc: 'Most supportive-care approaches are generic. SATVAM is built on personalisation — every protocol is curated to the individual, not applied as a one-size-fits-all template.',
+  },
+]
+
 export default function SatvamSection() {
   return (
     <section style={{ padding: '90px 0', background: 'linear-gradient(160deg, var(--navy-900) 0%, var(--navy-800) 55%, var(--navy-700) 100%)', position: 'relative', overflow: 'hidden' }}>
-      {/* decorative corner accents */}
       <div style={{
         position: 'absolute', top: 0, left: 0, width: '220px', height: '220px',
         background: 'radial-gradient(circle, rgba(199,166,106,0.14) 0%, transparent 70%)',
@@ -22,66 +40,63 @@ export default function SatvamSection() {
           gap: '10px', marginBottom: '20px', textAlign: 'center',
         }}>
           <span style={{
-            fontSize: '11px', fontFamily: 'var(--font-body)', fontWeight: 600,
+            fontSize: '12px', fontFamily: 'var(--font-body)', fontWeight: 700,
             color: 'var(--gold-light)', letterSpacing: '2.5px', textTransform: 'uppercase',
           }}>
             Featuring
           </span>
         </div>
 
-        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '48px' }}>
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: '14px', marginBottom: '18px',
           }}>
             <img src={satvamLotusImg} alt="Satvam" style={{ height: '46px', width: 'auto', objectFit: 'contain' }} />
             <h2 style={{
               fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 4vw, 42px)',
-              fontWeight: 700, color: '#fff', margin: 0, letterSpacing: '1px',
+              fontWeight: 700, color: '#fff', margin: 0, letterSpacing: '0.5px',
             }}>
               SATVAM
             </h2>
           </div>
           <div style={{
-            fontSize: '13px', fontWeight: 600, letterSpacing: '2px', textTransform: 'uppercase',
-            color: 'var(--gold-light)', marginBottom: '14px',
+            fontSize: '14px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase',
+            color: 'var(--gold-light)', marginBottom: '16px',
           }}>
             Integrative Oncology
           </div>
-          <div style={{ width: '60px', height: '2px', background: 'var(--gold)', margin: '0 auto 20px' }} />
+          <div style={{ width: '60px', height: '2px', background: 'var(--gold)', margin: '0 auto 22px' }} />
           <p style={{
-            maxWidth: '640px', margin: '0 auto', fontSize: '15px', lineHeight: '1.9',
-            color: 'rgba(255,255,255,0.82)', fontWeight: 300,
+            maxWidth: '680px', margin: '0 auto', fontSize: '16px', lineHeight: '1.9',
+            color: 'rgba(255,255,255,0.85)', fontWeight: 400,
           }}>
-            A Centre of Excellence in <strong style={{ color: 'var(--gold-pale)', fontWeight: 600 }}>Integrative Cancer Care</strong> —
-            bridging evidence-based oncology with holistic, mind-body support for complete healing during and beyond treatment.
+            Our main aim at <strong style={{ color: 'var(--gold-pale)', fontWeight: 700 }}>SATVAM Integrative Oncology</strong> is
+            to manage people under chemotherapy into better health — better vitals, better quality of life, and faster
+            recovery, built on nutrition and a personalised, curated homeopathic approach.
           </p>
         </div>
 
         <div style={{
-          display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '24px',
-          maxWidth: '960px', margin: '0 auto 44px',
+          display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '22px',
+          maxWidth: '1040px', margin: '0 auto 44px',
         }}>
-          {[
-            { label: 'Evidence-Informed', desc: 'Care grounded in clinical research' },
-            { label: 'Holistic Support', desc: 'Mind, body & lifestyle integration' },
-            { label: 'Compassionate Care', desc: 'Confidential, personalised journeys' },
-          ].map((item, i) => (
+          {PILLARS.map((item, i) => (
             <div key={i} style={{
-              background: 'rgba(255,255,255,0.05)', borderRadius: '10px', padding: '28px 22px',
-              textAlign: 'center', border: '1px solid rgba(199,166,106,0.2)',
+              background: 'rgba(255,255,255,0.05)', borderRadius: '12px', padding: '28px 24px',
+              border: '1px solid rgba(199,166,106,0.2)',
               backdropFilter: 'blur(8px)',
             }}>
               <div style={{
                 width: '36px', height: '3px', background: 'var(--gold)',
-                margin: '0 auto 16px',
+                marginBottom: '16px',
               }} />
               <h4 style={{
-                fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 600,
-                color: '#fff', marginBottom: '8px',
+                fontFamily: 'var(--font-display)', fontSize: '17px', fontWeight: 700,
+                color: '#fff', marginBottom: '10px',
               }}>
-                {item.label}
+                {item.title}
               </h4>
-              <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.65)', lineHeight: '1.7', margin: 0 }}>
+              <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)', lineHeight: '1.75', margin: 0 }}>
                 {item.desc}
               </p>
             </div>

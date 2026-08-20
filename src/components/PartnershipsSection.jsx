@@ -38,7 +38,7 @@ export default function PartnershipsSection() {
           </div>
           <div style={{ width: '60px', height: '2px', background: 'var(--gold-yellow)', margin: '0 auto 18px' }} />
           <p style={{
-            maxWidth: '600px', margin: '0 auto', fontSize: '15px', lineHeight: '1.8',
+            maxWidth: '600px', margin: '0 auto', fontSize: '16px', lineHeight: '1.8',
             color: '#1a1a1a', fontWeight: 400,
           }}>
             Working alongside trusted organisations and specialists to extend the reach and depth of integrative care.
@@ -80,7 +80,7 @@ export default function PartnershipsSection() {
               }}>
                 {partner.name}
               </h4>
-              <p style={{ fontSize: '14px', color: '#333', lineHeight: '1.7', margin: '0 0 20px', flex: 1 }}>
+              <p style={{ fontSize: '15px', color: '#333', lineHeight: '1.7', margin: '0 0 20px', flex: 1 }}>
                 {partner.description}
               </p>
               <a href={partner.url} target="_blank" rel="noopener noreferrer"

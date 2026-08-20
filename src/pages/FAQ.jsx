@@ -35,7 +35,7 @@ function FAQItem({ faq, index }) {
       {/* Answer */}
       <div style={{ maxHeight: open ? '500px' : '0', overflow: 'hidden', transition: 'max-height 0.4s cubic-bezier(0.22,1,0.36,1)' }}>
         <div style={{ paddingLeft: '44px', paddingBottom: '22px', paddingRight: '48px' }}>
-          <p style={{ fontSize: '16px', color: 'var(--text-muted)', lineHeight: 1.9, fontFamily: 'var(--font-body)', fontWeight: 400, margin: 0 }}>
+          <p style={{ fontSize: '17px', color: 'var(--text-muted)', lineHeight: 1.9, fontFamily: 'var(--font-body)', fontWeight: 400, margin: 0 }}>
             {faq.answer}
           </p>
         </div>
@@ -103,7 +103,7 @@ export default function FAQPage() {
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(36px, 5vw, 60px)', color: 'var(--navy-800)', fontWeight: 600, margin: '0 0 16px', lineHeight: 1.15 }}>
             Frequently Asked Questions
           </h1>
-          <p style={{ fontSize: '16px', color: 'var(--text-muted)', maxWidth: '520px', lineHeight: 1.85, fontFamily: 'var(--font-body)', fontWeight: 400, margin: '0 0 32px' }}>
+          <p style={{ fontSize: '17px', color: 'var(--text-muted)', maxWidth: '520px', lineHeight: 1.85, fontFamily: 'var(--font-body)', fontWeight: 400, margin: '0 0 32px' }}>
             Everything you need to know about Dr. Kirthi Kakade's integrative healing approach, programs, and consultations.
           </p>
           <Link to="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 28px', background: 'var(--teal)', color: 'var(--white)', borderRadius: '2px', fontSize: '12px', fontWeight: 600, fontFamily: 'var(--font-body)', textDecoration: 'none', letterSpacing: '1px', textTransform: 'uppercase' }}>
@@ -120,7 +120,7 @@ export default function FAQPage() {
           {categories.length > 2 && (
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '48px' }}>
               {categories.map(cat => (
-                <button key={cat} onClick={() => setActiveCategory(cat)} style={{ padding: '8px 20px', borderRadius: '100px', border: '1px solid', fontSize: '12px', fontFamily: 'var(--font-body)', fontWeight: 600, cursor: 'pointer', transition: 'all 0.2s', background: activeCategory === cat ? 'var(--navy-800)' : 'var(--white)', color: activeCategory === cat ? 'var(--gold-pale)' : 'var(--text-muted)', borderColor: activeCategory === cat ? 'var(--navy-800)' : 'rgba(15,39,68,0.12)' }}>
+                <button key={cat} onClick={() => setActiveCategory(cat)} style={{ padding: '8px 20px', borderRadius: '100px', border: '1px solid', fontSize: '13px', fontFamily: 'var(--font-body)', fontWeight: 600, cursor: 'pointer', transition: 'all 0.2s', background: activeCategory === cat ? 'var(--navy-800)' : 'var(--white)', color: activeCategory === cat ? 'var(--gold-pale)' : 'var(--text-muted)', borderColor: activeCategory === cat ? 'var(--navy-800)' : 'rgba(15,39,68,0.12)' }}>
                   {cat} {cat !== 'All' && `(${faqs.filter(f => f.category === cat).length})`}
                 </button>
               ))}

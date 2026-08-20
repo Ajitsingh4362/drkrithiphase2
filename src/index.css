@@ -70,7 +70,7 @@ img { max-width: 100%; display: block; }
   margin-bottom: 16px;
 }
 .section-title.light { color: var(--white); }
-.section-desc { font-size: 16px; color: var(--text-muted); line-height: 1.85; max-width: 560px; font-weight: 400; }
+.section-desc { font-size: 17px; color: var(--text-muted); line-height: 1.85; max-width: 560px; font-weight: 400; }
 .section-desc.light { color: rgba(255,255,255,0.7); }
 
 .btn-primary {
