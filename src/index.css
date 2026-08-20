@@ -20,7 +20,7 @@
   --text-light: #8a8a8a;
   --white: #ffffff;
 
-  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-display: 'Sora', 'Segoe UI', sans-serif;
   --font-body: 'Jost', sans-serif;
 
   --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -33,7 +33,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body { font-family: var(--font-body); background: var(--ivory); color: var(--charcoal); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; font-weight: 400; }
-h1,h2,h3,h4,h5 { font-family: var(--font-display); line-height: 1.15; font-weight: 700; letter-spacing: -0.01em; }
+h1,h2,h3,h4,h5 { font-family: var(--font-display); line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; }
 a { text-decoration: none; color: inherit; }
 button { cursor: pointer; font-family: var(--font-body); font-weight: 600; }
 img { max-width: 100%; display: block; }
@@ -63,9 +63,9 @@ img { max-width: 100%; display: block; }
 }
 
 .section-title {
-  font-size: clamp(32px, 5vw, 52px);
-  font-weight: 800;
-  letter-spacing: -0.015em;
+  font-size: clamp(30px, 4.6vw, 48px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
   color: var(--navy-800);
   margin-bottom: 16px;
 }
