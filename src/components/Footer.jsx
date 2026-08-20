@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 
 export default function Footer() {
   return (
-    <footer style={{ background: 'var(--navy-800)', borderTop: '3px solid var(--teal)', padding: '60px 0 24px' }}>
+    <footer style={{ background: 'linear-gradient(160deg, var(--navy-700) 0%, var(--navy-800) 100%)', borderTop: '3px solid var(--teal)', padding: '60px 0 24px' }}>
       <div className="container">
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '40px', marginBottom: '48px' }}>
 
@@ -14,7 +14,7 @@ export default function Footer() {
               alt="Mind Motion Matrix"
               style={{ height: '80px', width: 'auto', marginBottom: '16px', objectFit: 'contain' }}
             />
-            <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.55)', lineHeight: '1.8', maxWidth: '240px' }}>
+            <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.8)', lineHeight: '1.8', maxWidth: '240px' }}>
               Where Medicine Meets Mindset, and Healing Becomes Transformation.
             </p>
             <div style={{ marginTop: '20px', display: 'flex', gap: '12px' }}>
@@ -41,9 +41,9 @@ export default function Footer() {
               {to:'/contact',l:'Book Consultation'}
             ].map(link => (
               <NavLink key={link.to} to={link.to}
-                style={{ display: 'block', fontSize: '13px', color: 'rgba(255,255,255,0.6)', marginBottom: '10px', transition: 'color 0.25s' }}
+                style={{ display: 'block', fontSize: '13px', color: 'rgba(255,255,255,0.82)', marginBottom: '10px', transition: 'color 0.25s' }}
                 onMouseEnter={e => e.target.style.color = 'var(--gold-pale)'}
-                onMouseLeave={e => e.target.style.color = 'rgba(255,255,255,0.6)'}>
+                onMouseLeave={e => e.target.style.color = 'rgba(255,255,255,0.82)'}>
                 {link.l}
               </NavLink>
             ))}
@@ -60,7 +60,7 @@ export default function Footer() {
               'Chronic Systemic Disorders',
               'Allied Healing Sciences'
             ].map(s => (
-              <div key={s} style={{ fontSize: '13px', color: 'rgba(255,255,255,0.6)', marginBottom: '10px' }}>{s}</div>
+              <div key={s} style={{ fontSize: '13px', color: 'rgba(255,255,255,0.82)', marginBottom: '10px' }}>{s}</div>
             ))}
           </div>
 
@@ -74,7 +74,7 @@ export default function Footer() {
             ].map((item, i) => (
               <div key={i} style={{ display: 'flex', gap: '10px', marginBottom: '14px', alignItems: 'flex-start' }}>
                 <span style={{ fontSize: '14px', flexShrink: 0, marginTop: '1px' }}>{item.icon}</span>
-                <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.6)', lineHeight: '1.6', whiteSpace: 'pre-line' }}>{item.text}</span>
+                <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.82)', lineHeight: '1.6', whiteSpace: 'pre-line' }}>{item.text}</span>
               </div>
             ))}
           </div>
@@ -82,8 +82,8 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div style={{ borderTop: '1px solid rgba(30,111,106,0.25)', paddingTop: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
-          <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.35)' }}>© {new Date().getFullYear()} Mind Motion Matrix. Dr. Kirthi Kakade. All rights reserved.</p>
-          <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.35)' }}>Bangalore, India</p>
+          <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.55)' }}>© {new Date().getFullYear()} Mind Motion Matrix. Dr. Kirthi Kakade. All rights reserved.</p>
+          <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.55)' }}>Bangalore, India</p>
         </div>
       </div>
     </footer>
