@@ -118,7 +118,7 @@ export default function Home() {
               </h1>
 
               <p style={{
-                fontSize: '15px', color: 'var(--text-muted)',
+                fontSize: '16px', color: '#2a2a2a',
                 lineHeight: '1.85', maxWidth: '520px', marginBottom: '14px',
                 fontFamily: 'var(--font-body)', fontWeight: 400,
               }}>
@@ -127,7 +127,7 @@ export default function Home() {
                 even when conventional pathways seem exhausted.
               </p>
               <p style={{
-                fontSize: '13px', color: 'var(--text-light)',
+                fontSize: '14px', color: '#2a2a2a',
                 lineHeight: '1.7', maxWidth: '480px', marginBottom: '36px',
                 fontFamily: 'var(--font-body)',
               }}>
