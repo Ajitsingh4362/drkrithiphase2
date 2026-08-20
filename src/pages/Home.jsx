@@ -285,8 +285,9 @@ export default function Home() {
             ))}
           </div>
 
-          <div style={{ textAlign: 'center', marginTop: '48px' }}>
+          <div style={{ textAlign: 'center', marginTop: '48px', display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link to="/specializations"><button className="btn-outline-dark">Explore All Specializations</button></Link>
+            <Link to="/contact"><button className="btn-primary">Book a Consultation</button></Link>
           </div>
         </div>
       </section>
@@ -366,6 +367,9 @@ export default function Home() {
               </div>
             ))}
           </div>
+          <div style={{ textAlign: 'center', marginTop: '48px' }}>
+            <Link to="/contact"><button className="btn-primary">Book a Consultation</button></Link>
+          </div>
         </div>
       </section>
 
@@ -405,6 +409,9 @@ export default function Home() {
             </p>
           </div>
           <HealingMap />
+          <div style={{ textAlign: 'center', marginTop: '48px' }}>
+            <Link to="/contact"><button className="btn-primary">Book a Consultation</button></Link>
+          </div>
         </div>
       </section>
 
@@ -416,6 +423,16 @@ export default function Home() {
 
       {/* TESTIMONIALS */}
       <TestimonialsSection />
+
+      {/* FINAL CTA */}
+      <section style={{ background: 'var(--navy-800)', padding: '70px 0', textAlign: 'center' }}>
+        <div className="container">
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(24px, 3.5vw, 36px)', fontWeight: 600, color: 'var(--gold-pale)', marginBottom: '24px' }}>
+            Ready to Begin Your Healing Journey?
+          </h2>
+          <Link to="/contact"><button className="btn-primary">Book a Consultation</button></Link>
+        </div>
+      </section>
 
       {/* Responsive overrides */}
       <style>{`
