@@ -174,7 +174,7 @@ export default function Home() {
               />
               <div style={{ textAlign: 'center', marginTop: '16px' }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: '20px', fontWeight: 700, color: 'var(--navy-800)' }}>Dr. Kirthi Kakade</div>
-                <div style={{ fontSize: '13px', color: 'var(--text-light)', marginTop: '4px', letterSpacing: '0.5px' }}>C-Suite Mind Body Specialist</div>
+                <div style={{ fontSize: '16px', color: 'var(--text-light)', marginTop: '4px', letterSpacing: '0.5px' }}>C-Suite Mind Body Specialist</div>
               </div>
             </div>
           </div>
@@ -274,7 +274,7 @@ export default function Home() {
                   color: h.highlight ? 'var(--gold-pale)' : 'var(--navy-800)',
                   marginBottom: '12px',
                 }}>{h.title}</h3>
-                <p style={{ fontSize: '13px', color: h.highlight ? 'rgba(255,255,255,0.6)' : 'var(--text-muted)', lineHeight: '1.8' }}>{h.desc}</p>
+                <p style={{ fontSize: '16px', color: h.highlight ? 'rgba(255,255,255,0.6)' : 'var(--text-muted)', lineHeight: '1.8' }}>{h.desc}</p>
                 {h.highlight && (
                   <div style={{ marginTop: '20px', fontSize: '11px', color: 'var(--gold)', letterSpacing: '1.5px', textTransform: 'uppercase', fontWeight: 600 }}>
                     Core Specialty →
@@ -313,7 +313,7 @@ export default function Home() {
               <span className="section-tag">Why Dr. Kirthi Kakade</span>
               <div className="gold-line" />
               <h2 className="section-title">A Different Kind of Healthcare Experience</h2>
-              <p style={{ fontSize: '15px', color: 'var(--text-muted)', lineHeight: '1.85', marginBottom: '32px', fontWeight: 400 }}>
+              <p style={{ fontSize: '16px', color: 'var(--text-muted)', lineHeight: '1.85', marginBottom: '32px', fontWeight: 400 }}>
                 Not just a practitioner — a trusted health strategist who bridges medicine, psychology, and holistic healing for complete transformation.
               </p>
               <Link to="/contact"><button className="btn-primary">Begin Your Journey</button></Link>

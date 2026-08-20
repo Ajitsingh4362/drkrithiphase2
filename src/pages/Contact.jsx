@@ -146,7 +146,7 @@ export default function Contact() {
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(38px, 5vw, 64px)', color: 'var(--navy-800)', fontWeight: 600, marginBottom: '20px' }}>
             Apply for a Consultation
           </h1>
-          <p style={{ fontSize: '15px', color: 'var(--text-muted)', maxWidth: '520px', lineHeight: '1.85', fontWeight: 400 }}>
+          <p style={{ fontSize: '16px', color: 'var(--text-muted)', maxWidth: '520px', lineHeight: '1.85', fontWeight: 400 }}>
             Begin with a detailed assessment to understand the most suitable healing pathway for your specific health needs.
           </p>
         </div>

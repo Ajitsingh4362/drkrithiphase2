@@ -16,8 +16,8 @@
   --ivory: #FAF8F4;
   --ivory-dark: #f0ebe2;
   --charcoal: #2D2D2D;
-  --text-muted: #5a5a5a;
-  --text-light: #8a8a8a;
+  --text-muted: #333333;
+  --text-light: #4a4a4a;
   --white: #ffffff;
 
   --font-display: 'Sora', 'Segoe UI', sans-serif;
@@ -70,7 +70,7 @@ img { max-width: 100%; display: block; }
   margin-bottom: 16px;
 }
 .section-title.light { color: var(--white); }
-.section-desc { font-size: 15px; color: var(--text-muted); line-height: 1.85; max-width: 560px; font-weight: 400; }
+.section-desc { font-size: 16px; color: var(--text-muted); line-height: 1.85; max-width: 560px; font-weight: 400; }
 .section-desc.light { color: rgba(255,255,255,0.7); }
 
 .btn-primary {

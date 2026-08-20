@@ -74,13 +74,13 @@ export default function Specializations() {
           <p style={{ fontSize: '16px', color: 'var(--teal)', fontFamily: 'var(--font-display)', fontStyle: 'italic', marginBottom: '20px' }}>
             Where Science, Psychology & Holistic Healing Meet
           </p>
-          <p style={{ fontSize: '14px', color: 'var(--text-muted)', maxWidth: '620px', lineHeight: '1.9', fontWeight: 400, fontFamily: 'var(--font-body)', marginBottom: '16px' }}>
+          <p style={{ fontSize: '16px', color: 'var(--text-muted)', maxWidth: '620px', lineHeight: '1.9', fontWeight: 400, fontFamily: 'var(--font-body)', marginBottom: '16px' }}>
             With over 15 years of experience in Homeopathy, Psychotherapy, Emotional Wellness, and Integrative Healing Sciences, I work with individuals who are seeking deeper and sustainable healing beyond temporary symptom management.
           </p>
-          <p style={{ fontSize: '14px', color: 'var(--text-light)', maxWidth: '620px', lineHeight: '1.9', fontWeight: 400, fontFamily: 'var(--font-body)', marginBottom: '16px' }}>
+          <p style={{ fontSize: '16px', color: 'var(--text-light)', maxWidth: '620px', lineHeight: '1.9', fontWeight: 400, fontFamily: 'var(--font-body)', marginBottom: '16px' }}>
             My approach combines evidence-informed homeopathic care, mind-body interventions, emotional resilience coaching, lifestyle transformation, and complementary healing modalities to help individuals restore balance, vitality, and overall well-being.
           </p>
-          <p style={{ fontSize: '14px', color: 'var(--text-light)', maxWidth: '620px', lineHeight: '1.9', fontWeight: 400, fontFamily: 'var(--font-body)' }}>
+          <p style={{ fontSize: '16px', color: 'var(--text-light)', maxWidth: '620px', lineHeight: '1.9', fontWeight: 400, fontFamily: 'var(--font-body)' }}>
             Whether you are struggling with infertility, cancer recovery, chronic illness, emotional distress, or unexplained health challenges, the goal is to help you reconnect with your body's innate healing potential while improving your quality of life.
           </p>
         </div>
@@ -127,7 +127,7 @@ export default function Specializations() {
                 <div style={{ fontSize: '32px', marginBottom: '16px' }}>{s.icon}</div>
                 <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '20px', fontWeight: 600, color: 'var(--navy-800)', marginBottom: '8px' }}>{s.title}</h3>
                 <p style={{ fontSize: '12px', color: 'var(--gold)', fontStyle: 'italic', marginBottom: '12px' }}>{s.tagline}</p>
-                <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '20px' }}>{s.desc}</p>
+                <p style={{ fontSize: '16px', color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '20px' }}>{s.desc}</p>
                 <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {s.points.map((p, j) => (
                     <li key={j} style={{ display: 'flex', gap: '8px', fontSize: '12px', color: 'var(--text-muted)' }}>
@@ -166,7 +166,7 @@ export default function Specializations() {
                 onMouseEnter={e => e.currentTarget.style.background = 'var(--ivory-dark)'}
                 onMouseLeave={e => e.currentTarget.style.background = 'var(--ivory)'}>
                 <span style={{ color: 'var(--teal)', fontSize: '16px', flexShrink: 0, marginTop: '2px' }}>✔</span>
-                <span style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: '1.6', fontFamily: 'var(--font-body)' }}>{w}</span>
+                <span style={{ fontSize: '16px', color: 'var(--text-muted)', lineHeight: '1.6', fontFamily: 'var(--font-body)' }}>{w}</span>
               </div>
             ))}
           </div>
@@ -179,10 +179,10 @@ export default function Specializations() {
           <span className="section-tag">Client Success Stories</span>
           <div className="gold-line center" />
           <h2 className="section-title">Real People. Real Transformations.</h2>
-          <p style={{ fontSize: '15px', color: 'var(--text-muted)', lineHeight: '1.9', fontFamily: 'var(--font-body)', fontWeight: 400, marginBottom: '12px' }}>
+          <p style={{ fontSize: '16px', color: 'var(--text-muted)', lineHeight: '1.9', fontFamily: 'var(--font-body)', fontWeight: 400, marginBottom: '12px' }}>
             Every healing journey is unique. The greatest reward is witnessing individuals rediscover hope, resilience, confidence, and renewed health.
           </p>
-          <p style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: '1.9', fontFamily: 'var(--font-body)', fontWeight: 400 }}>
+          <p style={{ fontSize: '16px', color: 'var(--text-muted)', lineHeight: '1.9', fontFamily: 'var(--font-body)', fontWeight: 400 }}>
             From couples who found their path towards parenthood, to individuals navigating cancer recovery, chronic illness, emotional burnout, and life transitions — these stories stand as a testament to the power of holistic healing and personalised care.
           </p>
         </div>

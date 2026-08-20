@@ -76,7 +76,7 @@ export default function DoctorsTeamSection() {
               )}
 
               {d.qualification && (
-                <p style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', margin: '0 0 10px', lineHeight: 1.6 }}>
+                <p style={{ fontSize: '16px', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', margin: '0 0 10px', lineHeight: 1.6 }}>
                   {d.qualification}
                 </p>
               )}
