@@ -7,7 +7,7 @@ export default function BlogPreview() {
 
   useEffect(() => {
     supabase.from('blog_posts').select('id,title,slug,excerpt,cover_image,published_at')
-      .eq('published', true).order('published_at', { ascending: false }).limit(3)
+      .eq('published', true).order('published_at', { ascending: false }).limit(6)
       .then(({ data }) => setPosts(data || []))
   }, [])
 
