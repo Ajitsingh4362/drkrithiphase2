@@ -63,6 +63,30 @@ export default function Home() {
         <div style={{ position: 'absolute', top: '-5%', right: '-8%', width: '600px', height: '600px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(30,111,106,0.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', bottom: '-10%', left: '-5%', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(199,166,106,0.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
 
+        {/* Decorative diamond pattern — desktop only, top-right corner */}
+        <div className="hero-corner-pattern" style={{ position: 'absolute', top: '36px', right: '5%', zIndex: 1, pointerEvents: 'none' }}>
+          <svg width="112" height="70" viewBox="0 0 112 70" xmlns="http://www.w3.org/2000/svg">
+            {Array.from({ length: 15 }).map((_, i) => {
+              const cols = 5
+              const row = Math.floor(i / cols)
+              const col = i % cols
+              const x = col * 22 + 5
+              const y = row * 22 + 5
+              const dist = row + (cols - 1 - col)
+              const opacity = Math.max(0.85 - dist * 0.09, 0.15)
+              return (
+                <rect
+                  key={i}
+                  x={x} y={y} width="8" height="8"
+                  transform={`rotate(45 ${x + 4} ${y + 4})`}
+                  fill="#800020"
+                  opacity={opacity}
+                />
+              )
+            })}
+          </svg>
+        </div>
+
         <div className="container" style={{ width: '100%' }}>
           {/* Two-column hero layout */}
           <div style={{
@@ -447,6 +471,9 @@ export default function Home() {
           .hero-visual-wrapper {
             max-width: 340px !important;
             margin: 0 auto !important;
+          }
+          .hero-corner-pattern {
+            display: none !important;
           }
         }
         @media (max-width: 600px) {
