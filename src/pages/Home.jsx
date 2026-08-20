@@ -112,7 +112,7 @@ export default function Home() {
                 lineHeight: 1.1, marginBottom: '24px',
               }}>
                 Where Medicine<br />Meets Mindset,{' '}
-                <span style={{ color: 'var(--teal)', fontStyle: 'italic', display: 'block' }}>
+                <span style={{ color: '#800020', fontStyle: 'normal', display: 'block' }}>
                   and Healing Becomes<br />Transformation
                 </span>
               </h1>
