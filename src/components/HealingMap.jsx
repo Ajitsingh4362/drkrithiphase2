@@ -246,23 +246,25 @@ export default function HealingMap() {
 
   return (
     <div className="healing-map-grid">
-      <div className="body3d-wrapper">
-        <canvas
-          ref={canvasRef}
-          className="body3d-canvas"
-          onMouseMove={handleMouseMove}
-          onMouseLeave={() => { setHovered(null); targetRef.current = { x: 0, y: 0 } }}
-          onClick={handleClick}
-          style={{ cursor: hovered ? 'pointer' : 'default' }}
-        />
-        {activeOrgan && (
-          <div className="body3d-tooltip">
-            <p className="tooltip-label">{activeOrgan.icon} {activeOrgan.label}</p>
-            <p className="tooltip-desc">{activeOrgan.desc}</p>
-            <button className="tooltip-btn" onClick={() => navigate('/contact')}>Book Consultation →</button>
-          </div>
-        )}
-        <p className="body3d-hint">Tap a glowing point to explore</p>
+      <div className="body3d-panel">
+        <div className="body3d-wrapper">
+          <canvas
+            ref={canvasRef}
+            className="body3d-canvas"
+            onMouseMove={handleMouseMove}
+            onMouseLeave={() => { setHovered(null); targetRef.current = { x: 0, y: 0 } }}
+            onClick={handleClick}
+            style={{ cursor: hovered ? 'pointer' : 'default' }}
+          />
+          {activeOrgan && (
+            <div className="body3d-tooltip">
+              <p className="tooltip-label">{activeOrgan.icon} {activeOrgan.label}</p>
+              <p className="tooltip-desc">{activeOrgan.desc}</p>
+              <button className="tooltip-btn" onClick={() => navigate('/contact')}>Book Consultation →</button>
+            </div>
+          )}
+          <p className="body3d-hint">Tap a glowing point to explore</p>
+        </div>
       </div>
 
       <div className="healing-map-list">

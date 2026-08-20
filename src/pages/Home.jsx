@@ -397,10 +397,10 @@ export default function Home() {
       <section className="healing-map-section">
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '64px' }}>
-            <span className="section-tag" style={{ color: 'var(--gold)' }}>Explore Healing Areas</span>
+            <span className="section-tag" style={{ color: 'var(--gold-yellow)' }}>Explore Healing Areas</span>
             <div className="gold-line center" />
-            <h2 className="section-title light">Interactive Healing Map</h2>
-            <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.5)', maxWidth: '480px', margin: '0 auto', lineHeight: '1.85', fontFamily: 'var(--font-body)', fontWeight: 400 }}>
+            <h2 className="section-title">Interactive Healing Map</h2>
+            <p style={{ fontSize: '15px', color: '#333', maxWidth: '480px', margin: '0 auto', lineHeight: '1.85', fontFamily: 'var(--font-body)', fontWeight: 400 }}>
               Tap any glowing point to explore how Dr. Kirthi Kakade's integrative approach addresses each area of health.
             </p>
           </div>
