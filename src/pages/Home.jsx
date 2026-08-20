@@ -93,7 +93,7 @@ export default function Home() {
                     letterSpacing: '0.5px',
                     lineHeight: 1.2,
                   }}>
-                    Dr. Kirthi
+                    Dr. Kirthi Kakade
                   </div>
                   <div style={{
                     fontSize: '10px', color: 'var(--text-muted)',
@@ -173,7 +173,7 @@ export default function Home() {
                 }}
               />
               <div style={{ textAlign: 'center', marginTop: '16px' }}>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '20px', fontWeight: 700, color: 'var(--navy-800)' }}>Dr. Kirthi</div>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: '20px', fontWeight: 700, color: 'var(--navy-800)' }}>Dr. Kirthi Kakade</div>
                 <div style={{ fontSize: '13px', color: 'var(--text-light)', marginTop: '4px', letterSpacing: '0.5px' }}>C-Suite Mind Body Specialist</div>
               </div>
             </div>
@@ -297,7 +297,7 @@ export default function Home() {
           <div style={{ textAlign: 'center', marginBottom: '48px', marginLeft: 0, marginRight: 0 }}>
             <img
               src={whyChooseBannerImg}
-              alt="Why Dr. Kirthi"
+              alt="Why Dr. Kirthi Kakade"
               style={{
                 width: '100%',
                 height: 'auto',
@@ -310,7 +310,7 @@ export default function Home() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }} className="two-col-grid">
             <div>
-              <span className="section-tag">Why Dr. Kirthi</span>
+              <span className="section-tag">Why Dr. Kirthi Kakade</span>
               <div className="gold-line" />
               <h2 className="section-title">A Different Kind of Healthcare Experience</h2>
               <p style={{ fontSize: '15px', color: 'var(--text-muted)', lineHeight: '1.85', marginBottom: '32px', fontWeight: 300 }}>
@@ -401,7 +401,7 @@ export default function Home() {
             <div className="gold-line center" />
             <h2 className="section-title light">Interactive Healing Map</h2>
             <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.5)', maxWidth: '480px', margin: '0 auto', lineHeight: '1.85', fontFamily: 'var(--font-body)', fontWeight: 300 }}>
-              Tap any glowing point to explore how Dr. Kirthi's integrative approach addresses each area of health.
+              Tap any glowing point to explore how Dr. Kirthi Kakade's integrative approach addresses each area of health.
             </p>
           </div>
           <HealingMap />

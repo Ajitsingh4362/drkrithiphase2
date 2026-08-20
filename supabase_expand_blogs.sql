@@ -1,5 +1,5 @@
 -- ============================================================
--- Blog EXPANSION Script — Mind Motion Matrix (Dr. Kirthi)
+-- Blog EXPANSION Script — Mind Motion Matrix (Dr. Kirthi Kakade)
 -- Run this AFTER the first seed script, in Supabase SQL Editor.
 -- Updates all 15 existing posts with deeper, longer content
 -- (separate "Reason" and "Solution" sections) + adds 2 new

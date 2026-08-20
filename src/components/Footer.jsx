@@ -32,7 +32,7 @@ export default function Footer() {
             <div style={{ fontSize: '11px', fontWeight: 600, color: 'var(--teal-light)', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '18px' }}>Navigation</div>
             {[
               {to:'/',l:'Home'},
-              {to:'/about',l:'About Dr. Kirthi'},
+              {to:'/about',l:'About Dr. Kirthi Kakade'},
               {to:'/specializations',l:'Specializations'},
               {to:'/programs',l:'Programs'},
               {to:'/blog',l:'Blog'},
@@ -82,7 +82,7 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div style={{ borderTop: '1px solid rgba(30,111,106,0.25)', paddingTop: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
-          <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.35)' }}>© {new Date().getFullYear()} Mind Motion Matrix. Dr. Kirthi Jawalkar. All rights reserved.</p>
+          <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.35)' }}>© {new Date().getFullYear()} Mind Motion Matrix. Dr. Kirthi Kakade. All rights reserved.</p>
           <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.35)' }}>Bangalore, India</p>
         </div>
       </div>

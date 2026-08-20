@@ -57,7 +57,7 @@ function AdminHeader() {
     
     await supabase.from('appointments').update({ status: 'confirmed' }).eq('id', appt.id)
     const phone = (appt.phone || '').replace(/[^\d]/g, '')
-    const msg = encodeURIComponent(`Hi ${appt.name}, your appointment with Dr. Kirthi Jawalkar has been confirmed${appt.preferred_date ? ` for ${new Date(appt.preferred_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'long' })}` : ''}${appt.preferred_time ? ` at ${appt.preferred_time}` : ''}. Looking forward to seeing you! 🌿`)
+    const msg = encodeURIComponent(`Hi ${appt.name}, your appointment with Dr. Kirthi Kakade has been confirmed${appt.preferred_date ? ` for ${new Date(appt.preferred_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'long' })}` : ''}${appt.preferred_time ? ` at ${appt.preferred_time}` : ''}. Looking forward to seeing you! 🌿`)
     window.open(`https://wa.me/${phone}?text=${msg}`, '_blank')
   }
 

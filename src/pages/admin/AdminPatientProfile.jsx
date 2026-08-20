@@ -63,7 +63,7 @@ export default function AdminPatientProfile() {
       // Phir WhatsApp kholo with message
       const phone = (patient.phone || '').replace(/[^\d]/g, '')
       const msg = encodeURIComponent(
-        `Dear ${patient.name},\n\nYour health report from Mind Motion Matrix has been downloaded on your device.\n\nPlease find it in your Downloads folder and attach it here if needed.\n\nFor appointments: www.mindmotionmatrix.com\n\n— Dr. Kirthi Jawalkar, Mind Motion Matrix`
+        `Dear ${patient.name},\n\nYour health report from Mind Motion Matrix has been downloaded on your device.\n\nPlease find it in your Downloads folder and attach it here if needed.\n\nFor appointments: www.mindmotionmatrix.com\n\n— Dr. Kirthi Kakade, Mind Motion Matrix`
       )
       setTimeout(() => {
         window.open(`https://wa.me/${phone}?text=${msg}`, '_blank')

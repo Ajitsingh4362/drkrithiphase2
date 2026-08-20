@@ -26,7 +26,7 @@ export default function About() {
             <span style={{ fontSize: '11px', fontFamily: 'var(--font-body)', fontWeight: 600, color: '#9c7a3c', letterSpacing: '2.5px', textTransform: 'uppercase' }}>About</span>
           </div>
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(38px, 5vw, 68px)', color: 'var(--navy-800)', fontWeight: 600, marginBottom: '20px' }}>
-            Dr. Kirthi Jawalkar
+            Dr. Kirthi Kakade
           </h1>
           <p style={{ fontSize: '18px', color: 'var(--teal)', fontFamily: 'var(--font-display)', fontStyle: 'italic', marginBottom: '16px' }}>
             Healing Beyond Symptoms. Transforming Lives Beyond Diagnosis.
@@ -45,10 +45,10 @@ export default function About() {
             {/* Card */}
             <div style={{ background: 'var(--navy-800)', borderRadius: '2px', padding: '40px', border: '1px solid rgba(199,166,106,0.15)', position: 'sticky', top: '100px' }}>
               <div style={{ width: '140px', height: '140px', borderRadius: '50%', margin: '0 auto 20px', border: '2px solid rgba(199,166,106,0.3)', overflow: 'hidden' }}>
-                <img src={drKirthiProfileImg} alt="Dr. Kirthi Jawalkar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={drKirthiProfileImg} alt="Dr. Kirthi Kakade" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
               <div style={{ textAlign: 'center', marginBottom: '28px' }}>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '22px', color: 'var(--gold-pale)', fontWeight: 600 }}>Dr. Kirthi Jawalkar</div>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: '22px', color: 'var(--gold-pale)', fontWeight: 600 }}>Dr. Kirthi Kakade</div>
                 <div style={{ fontSize: '11px', color: 'var(--gold)', letterSpacing: '1.5px', textTransform: 'uppercase', marginTop: '6px' }}>Mind Motion Matrix</div>
               </div>
               <div style={{ borderTop: '1px solid rgba(199,166,106,0.15)', paddingTop: '24px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
@@ -77,20 +77,20 @@ export default function About() {
                 A Trusted Health Strategist
               </h2>
               <p style={{ fontSize: '15px', color: 'var(--text-muted)', lineHeight: '1.95', marginBottom: '20px' }}>
-                Dr. Kirthi Jawalkar is not just another practitioner — she is a health strategist who bridges medicine, psychology, and holistic healing. With over 15 years of clinical experience across India and Australia, she has helped individuals navigate some of the most challenging health journeys with compassion and precision.
+                Dr. Kirthi Kakade is not just another practitioner — she is a health strategist who bridges medicine, psychology, and holistic healing. With over 15 years of clinical experience across India and Australia, she has helped individuals navigate some of the most challenging health journeys with compassion and precision.
               </p>
               <p style={{ fontSize: '15px', color: 'var(--text-muted)', lineHeight: '1.95', marginBottom: '20px' }}>
                 Her academic foundation spans Homeopathy, Counseling and Psychotherapy, Acupuncture, Positive Psychology, Mindfulness, NLP, and Integrative Healing Sciences — bringing together evidence-informed approaches that address not only disease but the person behind the diagnosis.
               </p>
               <p style={{ fontSize: '15px', color: 'var(--text-muted)', lineHeight: '1.95', marginBottom: '36px' }}>
-                Having worked across clinical, educational, and wellness settings — including international exposure in Newcastle, Australia — Dr. Kirthi believes that true healing begins when physical health, emotional resilience, and personal awareness are nurtured together.
+                Having worked across clinical, educational, and wellness settings — including international exposure in Newcastle, Australia — Dr. Kirthi Kakade believes that true healing begins when physical health, emotional resilience, and personal awareness are nurtured together.
               </p>
 
               <div style={{ background: 'var(--navy-800)', borderLeft: '3px solid var(--gold)', padding: '24px 28px', marginBottom: '36px' }}>
                 <p style={{ fontFamily: 'var(--font-display)', fontSize: '20px', color: 'var(--gold-pale)', fontStyle: 'italic', lineHeight: '1.6' }}>
                   "True healing involves more than the physical body. It begins when we understand the deeper conversation between mind, emotion, and health."
                 </p>
-                <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', marginTop: '12px', letterSpacing: '1px' }}>— DR. KIRTHI JAWALKAR</p>
+                <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', marginTop: '12px', letterSpacing: '1px' }}>— DR. KIRTHI KAKADE</p>
               </div>
 
               <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>

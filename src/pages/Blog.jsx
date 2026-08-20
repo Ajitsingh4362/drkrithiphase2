@@ -33,7 +33,7 @@ export default function Blog() {
             <span style={{ fontSize: '11px', fontFamily: 'var(--font-body)', fontWeight: 600, color: 'var(--gold)', letterSpacing: '2.5px', textTransform: 'uppercase' }}>Insights</span>
           </div>
           <h1>Articles & Healing Wisdom</h1>
-          <p>Thoughts on homeopathy, psychotherapy, and the mind-body connection — from Dr. Kirthi's clinical practice.</p>
+          <p>Thoughts on homeopathy, psychotherapy, and the mind-body connection — from Dr. Kirthi Kakade's clinical practice.</p>
         </div>
       </section>
 

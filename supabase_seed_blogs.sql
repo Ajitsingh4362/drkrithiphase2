@@ -1,5 +1,5 @@
 -- ============================================================
--- Blog Seed Script — Mind Motion Matrix (Dr. Kirthi)
+-- Blog Seed Script — Mind Motion Matrix (Dr. Kirthi Kakade)
 -- Run this in Supabase Dashboard -> SQL Editor -> New query -> Run
 -- Safe to re-run: uses ON CONFLICT so it won't duplicate.
 -- All posts are fully editable later from /admin/posts in your site.

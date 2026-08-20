@@ -179,7 +179,7 @@ export default function Contact() {
                 </div>
               ))}
 
-              <a href={'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent("Hello Dr. Kirthi, I'd like to book a consultation at Mind Motion Matrix.")}
+              <a href={'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent("Hello Dr. Kirthi Kakade, I'd like to book a consultation at Mind Motion Matrix.")}
                 target="_blank" rel="noopener noreferrer"
                 style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', marginTop: '28px', background: '#25D366', color: '#fff', padding: '13px 24px', borderRadius: '2px', fontSize: '13px', fontWeight: 600, textDecoration: 'none', letterSpacing: '0.5px', textTransform: 'uppercase', boxShadow: '0 4px 16px rgba(37,211,102,0.3)', transition: 'var(--transition)' }}
                 onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-2px)'}
@@ -350,7 +350,7 @@ export default function Contact() {
                   <div style={{ background: 'rgba(30,111,106,0.2)', border: '1px solid rgba(30,111,106,0.4)', borderRadius: '2px', padding: '18px', fontSize: '13px', color: '#7dd5d0', lineHeight: '1.7' }}>
                     <div style={{ fontSize: '18px', marginBottom: '8px' }}>✅</div>
                     <div style={{ fontWeight: 600, marginBottom: '4px' }}>Application Received!</div>
-                    <div>Dr. Kirthi's team will reach out within 24 hours to schedule your personalised health assessment.</div>
+                    <div>Dr. Kirthi Kakade's team will reach out within 24 hours to schedule your personalised health assessment.</div>
                   </div>
                 )}
                 {status === 'error' && (
