@@ -20,7 +20,7 @@ export default function GalleryScroll() {
   const loopItems = [...items, ...items]
 
   return (
-    <section style={{ padding: '80px 0', background: 'var(--ivory)', overflow: 'hidden' }}>
+    <section style={{ paddingTop: '40px', paddingBottom: '80px', background: 'var(--ivory)', overflow: 'hidden' }}>
       <div className="container" style={{ textAlign: 'center', marginBottom: '48px' }}>
         <span className="section-tag">Gallery</span>
         <div className="gold-line center" />
