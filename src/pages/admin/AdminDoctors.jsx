@@ -5,7 +5,7 @@ function initials(name) {
   return (name || '').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2)
 }
 
-const EMPTY = { name: '', designation: '', qualification: '', bio: '', photo_url: '', visible: true }
+const EMPTY = { name: '', designation: '', qualification: '', bio: '', photo_url: '', visible: true, category: 'team' }
 
 export default function AdminDoctors() {
   const [list, setList] = useState([])
@@ -25,7 +25,7 @@ export default function AdminDoctors() {
   }
 
   function openNew() { setForm(EMPTY); setMsg(''); setEditing('new') }
-  function openEdit(d) { setForm({ ...d }); setMsg(''); setEditing(d.id) }
+  function openEdit(d) { setForm({ ...d, category: d.category || 'team' }); setMsg(''); setEditing(d.id) }
   function closeForm() { setEditing(null); setForm(EMPTY) }
   function setF(key, val) { setForm(f => ({ ...f, [key]: val })) }
 
@@ -135,6 +135,13 @@ export default function AdminDoctors() {
               <label style={{ fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 600, display: 'block', marginBottom: '6px' }}>Qualification *</label>
               <input value={form.qualification} onChange={e => setF('qualification', e.target.value)} placeholder="BHMS, MD (Homeopathy), Certified Psychotherapist" style={{ width: '100%', padding: '9px 12px', border: '1px solid rgba(15,39,68,0.12)', borderRadius: '2px', fontSize: '0.88rem', fontFamily: 'var(--font-body)', outline: 'none' }} />
             </div>
+            <div style={{ gridColumn: '1 / -1' }}>
+              <label style={{ fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 600, display: 'block', marginBottom: '6px' }}>Section *</label>
+              <select value={form.category} onChange={e => setF('category', e.target.value)} style={{ width: '100%', padding: '9px 12px', border: '1px solid rgba(15,39,68,0.12)', borderRadius: '2px', fontSize: '0.88rem', fontFamily: 'var(--font-body)', outline: 'none', background: 'var(--white)' }}>
+                <option value="doctor">Doctor (shows under "Our Doctors")</option>
+                <option value="team">Team Member (shows under "Our Care Team")</option>
+              </select>
+            </div>
           </div>
 
           <div style={{ marginTop: '14px' }}>
@@ -181,6 +188,7 @@ export default function AdminDoctors() {
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px', flexWrap: 'wrap' }}>
                   <span style={{ fontWeight: 600, fontSize: '0.92rem', color: 'var(--navy-800)', fontFamily: 'var(--font-body)' }}>{d.name}</span>
+                  <span style={{ fontSize: '10px', padding: '1px 8px', borderRadius: '100px', background: d.category === 'doctor' ? 'rgba(199,166,106,0.2)' : 'rgba(30,111,106,0.12)', color: d.category === 'doctor' ? '#9c7a3c' : 'var(--teal)', fontFamily: 'var(--font-body)', fontWeight: 600 }}>{d.category === 'doctor' ? 'Doctor' : 'Team'}</span>
                   {!d.visible && <span style={{ fontSize: '10px', padding: '1px 8px', borderRadius: '100px', background: 'rgba(15,39,68,0.06)', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 600 }}>Hidden</span>}
                 </div>
                 {d.designation && <p style={{ fontSize: '11px', color: 'var(--gold-deep, #9c7a3c)', fontFamily: 'var(--font-body)', margin: '0 0 4px', fontWeight: 600 }}>{d.designation}</p>}
