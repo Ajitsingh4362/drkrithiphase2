@@ -37,6 +37,194 @@ const WHY = [
   'Compassionate, Confidential Care',
 ]
 
+/* ---------- orbiting "solar system" visual (moved out of hero) ---------- */
+function IntegrativeOrbitVisual() {
+  return (
+    <div style={{ position: 'relative', width: '100%', height: '520px', flexShrink: 0 }}>
+      <style>{`
+        @keyframes orbitA {
+          from { transform: rotate(0deg) translateX(130px) rotate(0deg); }
+          to   { transform: rotate(360deg) translateX(130px) rotate(-360deg); }
+        }
+        @keyframes orbitB {
+          from { transform: rotate(120deg) translateX(180px) rotate(-120deg); }
+          to   { transform: rotate(480deg) translateX(180px) rotate(-480deg); }
+        }
+        @keyframes orbitC {
+          from { transform: rotate(240deg) translateX(220px) rotate(-240deg); }
+          to   { transform: rotate(600deg) translateX(220px) rotate(-600deg); }
+        }
+        @keyframes pulse-ring {
+          0%   { transform: scale(0.9); opacity: 0.6; }
+          50%  { transform: scale(1.05); opacity: 0.25; }
+          100% { transform: scale(0.9); opacity: 0.6; }
+        }
+        @keyframes float-tag {
+          0%, 100% { transform: translateY(0px); }
+          50%       { transform: translateY(-10px); }
+        }
+        @keyframes drift1 {
+          0%, 100% { transform: translate(0,0) rotate(0deg); }
+          33%       { transform: translate(12px,-18px) rotate(12deg); }
+          66%       { transform: translate(-8px,10px) rotate(-8deg); }
+        }
+        @keyframes drift2 {
+          0%, 100% { transform: translate(0,0) rotate(0deg); }
+          50%       { transform: translate(-14px,16px) rotate(-15deg); }
+        }
+        @keyframes shimmer {
+          0%   { opacity: 0.3; }
+          50%  { opacity: 0.8; }
+          100% { opacity: 0.3; }
+        }
+      `}</style>
+
+      {/* Centre glow */}
+      <div style={{
+        position: 'absolute', top: '50%', left: '50%',
+        transform: 'translate(-50%,-50%)',
+        width: '260px', height: '260px', borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(199,166,106,0.18) 0%, transparent 70%)',
+        animation: 'pulse-ring 4s ease-in-out infinite',
+      }} />
+
+      {/* Outer ring */}
+      <div style={{
+        position: 'absolute', top: '50%', left: '50%',
+        transform: 'translate(-50%,-50%)',
+        width: '440px', height: '440px', borderRadius: '50%',
+        border: '1px solid rgba(199,166,106,0.12)',
+      }} />
+      <div style={{
+        position: 'absolute', top: '50%', left: '50%',
+        transform: 'translate(-50%,-50%)',
+        width: '320px', height: '320px', borderRadius: '50%',
+        border: '1px solid rgba(199,166,106,0.08)',
+      }} />
+
+      {/* Centre card */}
+      <div style={{
+        position: 'absolute', top: '50%', left: '50%',
+        transform: 'translate(-50%,-50%)',
+        width: '170px', height: '170px', borderRadius: '50%',
+        background: 'linear-gradient(135deg, rgba(199,166,106,0.18) 0%, rgba(30,111,106,0.14) 100%)',
+        border: '1px solid rgba(30,111,106,0.3)',
+        display: 'flex', flexDirection: 'column',
+        alignItems: 'center', justifyContent: 'center',
+        textAlign: 'center', padding: '20px',
+      }}>
+        <div style={{ fontSize: '32px', marginBottom: '6px' }}>⚕️</div>
+        <div style={{ fontSize: '10px', color: 'var(--teal)', letterSpacing: '1.5px', textTransform: 'uppercase', fontWeight: 600 }}>Integrative</div>
+        <div style={{ fontSize: '10px', color: 'var(--text-muted)', letterSpacing: '1px', textTransform: 'uppercase' }}>Healing</div>
+      </div>
+
+      {/* Orbit dot A */}
+      <div style={{
+        position: 'absolute', top: '50%', left: '50%',
+        animation: 'orbitA 8s linear infinite',
+        marginTop: '-8px', marginLeft: '-8px',
+      }}>
+        <div style={{ width: '16px', height: '16px', borderRadius: '50%', background: 'var(--gold)', opacity: 0.9, boxShadow: '0 0 12px rgba(199,166,106,0.6)' }} />
+      </div>
+
+      {/* Orbit dot B */}
+      <div style={{
+        position: 'absolute', top: '50%', left: '50%',
+        animation: 'orbitB 12s linear infinite',
+        marginTop: '-6px', marginLeft: '-6px',
+      }}>
+        <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#1E6F6A', opacity: 0.85, boxShadow: '0 0 10px rgba(30,111,106,0.5)' }} />
+      </div>
+
+      {/* Orbit dot C */}
+      <div style={{
+        position: 'absolute', top: '50%', left: '50%',
+        animation: 'orbitC 16s linear infinite',
+        marginTop: '-5px', marginLeft: '-5px',
+      }}>
+        <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'rgba(199,166,106,0.5)', boxShadow: '0 0 8px rgba(199,166,106,0.4)' }} />
+      </div>
+
+      {/* Floating tag 1 — top left */}
+      <div style={{
+        position: 'absolute', top: '60px', left: '20px',
+        background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(8px)',
+        border: '1px solid rgba(199,166,106,0.3)',
+        boxShadow: '0 4px 16px rgba(15,39,68,0.08)',
+        borderRadius: '8px', padding: '12px 16px',
+        animation: 'float-tag 3.5s ease-in-out infinite',
+        minWidth: '140px',
+      }}>
+        <div style={{ fontSize: '11px', color: '#9c7a3c', fontWeight: 600, letterSpacing: '1px' }}>🎗️ Cancer Support</div>
+        <div style={{ fontSize: '10px', color: 'var(--text-light)', marginTop: '3px' }}>Core Specialty</div>
+      </div>
+
+      {/* Floating tag 2 — bottom right */}
+      <div style={{
+        position: 'absolute', bottom: '70px', right: '10px',
+        background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(8px)',
+        border: '1px solid rgba(30,111,106,0.35)',
+        boxShadow: '0 4px 16px rgba(15,39,68,0.08)',
+        borderRadius: '8px', padding: '12px 16px',
+        animation: 'float-tag 4.2s ease-in-out infinite 0.8s',
+        minWidth: '145px',
+      }}>
+        <div style={{ fontSize: '11px', color: 'var(--teal)', fontWeight: 600, letterSpacing: '1px' }}>🧠 Mind-Body</div>
+        <div style={{ fontSize: '10px', color: 'var(--text-light)', marginTop: '3px' }}>Medicine</div>
+      </div>
+
+      {/* Floating tag 3 — mid right */}
+      <div style={{
+        position: 'absolute', top: '50%', right: '0px',
+        transform: 'translateY(-50%)',
+        background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(8px)',
+        border: '1px solid rgba(199,166,106,0.25)',
+        boxShadow: '0 4px 16px rgba(15,39,68,0.08)',
+        borderRadius: '8px', padding: '12px 16px',
+        animation: 'float-tag 5s ease-in-out infinite 1.5s',
+        minWidth: '130px',
+      }}>
+        <div style={{ fontSize: '11px', color: 'var(--navy-800)', fontWeight: 600, letterSpacing: '1px' }}>🌸 Women's</div>
+        <div style={{ fontSize: '10px', color: 'var(--text-light)', marginTop: '3px' }}>Wellness</div>
+      </div>
+
+      {/* Drifting geometric shapes */}
+      <div style={{
+        position: 'absolute', top: '30px', right: '60px',
+        width: '60px', height: '60px',
+        border: '1px solid rgba(199,166,106,0.15)',
+        transform: 'rotate(45deg)',
+        animation: 'drift1 7s ease-in-out infinite',
+      }} />
+      <div style={{
+        position: 'absolute', bottom: '40px', left: '30px',
+        width: '40px', height: '40px',
+        border: '1px solid rgba(30,111,106,0.2)',
+        borderRadius: '50%',
+        animation: 'drift2 5s ease-in-out infinite',
+      }} />
+
+      {/* Shimmer dots scattered */}
+      {[
+        { top: '15%', left: '10%', size: 3, delay: '0s' },
+        { top: '80%', left: '25%', size: 2, delay: '0.7s' },
+        { top: '25%', right: '15%', size: 4, delay: '1.2s' },
+        { top: '70%', right: '30%', size: 2, delay: '0.4s' },
+        { top: '45%', left: '5%', size: 3, delay: '1.8s' },
+      ].map((d, i) => (
+        <div key={i} style={{
+          position: 'absolute',
+          top: d.top, left: d.left, right: d.right,
+          width: `${d.size}px`, height: `${d.size}px`,
+          borderRadius: '50%',
+          background: 'var(--gold)',
+          animation: `shimmer 3s ease-in-out infinite ${d.delay}`,
+        }} />
+      ))}
+    </div>
+  )
+}
+
 export default function Home() {
   const ref = useRef(null)
   const [showPopup, setShowPopup] = useState(false)
@@ -169,10 +357,13 @@ export default function Home() {
                 each healing pathway is deeply personalised.
               </p>
 
-              <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', marginBottom: '48px' }}>
+              <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', marginBottom: '14px' }}>
                 <Link to="/contact"><button className="btn-primary">Book a Consultation</button></Link>
                 <Link to="/programs"><button className="btn-outline-dark">Explore Programs</button></Link>
               </div>
+              <p style={{ fontSize: '12px', color: 'var(--text-light)', marginBottom: '34px', letterSpacing: '0.3px' }}>
+                Enquiry call / consultation fee: <strong style={{ color: 'var(--navy-800)' }}>₹499</strong>
+              </p>
 
               {/* Stats */}
               <div style={{
@@ -196,7 +387,7 @@ export default function Home() {
             <div className="hero-visual-wrapper">
               <img
                 src={doctorHeroImg}
-                alt="Dr Krithi"
+                alt="Dr. Kirthi Kakade"
                 style={{
                   width: '100%',
                   height: 'auto',
@@ -243,6 +434,28 @@ export default function Home() {
                 lineHeight: '1.4',
               }}>{t}</span>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* INTEGRATIVE APPROACH — orbit visual */}
+      <section style={{ padding: '90px 0', background: 'var(--white)', overflow: 'hidden' }}>
+        <div className="container">
+          <div className="orbit-section-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 460px', gap: '48px', alignItems: 'center' }}>
+            <div>
+              <span className="section-tag">Our Philosophy</span>
+              <div className="gold-line" />
+              <h2 className="section-title">One Integrative System, Many Healing Pathways</h2>
+              <p style={{ fontSize: '17px', color: 'var(--text-muted)', lineHeight: '1.85', marginBottom: '32px', maxWidth: '480px' }}>
+                Cancer support, mind-body medicine, and women's wellness aren't treated as separate silos here — each pathway orbits a single, personalised healing plan built around you.
+              </p>
+              <Link to="/contact"><button className="btn-primary">Book a Consultation</button></Link>
+            </div>
+            <div className="orbit-visual-outer">
+              <div className="orbit-visual-scale">
+                <IntegrativeOrbitVisual />
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -473,6 +686,15 @@ export default function Home() {
 
       {/* Responsive overrides */}
       <style>{`
+        .orbit-visual-outer {
+          display: flex;
+          justify-content: center;
+          width: 100%;
+        }
+        .orbit-visual-scale {
+          transform: scale(1);
+          transform-origin: top center;
+        }
         @media (max-width: 900px) {
           .hero-grid {
             grid-template-columns: 1fr !important;
@@ -484,6 +706,30 @@ export default function Home() {
           }
           .hero-corner-pattern {
             display: none !important;
+          }
+          .orbit-section-grid {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+            text-align: center;
+          }
+          .orbit-section-grid p {
+            margin-left: auto !important;
+            margin-right: auto !important;
+          }
+          .orbit-visual-outer {
+            height: 375px;
+            overflow: hidden;
+          }
+          .orbit-visual-scale {
+            transform: scale(0.72);
+          }
+        }
+        @media (max-width: 480px) {
+          .orbit-visual-outer {
+            height: 265px;
+          }
+          .orbit-visual-scale {
+            transform: scale(0.51);
           }
         }
         @media (max-width: 600px) {
