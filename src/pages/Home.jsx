@@ -161,8 +161,8 @@ function IntegrativeOrbitVisual() {
         animation: 'float-tag 3.5s ease-in-out infinite',
         minWidth: '140px',
       }}>
-        <div style={{ fontSize: '11px', color: '#9c7a3c', fontWeight: 600, letterSpacing: '1px' }}>🎗️ Cancer Support</div>
-        <div style={{ fontSize: '10px', color: 'var(--text-light)', marginTop: '3px' }}>Core Specialty</div>
+        <div style={{ fontSize: '12px', color: '#9c7a3c', fontWeight: 700, letterSpacing: '0.6px', fontFamily: 'var(--font-display)', textTransform: 'uppercase' }}>Cancer Support</div>
+        <div style={{ fontSize: '9.5px', color: 'var(--text-light)', marginTop: '4px', fontFamily: 'var(--font-body)', letterSpacing: '1.5px', textTransform: 'uppercase', fontWeight: 500 }}>Core Specialty</div>
       </div>
 
       {/* Floating tag 2 — bottom right */}
@@ -175,8 +175,8 @@ function IntegrativeOrbitVisual() {
         animation: 'float-tag 4.2s ease-in-out infinite 0.8s',
         minWidth: '145px',
       }}>
-        <div style={{ fontSize: '11px', color: 'var(--teal)', fontWeight: 600, letterSpacing: '1px' }}>🧠 Mind-Body</div>
-        <div style={{ fontSize: '10px', color: 'var(--text-light)', marginTop: '3px' }}>Medicine</div>
+        <div style={{ fontSize: '12px', color: 'var(--teal)', fontWeight: 700, letterSpacing: '0.6px', fontFamily: 'var(--font-display)', textTransform: 'uppercase' }}>Mind-Body</div>
+        <div style={{ fontSize: '9.5px', color: 'var(--text-light)', marginTop: '4px', fontFamily: 'var(--font-body)', letterSpacing: '1.5px', textTransform: 'uppercase', fontWeight: 500 }}>Medicine</div>
       </div>
 
       {/* Floating tag 3 — mid right */}
@@ -190,8 +190,8 @@ function IntegrativeOrbitVisual() {
         animation: 'float-tag 5s ease-in-out infinite 1.5s',
         minWidth: '130px',
       }}>
-        <div style={{ fontSize: '11px', color: 'var(--navy-800)', fontWeight: 600, letterSpacing: '1px' }}>🌸 Women's</div>
-        <div style={{ fontSize: '10px', color: 'var(--text-light)', marginTop: '3px' }}>Wellness</div>
+        <div style={{ fontSize: '12px', color: 'var(--navy-800)', fontWeight: 700, letterSpacing: '0.6px', fontFamily: 'var(--font-display)', textTransform: 'uppercase' }}>Women's</div>
+        <div style={{ fontSize: '9.5px', color: 'var(--text-light)', marginTop: '4px', fontFamily: 'var(--font-body)', letterSpacing: '1.5px', textTransform: 'uppercase', fontWeight: 500 }}>Wellness</div>
       </div>
 
       {/* Drifting geometric shapes */}
