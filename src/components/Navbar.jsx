@@ -29,9 +29,9 @@ export default function Navbar() {
     <>
       <nav style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
-        background: scrolled ? 'rgba(30,111,106,0.97)' : 'rgba(30,111,106,0.88)',
+        background: scrolled ? 'rgba(7,15,28,0.97)' : 'rgba(15,39,68,0.92)',
         backdropFilter: 'blur(20px)',
-        borderBottom: scrolled ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(199,166,106,0.2)',
+        borderBottom: scrolled ? '1px solid rgba(212,160,23,0.15)' : '1px solid rgba(212,160,23,0.25)',
         boxShadow: scrolled ? '0 2px 16px rgba(15,39,68,0.15)' : 'none',
         padding: scrolled ? '10px 0' : '14px 0',
         transition: 'all 0.4s ease',
@@ -82,7 +82,7 @@ export default function Navbar() {
             {[0,1,2].map(i => (
               <span key={i} style={{
                 display: 'block', width: '22px', height: '2px',
-                background: '#0f2744', borderRadius: '2px', transition: 'var(--transition)',
+                background: 'var(--gold-yellow)', borderRadius: '2px', transition: 'var(--transition)',
                 transform: menuOpen
                   ? (i===0 ? 'translateY(7px) rotate(45deg)' : i===2 ? 'translateY(-7px) rotate(-45deg)' : 'scaleX(0)')
                   : 'none',
@@ -95,7 +95,7 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       <div style={{
-        position: 'fixed', inset: 0, background: 'var(--teal)',
+        position: 'fixed', inset: 0, background: 'var(--navy-800)',
         zIndex: 999, display: 'flex', flexDirection: 'column',
         alignItems: 'center', justifyContent: 'center',
         transition: 'opacity 0.3s, visibility 0.3s',
