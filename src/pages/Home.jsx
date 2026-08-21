@@ -88,18 +88,24 @@ function IntegrativeOrbitVisual() {
         animation: 'pulse-ring 4s ease-in-out infinite',
       }} />
 
-      {/* Outer ring */}
+      {/* Orbit path rings — sized to match each dot's exact travel radius */}
       <div style={{
         position: 'absolute', top: '50%', left: '50%',
         transform: 'translate(-50%,-50%)',
         width: '440px', height: '440px', borderRadius: '50%',
-        border: '1px solid rgba(199,166,106,0.12)',
+        border: '1px solid rgba(128,0,32,0.4)',
       }} />
       <div style={{
         position: 'absolute', top: '50%', left: '50%',
         transform: 'translate(-50%,-50%)',
-        width: '320px', height: '320px', borderRadius: '50%',
-        border: '1px solid rgba(199,166,106,0.08)',
+        width: '360px', height: '360px', borderRadius: '50%',
+        border: '1px solid rgba(128,0,32,0.4)',
+      }} />
+      <div style={{
+        position: 'absolute', top: '50%', left: '50%',
+        transform: 'translate(-50%,-50%)',
+        width: '260px', height: '260px', borderRadius: '50%',
+        border: '1px solid rgba(128,0,32,0.4)',
       }} />
 
       {/* Centre card */}
