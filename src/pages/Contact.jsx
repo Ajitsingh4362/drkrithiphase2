@@ -22,10 +22,8 @@ const PROGRAMS = [
 ]
 
 const OPD_TIMINGS = [
-  { day: 'Monday – Wednesday', morning: '10:00 AM – 2:00 PM', evening: '4:00 PM – 7:00 PM', open: true },
-  { day: 'Thursday – Friday',  morning: '10:00 AM – 2:00 PM', evening: '4:00 PM – 6:00 PM', open: true },
-  { day: 'Saturday',           morning: '9:00 AM – 1:00 PM',  evening: 'Morning only',       open: true },
-  { day: 'Sunday',             morning: 'Closed',              evening: 'Emergency only',     open: false },
+  { day: 'Monday – Saturday', morning: '10:00 AM – 2:00 PM', evening: '4:00 PM – 7:00 PM', open: true },
+  { day: 'Sunday',            morning: 'Holiday',             evening: '',                   open: false },
 ]
 
 export default function Contact() {
@@ -51,7 +49,7 @@ export default function Contact() {
     if (!rzpReady) { alert('Payment gateway loading, please try again in a moment.'); return }
     const options = {
       key: RAZORPAY_KEY,
-      amount: 50000, // ₹500 in paise — doctor se confirm karke change karna
+      amount: 49900, // ₹499 — confirmed enquiry call / consultation fee
       currency: 'INR',
       name: 'Mind Motion Matrix',
       description: form.program || 'Consultation Fee',
@@ -233,7 +231,10 @@ export default function Contact() {
             <div style={{ background: 'linear-gradient(160deg, #ffffff 0%, #f7ecd9 100%)', padding: '40px', borderRadius: '2px', border: '1px solid rgba(199,166,106,0.3)', minWidth: 0, position: 'relative', overflow: 'hidden' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'var(--gold)' }} />
               <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '28px', color: 'var(--navy-800)', marginBottom: '6px' }}>Apply for Consultation</h3>
-              <p style={{ fontSize: '13px', color: 'rgba(15,39,68,0.6)', marginBottom: '28px' }}>We will reach out within 24 hours to schedule your assessment.</p>
+              <p style={{ fontSize: '13px', color: 'rgba(15,39,68,0.6)', marginBottom: '14px' }}>We will reach out within 24 hours to schedule your assessment.</p>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(199,166,106,0.15)', border: '1px solid rgba(199,166,106,0.4)', borderRadius: '2px', padding: '8px 16px', marginBottom: '24px' }}>
+                <span style={{ fontSize: '12px', color: '#9c7a3c', fontWeight: 600, letterSpacing: '0.5px' }}>Enquiry Call / Consultation Fee: ₹499</span>
+              </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <div className="form-row-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
