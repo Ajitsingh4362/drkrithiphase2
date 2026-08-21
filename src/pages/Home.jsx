@@ -122,27 +122,27 @@ function IntegrativeOrbitVisual() {
       <div style={{
         position: 'absolute', top: '50%', left: '50%',
         animation: 'orbitA 8s linear infinite',
-        marginTop: '-8px', marginLeft: '-8px',
+        marginTop: '-11px', marginLeft: '-11px',
       }}>
-        <div style={{ width: '16px', height: '16px', borderRadius: '50%', background: 'var(--gold)', opacity: 0.9, boxShadow: '0 0 12px rgba(199,166,106,0.6)' }} />
+        <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'var(--navy-800)', opacity: 0.9, boxShadow: '0 0 12px rgba(15,39,68,0.6)' }} />
       </div>
 
       {/* Orbit dot B */}
       <div style={{
         position: 'absolute', top: '50%', left: '50%',
         animation: 'orbitB 12s linear infinite',
-        marginTop: '-6px', marginLeft: '-6px',
+        marginTop: '-9px', marginLeft: '-9px',
       }}>
-        <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#1E6F6A', opacity: 0.85, boxShadow: '0 0 10px rgba(30,111,106,0.5)' }} />
+        <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'var(--navy-800)', opacity: 0.85, boxShadow: '0 0 10px rgba(15,39,68,0.5)' }} />
       </div>
 
       {/* Orbit dot C */}
       <div style={{
         position: 'absolute', top: '50%', left: '50%',
         animation: 'orbitC 16s linear infinite',
-        marginTop: '-5px', marginLeft: '-5px',
+        marginTop: '-7px', marginLeft: '-7px',
       }}>
-        <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'rgba(199,166,106,0.5)', boxShadow: '0 0 8px rgba(199,166,106,0.4)' }} />
+        <div style={{ width: '14px', height: '14px', borderRadius: '50%', background: 'var(--navy-800)', opacity: 0.8, boxShadow: '0 0 8px rgba(15,39,68,0.45)' }} />
       </div>
 
       {/* Floating tag 1 — top left */}
