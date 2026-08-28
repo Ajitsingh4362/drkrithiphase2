@@ -361,6 +361,7 @@ export default function Contact() {
                 )}
 
                 <button onClick={handleSubmit} disabled={status === 'loading'}
+                  className={status === 'loading' ? '' : 'cta-blink'}
                   style={{
                     width: '100%', background: status === 'loading' ? 'rgba(199,166,106,0.5)' : 'var(--gold)',
                     color: 'var(--navy-800)', border: 'none', padding: '16px',
