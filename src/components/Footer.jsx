@@ -78,6 +78,25 @@ export default function Footer() {
               </div>
             ))}
           </div>
+
+          {/* Legal */}
+          <div>
+            <div style={{ fontSize: '11px', fontWeight: 600, color: 'var(--teal-light)', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '18px' }}>Legal</div>
+            {[
+              {to:'/terms-and-conditions',l:'Terms & Conditions'},
+              {to:'/privacy-policy',l:'Privacy Policy'},
+              {to:'/refund-policy',l:'Refund & Cancellation Policy'},
+              {to:'/about',l:'About Us'},
+              {to:'/contact',l:'Contact Us'},
+            ].map(link => (
+              <NavLink key={link.to} to={link.to}
+                style={{ display: 'block', fontSize: '13px', color: 'rgba(255,255,255,0.82)', marginBottom: '10px', transition: 'color 0.25s' }}
+                onMouseEnter={e => e.target.style.color = 'var(--gold-pale)'}
+                onMouseLeave={e => e.target.style.color = 'rgba(255,255,255,0.82)'}>
+                {link.l}
+              </NavLink>
+            ))}
+          </div>
         </div>
 
         {/* Bottom Bar */}

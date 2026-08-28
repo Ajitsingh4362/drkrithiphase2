@@ -12,6 +12,9 @@ import Blog from './pages/Blog'
 import BlogPost from './pages/BlogPost'
 import Gallery from './pages/Gallery'
 import FAQ from './pages/FAQ'
+import Terms from './pages/Terms'
+import PrivacyPolicy from './pages/PrivacyPolicy'
+import RefundPolicy from './pages/RefundPolicy'
 import Admin from './pages/Admin'
 
 function Layout() {
@@ -31,6 +34,9 @@ function Layout() {
         <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/faq" element={<FAQ />} />
+        <Route path="/terms-and-conditions" element={<Terms />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/refund-policy" element={<RefundPolicy />} />
         <Route path="/admin/*" element={<Admin />} />
       </Routes>
       {!isAdmin && <Footer />}
