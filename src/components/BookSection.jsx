@@ -2,7 +2,7 @@ import bookCoverImg from '../assets/book-journey-to-motherhood.png'
 
 export default function BookSection() {
   return (
-    <section style={{ padding: '90px 0', background: 'var(--ivory)', position: 'relative', overflow: 'hidden' }}>
+    <section style={{ padding: '0', background: 'var(--ivory)', position: 'relative', overflow: 'hidden' }}>
       <div style={{
         position: 'absolute', top: '-60px', left: '-60px', width: '260px', height: '260px',
         background: 'radial-gradient(circle, rgba(199,166,106,0.14) 0%, transparent 70%)',
