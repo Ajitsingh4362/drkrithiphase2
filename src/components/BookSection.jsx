@@ -86,11 +86,11 @@ export default function BookSection() {
           right: 6px;
           width: 46px;
           height: 46px;
-          background: linear-gradient(135deg, #ffffff 42%, #f2ede0 55%, #d9cdaa 100%);
+          background: linear-gradient(135deg, #1c3d6a 42%, #163257 55%, #0F2744 100%);
           clip-path: polygon(100% 0, 0 0, 100% 100%);
           transform-origin: 100% 0%;
           border-radius: 0 5px 0 8px;
-          box-shadow: -3px 3px 8px rgba(15,39,68,0.18);
+          box-shadow: -3px 3px 8px rgba(15,39,68,0.35);
           animation: bookPageFlip 4.5s ease-in-out infinite;
           backface-visibility: visible;
         }
