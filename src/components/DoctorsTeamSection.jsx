@@ -2,18 +2,6 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 
-// Static, hardcoded — not managed via the admin panel / database.
-const SUPPORT_TEAM = [
-  {
-    id: 'anjena-raghuram',
-    name: 'Anjena Raghuram',
-    designation: 'Founder & Lead Special Educator, Saksham Remedial Centre',
-    qualification: 'RCI Certified Special Educator — 15+ Years Experience',
-    bio: "Specialises in how children learn, develop, communicate and function — especially when development doesn't follow the expected path. Works with children facing autism, ADHD, dyslexia, and other learning or developmental needs, focusing on wellbeing, education, intervention and family empowerment.",
-    photo_url: null,
-  },
-]
-
 function initials(name) {
   return (name || '').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2)
 }
@@ -73,12 +61,15 @@ function PersonCard({ d }) {
 
 function PersonGrid({ people }) {
   return (
-    <div className="person-grid">
-      {people.map(d => (
-        <div className="person-grid-item" key={d.id}>
-          <PersonCard d={d} />
-        </div>
-      ))}
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px, 100%), 300px))',
+        gap: '28px',
+        justifyContent: 'center',
+      }}
+    >
+      {people.map(d => <PersonCard key={d.id} d={d} />)}
     </div>
   )
 }
@@ -93,53 +84,28 @@ export default function DoctorsTeamSection() {
       .then(({ data }) => setDoctors(data || []))
   }, [])
 
-  // Doctors still come from the admin-managed database.
-  const doctorsList = doctors.filter(d => d.category === 'doctor')
-  // Support team is static/hardcoded — not from the admin panel.
-  const teamList = SUPPORT_TEAM
+  if (!doctors.length) return null
 
-  if (!doctorsList.length && !teamList.length) return null
+  // Existing rows default to category = 'team' via the DB migration,
+  // so anything not explicitly marked 'doctor' falls into the team group.
+  const doctorsList = doctors.filter(d => d.category === 'doctor')
+  const teamList = doctors.filter(d => d.category !== 'doctor')
 
   return (
     <section style={{ padding: '45px 0', background: 'var(--white)' }}>
-      <style>{`
-        .person-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 300px));
-          gap: 28px;
-          justify-content: center;
-        }
-        .person-grid-item {
-          min-width: 0;
-        }
-        @media (min-width: 769px) {
-          .person-grid {
-            display: flex;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            justify-content: flex-start;
-            padding: 4px 4px 16px;
-            scroll-snap-type: x proximity;
-          }
-          .person-grid-item {
-            flex: 0 0 300px;
-            scroll-snap-align: start;
-          }
-        }
-      `}</style>
       <div className="container">
         <div style={{ textAlign: 'center', marginBottom: '52px' }}>
           <span className="section-tag">Meet The Team</span>
           <div className="gold-line center" />
-          <h2 className="section-title">The Team Behind Your Care</h2>
+          <h2 className="section-title">The Doctors Behind Your Care</h2>
           <p className="section-desc" style={{ margin: '0 auto' }}>
-            Experienced doctors and dedicated specialists, together committed to integrative, evidence-informed healing.
+            Experienced practitioners committed to integrative, evidence-informed healing.
           </p>
         </div>
 
         {doctorsList.length > 0 && (
           <div style={{ marginBottom: teamList.length > 0 ? '56px' : 0 }}>
-            {(doctorsList.length > 0 && teamList.length > 0) && (
+            {teamList.length > 0 && (
               <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.3rem', fontWeight: 700, color: 'var(--navy-800)', textAlign: 'center', marginBottom: '28px', letterSpacing: '0.3px' }}>
                 Our Doctors
               </h3>
@@ -150,9 +116,11 @@ export default function DoctorsTeamSection() {
 
         {teamList.length > 0 && (
           <div>
-            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.3rem', fontWeight: 700, color: 'var(--navy-800)', textAlign: 'center', marginBottom: '28px', letterSpacing: '0.3px' }}>
-              Our Supporting Team
-            </h3>
+            {doctorsList.length > 0 && (
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.3rem', fontWeight: 700, color: 'var(--navy-800)', textAlign: 'center', marginBottom: '28px', letterSpacing: '0.3px' }}>
+                Our Care Team
+              </h3>
+            )}
             <PersonGrid people={teamList} />
           </div>
         )}
