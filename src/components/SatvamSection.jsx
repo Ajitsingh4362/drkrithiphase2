@@ -51,7 +51,7 @@ export default function SatvamSection() {
           <img
             src={satvamLogoFull}
             alt="SATVAM Integrative Oncology — Compassion. Science. Whole-Person Care."
-            style={{ height: 'clamp(120px, 16vw, 190px)', width: 'auto', objectFit: 'contain', marginBottom: '18px' }}
+            style={{ height: 'clamp(120px, 16vw, 190px)', width: 'auto', objectFit: 'contain', marginBottom: '18px', marginLeft: 'auto', marginRight: 'auto' }}
           />
           <h2 style={{
             fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 4vw, 42px)',
