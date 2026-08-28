@@ -1,0 +1,31 @@
+{
+  "name": "Mind Motion Matrix Admin",
+  "short_name": "MMM Admin",
+  "description": "Mind Motion Matrix — Admin dashboard for appointments, patients, blog, gallery and more.",
+  "start_url": "/admin",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0F2744",
+  "theme_color": "#0F2744",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/maskable-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -253,6 +253,8 @@ export default function Admin() {
         {sidebarOpen ? '✕' : '☰'} Menu
       </button>
 
+      {sidebarOpen && <div className="admin-sidebar-backdrop" onClick={() => setSidebarOpen(false)} />}
+
       <aside className={`admin-sidebar ${sidebarOpen ? 'open' : ''}`}>
         <p className="admin-sidebar-logo">Mind Motion Matrix</p>
         <nav className="admin-nav">

@@ -23,3 +23,8 @@ self.addEventListener('notificationclick', function(event) {
 
 self.addEventListener('install', e => e.waitUntil(self.skipWaiting()))
 self.addEventListener('activate', e => e.waitUntil(self.clients.claim()))
+
+// Pass-through fetch handler — required for PWA installability, no offline caching.
+self.addEventListener('fetch', event => {
+  event.respondWith(fetch(event.request).catch(() => caches.match(event.request)))
+})
