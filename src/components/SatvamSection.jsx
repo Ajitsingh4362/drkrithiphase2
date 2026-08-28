@@ -23,6 +23,35 @@ const PILLARS = [
 export default function SatvamSection() {
   return (
     <section style={{ padding: '90px 0', background: 'linear-gradient(160deg, #faf7f0 0%, #eef4ee 55%, #faf7f0 100%)', position: 'relative', overflow: 'hidden' }}>
+      <style>{`
+        .satvam-corner-pattern {
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 260px;
+          height: 260px;
+          opacity: 0.5;
+          pointer-events: none;
+          z-index: 0;
+          background-color: #E5E5F7;
+          background: radial-gradient(circle, transparent 20%, #E5E5F7 20%, #E5E5F7 80%, transparent 80%, transparent),
+            radial-gradient(circle, transparent 20%, #E5E5F7 20%, #E5E5F7 80%, transparent 80%, transparent) 25px 25px,
+            linear-gradient(#444CF7 2px, transparent 2px) 0 -1px,
+            linear-gradient(90deg, #444CF7 2px, #E5E5F7 2px) -1px 0;
+          background-size: 50px 50px, 50px 50px, 25px 25px, 25px 25px;
+          -webkit-mask-image: linear-gradient(225deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 45%, transparent 75%);
+          mask-image: linear-gradient(225deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 45%, transparent 75%);
+        }
+        @media (max-width: 640px) {
+          .satvam-corner-pattern {
+            width: 140px;
+            height: 140px;
+            opacity: 0.4;
+          }
+        }
+      `}</style>
+
+      <div className="satvam-corner-pattern" />
       <div style={{
         position: 'absolute', top: 0, left: 0, width: '220px', height: '220px',
         background: 'radial-gradient(circle, rgba(47,111,90,0.12) 0%, transparent 70%)',
