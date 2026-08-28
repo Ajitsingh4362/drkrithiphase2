@@ -26,8 +26,8 @@
 }
 .popup-box {
   position: relative;
-  background: linear-gradient(160deg, #ffffff 0%, #f7ecd9 100%);
-  border: 1px solid rgba(199,166,106,0.35);
+  background: linear-gradient(160deg, #7b82f0 0%, #444CF7 100%);
+  border: 1px solid rgba(255,255,255,0.25);
   border-radius: 2px;
   padding: 48px 40px;
   max-width: 420px; width: 100%;
@@ -36,27 +36,56 @@
   animation: popIn 0.35s ease;
   overflow: hidden;
 }
+.popup-box > * {
+  position: relative;
+  z-index: 1;
+}
+.popup-box::before,
+.popup-box::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 110px;
+  height: 110px;
+  z-index: 0;
+  pointer-events: none;
+  background-color: #E5E5F7;
+  opacity: 0.8;
+  background-image:
+    radial-gradient(#444CF7 17%, #E5E5F7 18% 35%, transparent 36.5%),
+    radial-gradient(#444CF7 17%, #E5E5F7 18% 35%, transparent 36.5%),
+    radial-gradient(#E5E5F7 34%, #444CF7 36% 68%, transparent 70%),
+    repeating-linear-gradient(45deg, #444CF7 -12.5% 12.5%, #E5E5F7 0 37.5%);
+  background-position: -20px -20px, 20px 20px, 0 0, 0 0;
+  background-size: 80px 80px, 80px 80px, 40px 40px, 80px 80px;
+}
 .popup-box::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: var(--gold);
+  left: 0;
+  -webkit-mask-image: radial-gradient(circle at top left, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 45%, transparent 72%);
+  mask-image: radial-gradient(circle at top left, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 45%, transparent 72%);
+}
+.popup-box::after {
+  right: 0;
+  -webkit-mask-image: radial-gradient(circle at top right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 45%, transparent 72%);
+  mask-image: radial-gradient(circle at top right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 45%, transparent 72%);
 }
 .popup-close {
   position: absolute; top: 14px; right: 14px;
-  background: rgba(15,39,68,0.06); border: none;
-  color: rgba(15,39,68,0.55);
+  background: rgba(255,255,255,0.18); border: none;
+  color: #ffffff;
   width: 30px; height: 30px; border-radius: 2px;
   font-size: 1rem; cursor: pointer; transition: var(--transition);
 }
-.popup-close:hover { background: rgba(15,39,68,0.12); color: var(--navy-800); }
+.popup-close:hover { background: rgba(255,255,255,0.32); color: #ffffff; }
 .popup-icon { font-size: 2.4rem; margin-bottom: 16px; }
 .popup-title {
   font-family: var(--font-display);
   font-size: 1.8rem; font-weight: 600;
-  color: var(--navy-800);
+  color: #ffffff;
   margin-bottom: 10px;
 }
 .popup-sub {
-  color: rgba(15,39,68,0.6);
+  color: rgba(255,255,255,0.85);
   font-size: 0.92rem; line-height: 1.7;
   margin-bottom: 28px;
 }
@@ -64,12 +93,12 @@
 .popup-skip {
   background: none; border: none;
   font-size: 0.8rem; letter-spacing: 0.06em;
-  color: rgba(15,39,68,0.45);
+  color: rgba(255,255,255,0.75);
   cursor: pointer; text-decoration: underline;
   font-family: var(--font-body);
   transition: var(--transition);
 }
-.popup-skip:hover { color: var(--navy-800); }
+.popup-skip:hover { color: #ffffff; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes popIn { from { opacity: 0; transform: scale(0.92) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
 
