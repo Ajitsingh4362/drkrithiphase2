@@ -484,6 +484,9 @@ export default function Home() {
       {/* SATVAM INTEGRATIVE ONCOLOGY */}
       <SatvamSection />
 
+      {/* BOOK */}
+      <BookSection />
+
       {/* SPECIALIZATIONS PREVIEW */}
       <section style={{ padding: '100px 0', background: 'var(--ivory)' }}>
         <div className="container">
@@ -691,9 +694,6 @@ export default function Home() {
 
       {/* TESTIMONIALS */}
       <TestimonialsSection />
-
-      {/* BOOK */}
-      <BookSection />
 
       {/* FINAL CTA */}
       <section style={{ background: 'var(--navy-800)', padding: '70px 0', textAlign: 'center' }}>
