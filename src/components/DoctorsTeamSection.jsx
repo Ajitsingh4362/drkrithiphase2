@@ -97,7 +97,7 @@ export default function DoctorsTeamSection() {
         <div style={{ textAlign: 'center', marginBottom: '52px' }}>
           <span className="section-tag">Meet The Team</span>
           <div className="gold-line center" />
-          <h2 className="section-title">The Doctors Behind Your Care</h2>
+          <h2 className="section-title">The Team Behind Your Care</h2>
           <p className="section-desc" style={{ margin: '0 auto' }}>
             Experienced practitioners committed to integrative, evidence-informed healing.
           </p>
