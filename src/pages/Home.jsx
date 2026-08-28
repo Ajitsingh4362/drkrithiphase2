@@ -367,9 +367,20 @@ export default function Home() {
                 <Link to="/contact"><button className="btn-primary">Book a Consultation</button></Link>
                 <Link to="/programs"><button className="btn-outline-dark">Explore Programs</button></Link>
               </div>
-              <p style={{ fontSize: '12px', color: 'var(--text-light)', marginBottom: '34px', letterSpacing: '0.3px' }}>
-                Enquiry call / consultation fee: <strong style={{ color: 'var(--navy-800)' }}>₹499</strong>
-              </p>
+              <div style={{
+                display: 'inline-flex', alignItems: 'center', gap: '10px',
+                background: 'linear-gradient(135deg, rgba(199,166,106,0.18) 0%, rgba(199,166,106,0.08) 100%)',
+                border: '1.5px solid var(--gold)', borderRadius: '4px',
+                padding: '10px 20px', marginBottom: '34px',
+              }}>
+                <span style={{ fontSize: '13px', color: 'var(--navy-800)', fontFamily: 'var(--font-body)', fontWeight: 500, letterSpacing: '0.3px' }}>
+                  Enquiry Call / Consultation Fee
+                </span>
+                <span style={{ width: '1px', height: '16px', background: 'rgba(199,166,106,0.5)' }} />
+                <span style={{ fontSize: '22px', fontFamily: 'var(--font-display)', fontWeight: 700, color: '#9c7a3c' }}>
+                  ₹599
+                </span>
+              </div>
 
               {/* Stats */}
               <div style={{

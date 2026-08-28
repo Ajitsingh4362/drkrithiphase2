@@ -130,11 +130,6 @@ export default function Programs() {
                       <p style={{ fontSize: '17px', color: prog.highlight ? 'rgba(255,255,255,0.55)' : 'var(--text-muted)', lineHeight: '1.85', fontFamily: 'var(--font-body)', fontWeight: 400, marginBottom: '24px' }}>{prog.desc}</p>
                       <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap', marginBottom: '24px' }}>
                         <div>
-                          <div style={{ fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: prog.highlight ? 'rgba(255,255,255,0.4)' : 'var(--text-light)', fontFamily: 'var(--font-body)', fontWeight: 600, marginBottom: '4px' }}>Investment</div>
-                          <div style={{ fontFamily: 'var(--font-display)', fontSize: '24px', fontWeight: 700, color: 'var(--gold)' }}>{prog.price}</div>
-                          {prog.price !== 'On Consultation' && <div style={{ fontSize: '10px', color: prog.highlight ? 'rgba(255,255,255,0.35)' : 'var(--text-light)', fontFamily: 'var(--font-body)', marginTop: '2px' }}>Inclusive of consultations & medicines</div>}
-                        </div>
-                        <div>
                           <div style={{ fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: prog.highlight ? 'rgba(255,255,255,0.4)' : 'var(--text-light)', fontFamily: 'var(--font-body)', fontWeight: 600, marginBottom: '4px' }}>Duration</div>
                           <div style={{ fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: 600, color: prog.highlight ? 'var(--white)' : 'var(--navy-800)' }}>{prog.duration}</div>
                         </div>
