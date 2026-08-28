@@ -16,6 +16,7 @@ import TestimonialsSection from '../components/TestimonialsSection'
 import DoctorsTeamSection from '../components/DoctorsTeamSection'
 import GalleryScroll from '../components/GalleryScroll'
 import SatvamSection from '../components/SatvamSection'
+import BookSection from '../components/BookSection'
 
 const HIGHLIGHTS = [
   { icon: '🎗️', image: cancerRevivalImg, title: 'Cancer Revival & Support', desc: 'Integrative complementary support during treatment — rebuilding strength, resilience, and hope alongside your medical care.', highlight: true },
@@ -690,6 +691,9 @@ export default function Home() {
 
       {/* TESTIMONIALS */}
       <TestimonialsSection />
+
+      {/* BOOK */}
+      <BookSection />
 
       {/* FINAL CTA */}
       <section style={{ background: 'var(--navy-800)', padding: '70px 0', textAlign: 'center' }}>
