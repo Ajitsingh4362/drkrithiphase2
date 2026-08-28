@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import satvamLotusImg from '../assets/satvam-lotus.png'
+import satvamLogoFull from '../assets/satvam-logo-full.png'
 
 const PILLARS = [
   {
@@ -48,23 +48,11 @@ export default function SatvamSection() {
         </div>
 
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-          <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: '14px', marginBottom: '18px',
-          }}>
-            <img src={satvamLotusImg} alt="Satvam" style={{ height: '46px', width: 'auto', objectFit: 'contain' }} />
-            <h2 style={{
-              fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 4vw, 42px)',
-              fontWeight: 700, color: '#1f3d2b', margin: 0, letterSpacing: '0.5px',
-            }}>
-              SATVAM
-            </h2>
-          </div>
-          <div style={{
-            fontSize: '14px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase',
-            color: '#9c7a3c', marginBottom: '16px',
-          }}>
-            Integrative Oncology
-          </div>
+          <img
+            src={satvamLogoFull}
+            alt="SATVAM Integrative Oncology — Compassion. Science. Whole-Person Care."
+            style={{ height: 'clamp(120px, 16vw, 190px)', width: 'auto', objectFit: 'contain', marginBottom: '22px' }}
+          />
           <div style={{ width: '60px', height: '2px', background: 'var(--gold)', margin: '0 auto 22px' }} />
           <p style={{
             maxWidth: '680px', margin: '0 auto', fontSize: '16px', lineHeight: '1.9',
