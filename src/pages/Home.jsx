@@ -368,7 +368,7 @@ export default function Home() {
                 <Link to="/programs"><button className="btn-outline-dark">Explore Programs</button></Link>
               </div>
               <p style={{ fontSize: '12px', color: 'var(--text-light)', marginBottom: '34px', letterSpacing: '0.3px' }}>
-                Enquiry call / consultation fee: <strong style={{ color: 'var(--navy-800)' }}>₹499</strong>
+                Enquiry call / consultation fee: <strong style={{ color: 'var(--navy-800)' }}>₹599</strong>
               </p>
 
               {/* Stats */}
