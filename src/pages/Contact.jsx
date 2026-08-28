@@ -49,7 +49,7 @@ export default function Contact() {
     if (!rzpReady) { alert('Payment gateway loading, please try again in a moment.'); return }
     const options = {
       key: RAZORPAY_KEY,
-      amount: 59900, // ₹599 — confirmed enquiry call / consultation fee
+      amount: 49900, // ₹499 — confirmed enquiry call / consultation fee
       currency: 'INR',
       name: 'Mind Motion Matrix',
       description: form.program || 'Consultation Fee',
@@ -233,7 +233,7 @@ export default function Contact() {
               <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '28px', color: 'var(--navy-800)', marginBottom: '6px' }}>Apply for Consultation</h3>
               <p style={{ fontSize: '13px', color: 'rgba(15,39,68,0.6)', marginBottom: '14px' }}>We will reach out within 24 hours to schedule your assessment.</p>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(199,166,106,0.15)', border: '1px solid rgba(199,166,106,0.4)', borderRadius: '2px', padding: '8px 16px', marginBottom: '24px' }}>
-                <span style={{ fontSize: '12px', color: '#9c7a3c', fontWeight: 600, letterSpacing: '0.5px' }}>Enquiry Call / Consultation Fee: ₹599</span>
+                <span style={{ fontSize: '12px', color: '#9c7a3c', fontWeight: 600, letterSpacing: '0.5px' }}>Enquiry Call / Consultation Fee: ₹499</span>
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
