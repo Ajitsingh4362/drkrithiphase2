@@ -424,7 +424,7 @@ export default function Home() {
                   Find Dr. Kirthi on Social Media
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '12px' }}>
-                  <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+                  <a href="https://www.instagram.com/executive_healthcare.drkirthi" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
                     style={{ width: '38px', height: '38px', borderRadius: '2px', background: 'rgba(30,111,106,0.1)', border: '1px solid rgba(30,111,106,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'var(--transition)' }}
                     onMouseEnter={e => e.currentTarget.style.background = 'rgba(30,111,106,0.22)'}
                     onMouseLeave={e => e.currentTarget.style.background = 'rgba(30,111,106,0.1)'}>
