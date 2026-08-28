@@ -24,15 +24,18 @@ export default function BookSection() {
           }}
         >
           <div style={{ textAlign: 'center' }}>
-            <img
-              src={bookCoverImg}
-              alt="Journey to Motherhood: 10 Holistic Strategies to Healthy Pregnancy — book cover by Dr. Kirthi Jawalkar"
-              style={{
-                width: '100%', maxWidth: '240px', height: 'auto', margin: '0 auto',
-                borderRadius: '6px', boxShadow: '0 16px 40px rgba(15,39,68,0.18)',
-                border: '1px solid rgba(15,39,68,0.08)',
-              }}
-            />
+            <div className="book-cover-wrap" style={{ position: 'relative', display: 'inline-block', maxWidth: '240px', width: '100%', perspective: '1000px' }}>
+              <img
+                src={bookCoverImg}
+                alt="Journey to Motherhood: 10 Holistic Strategies to Healthy Pregnancy — book cover by Dr. Kirthi Jawalkar"
+                style={{
+                  width: '100%', height: 'auto', display: 'block', margin: '0 auto',
+                  borderRadius: '6px', boxShadow: '0 16px 40px rgba(15,39,68,0.18)',
+                  border: '1px solid rgba(15,39,68,0.08)',
+                }}
+              />
+              <div className="book-page-corner" />
+            </div>
           </div>
 
           <div>
@@ -77,6 +80,25 @@ export default function BookSection() {
       </div>
 
       <style>{`
+        .book-page-corner {
+          position: absolute;
+          top: 6px;
+          right: 6px;
+          width: 46px;
+          height: 46px;
+          background: linear-gradient(135deg, #ffffff 42%, #f2ede0 55%, #d9cdaa 100%);
+          clip-path: polygon(100% 0, 0 0, 100% 100%);
+          transform-origin: 100% 0%;
+          border-radius: 0 5px 0 8px;
+          box-shadow: -3px 3px 8px rgba(15,39,68,0.18);
+          animation: bookPageFlip 4.5s ease-in-out infinite;
+          backface-visibility: visible;
+        }
+        @keyframes bookPageFlip {
+          0%, 12%   { transform: rotateY(0deg); }
+          45%       { transform: rotateY(-165deg); }
+          78%, 100% { transform: rotateY(0deg); }
+        }
         @media (max-width: 640px) {
           .book-section-grid {
             grid-template-columns: 1fr !important;
