@@ -41,6 +41,7 @@ export default function Footer() {
               {to:'/contact',l:'Book Consultation'}
             ].map(link => (
               <NavLink key={link.to} to={link.to}
+                className={link.l === 'Book Consultation' ? 'cta-blink' : ''}
                 style={{ display: 'block', fontSize: '13px', color: 'rgba(255,255,255,0.82)', marginBottom: '10px', transition: 'color 0.25s' }}
                 onMouseEnter={e => e.target.style.color = 'var(--gold-pale)'}
                 onMouseLeave={e => e.target.style.color = 'rgba(255,255,255,0.82)'}>

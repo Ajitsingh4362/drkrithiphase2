@@ -65,7 +65,7 @@ export default function About() {
                 ))}
               </div>
               <div style={{ marginTop: '28px' }}>
-                <Link to="/contact"><button className="btn-primary" style={{ width: '100%', justifyContent: 'center' }}>Book Consultation</button></Link>
+                <Link to="/contact"><button className="btn-primary cta-blink" style={{ width: '100%', justifyContent: 'center' }}>Book Consultation</button></Link>
               </div>
             </div>
 
@@ -136,7 +136,7 @@ export default function About() {
         <div className="container">
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 4vw, 46px)', color: 'var(--white)', marginBottom: '16px' }}>Ready to Begin Your Healing Journey?</h2>
           <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.55)', marginBottom: '32px' }}>A personalised consultation is the first step toward lasting transformation.</p>
-          <Link to="/contact"><button className="btn-primary">Book a Consultation</button></Link>
+          <Link to="/contact"><button className="btn-primary cta-blink">Book a Consultation</button></Link>
         </div>
       </section>
     </div>

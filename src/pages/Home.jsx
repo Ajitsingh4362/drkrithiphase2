@@ -365,7 +365,7 @@ export default function Home() {
               </p>
 
               <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', marginBottom: '14px' }}>
-                <Link to="/contact"><button className="btn-primary">Book a Consultation</button></Link>
+                <Link to="/contact"><button className="btn-primary cta-blink">Book a Consultation</button></Link>
                 <Link to="/programs"><button className="btn-outline-dark">Explore Programs</button></Link>
               </div>
               <div style={{
@@ -467,7 +467,7 @@ export default function Home() {
               <p style={{ fontSize: '17px', color: 'var(--text-muted)', lineHeight: '1.85', marginBottom: '32px', maxWidth: '480px' }}>
                 Cancer support, mind-body medicine, and women's wellness aren't treated as separate silos here — each pathway orbits a single, personalised healing plan built around you.
               </p>
-              <Link to="/contact"><button className="btn-primary">Book a Consultation</button></Link>
+              <Link to="/contact"><button className="btn-primary cta-blink">Book a Consultation</button></Link>
             </div>
             <div className="orbit-visual-outer">
               <div className="orbit-visual-scale">
@@ -504,7 +504,7 @@ export default function Home() {
             />
           </div>
           <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-            <Link to="/contact"><button className="btn-primary">Book a Consultation</button></Link>
+            <Link to="/contact"><button className="btn-primary cta-blink">Book a Consultation</button></Link>
           </div>
           <div style={{ textAlign: 'center', marginBottom: '64px' }}>
             <span className="section-tag">Healing Areas</span>
@@ -558,7 +558,7 @@ export default function Home() {
 
           <div style={{ textAlign: 'center', marginTop: '48px', display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link to="/specializations"><button className="btn-outline-dark">Explore All Specializations</button></Link>
-            <Link to="/contact"><button className="btn-primary">Book a Consultation</button></Link>
+            <Link to="/contact"><button className="btn-primary cta-blink">Book a Consultation</button></Link>
           </div>
         </div>
       </section>
@@ -639,7 +639,7 @@ export default function Home() {
             ))}
           </div>
           <div style={{ textAlign: 'center', marginTop: '48px' }}>
-            <Link to="/contact"><button className="btn-primary">Book a Consultation</button></Link>
+            <Link to="/contact"><button className="btn-primary cta-blink">Book a Consultation</button></Link>
           </div>
         </div>
       </section>
@@ -681,7 +681,7 @@ export default function Home() {
           </div>
           <HealingMap />
           <div style={{ textAlign: 'center', marginTop: '48px' }}>
-            <Link to="/contact"><button className="btn-primary">Book a Consultation</button></Link>
+            <Link to="/contact"><button className="btn-primary cta-blink">Book a Consultation</button></Link>
           </div>
         </div>
       </section>
@@ -701,7 +701,7 @@ export default function Home() {
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(24px, 3.5vw, 36px)', fontWeight: 600, color: 'var(--gold-pale)', marginBottom: '24px' }}>
             Ready to Begin Your Healing Journey?
           </h2>
-          <Link to="/contact"><button className="btn-primary">Book a Consultation</button></Link>
+          <Link to="/contact"><button className="btn-primary cta-blink">Book a Consultation</button></Link>
         </div>
       </section>
 

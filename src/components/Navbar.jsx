@@ -69,7 +69,7 @@ export default function Navbar() {
               </NavLink>
             ))}
             <NavLink to="/contact">
-              <button className="btn-primary" style={{ padding: '10px 20px', fontSize: '11px' }}>
+              <button className="btn-primary cta-blink" style={{ padding: '10px 20px', fontSize: '11px' }}>
                 Book Consultation
               </button>
             </NavLink>
@@ -125,7 +125,7 @@ export default function Navbar() {
         </div>
 
         <NavLink to="/contact" style={{ marginTop: '20px' }}>
-          <button className="btn-primary">Book Consultation</button>
+          <button className="btn-primary cta-blink">Book Consultation</button>
         </NavLink>
       </div>
 

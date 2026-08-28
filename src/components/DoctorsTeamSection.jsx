@@ -126,7 +126,7 @@ export default function DoctorsTeamSection() {
         )}
 
         <div style={{ textAlign: 'center', marginTop: '48px' }}>
-          <Link to="/contact"><button className="btn-primary">Book a Consultation</button></Link>
+          <Link to="/contact"><button className="btn-primary cta-blink">Book a Consultation</button></Link>
         </div>
       </div>
     </section>

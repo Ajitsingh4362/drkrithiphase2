@@ -194,7 +194,7 @@ export default function Specializations() {
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3.5vw, 42px)', color: 'var(--navy-800)', marginBottom: '16px' }}>Ready to Begin?</h2>
           <p style={{ fontSize: '15px', color: 'rgba(15,39,68,0.7)', marginBottom: '28px' }}>A personalised consultation helps identify the right healing pathway for you.</p>
           <Link to="/contact">
-            <button style={{ background: 'var(--navy-800)', color: 'var(--white)', border: 'none', padding: '14px 32px', borderRadius: '2px', fontSize: '13px', fontWeight: 600, letterSpacing: '1px', textTransform: 'uppercase', cursor: 'pointer' }}>
+            <button className="cta-blink" style={{ background: 'var(--navy-800)', color: 'var(--white)', border: 'none', padding: '14px 32px', borderRadius: '2px', fontSize: '13px', fontWeight: 600, letterSpacing: '1px', textTransform: 'uppercase', cursor: 'pointer' }}>
               Book Consultation
             </button>
           </Link>

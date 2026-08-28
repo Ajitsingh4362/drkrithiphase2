@@ -260,7 +260,7 @@ export default function HealingMap() {
             <div className="body3d-tooltip">
               <p className="tooltip-label">{activeOrgan.icon} {activeOrgan.label}</p>
               <p className="tooltip-desc">{activeOrgan.desc}</p>
-              <button className="tooltip-btn" onClick={() => navigate('/contact')}>Book Consultation →</button>
+              <button className="tooltip-btn cta-blink" onClick={() => navigate('/contact')}>Book Consultation →</button>
             </div>
           )}
           <p className="body3d-hint">Tap a glowing point to explore</p>
