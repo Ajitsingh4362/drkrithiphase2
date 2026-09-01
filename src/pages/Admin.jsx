@@ -8,6 +8,7 @@ import AdminAppointments from './admin/AdminAppointments'
 import AdminSettings from './admin/AdminSettings'
 import AdminNotes from './admin/AdminNotes'
 import AdminPatients from './admin/AdminPatients'
+import AdminOldPatients from './admin/AdminOldPatients'
 import AdminPatientProfile from './admin/AdminPatientProfile'
 import AdminAnalytics from './admin/AdminAnalytics'
 import AdminCalendar from './admin/AdminCalendar'
@@ -15,7 +16,10 @@ import AdminTestimonials from './admin/AdminTestimonials'
 import AdminDoctors from './admin/AdminDoctors'
 import AdminPrescriptionTemplates from './admin/AdminPrescriptionTemplates'
 import AdminFAQ from './admin/AdminFAQ'
+import AdminWhatsApp from './admin/AdminWhatsApp'
+import AdminDevices, { recordSession } from './admin/AdminDevices'
 import NotificationBell from '../components/NotificationBell'
+import { sendOrOpenWhatsApp } from '../lib/whatsappBridge'
 
 const AUTH_KEY = 'mmm_admin_authed'
 
@@ -56,9 +60,9 @@ function AdminHeader() {
     setPending(prev => prev.filter(a => a.id !== appt.id))
     
     await supabase.from('appointments').update({ status: 'confirmed' }).eq('id', appt.id)
-    const phone = (appt.phone || '').replace(/[^\d]/g, '')
-    const msg = encodeURIComponent(`Hi ${appt.name}, your appointment with Dr. Kirthi Kakade has been confirmed${appt.preferred_date ? ` for ${new Date(appt.preferred_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'long' })}` : ''}${appt.preferred_time ? ` at ${appt.preferred_time}` : ''}. Looking forward to seeing you! 🌿`)
-    window.open(`https://wa.me/${phone}?text=${msg}`, '_blank')
+    const msg = `Hi ${appt.name}, your appointment with Dr. Kirthi Kakade has been confirmed${appt.preferred_date ? ` for ${new Date(appt.preferred_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'long' })}` : ''}${appt.preferred_time ? ` at ${appt.preferred_time}` : ''}. Looking forward to seeing you! 🌿`
+    // Sends automatically if the WhatsApp bridge is connected, else opens wa.me with the message ready
+    sendOrOpenWhatsApp(appt.phone, msg)
   }
 
   const fmtDate = d => d ? new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : ''
@@ -196,6 +200,7 @@ export default function Admin() {
       setAuthed(true)
       setError(false)
       sessionStorage.setItem(AUTH_KEY, 'true')
+      recordSession()
     } else {
       setError(true)
     }
@@ -236,6 +241,7 @@ export default function Admin() {
     { to: '/admin/analytics', label: 'Analytics', icon: '📈' },
     { to: '/admin/calendar', label: 'Calendar', icon: '📅' },
     { to: '/admin/patients', label: 'Patients', icon: '👥' },
+    { to: '/admin/old-patients', label: 'Old Patients', icon: '🗂️' },
     { to: '/admin/appointments', label: 'Appointments', icon: '📋' },
     { to: '/admin/templates', label: 'Rx Templates', icon: '💊' },
     { to: '/admin/faq', label: 'FAQ Manager', icon: '❓' },
@@ -245,6 +251,8 @@ export default function Admin() {
     { to: '/admin/gallery', label: 'Gallery', icon: '🖼️' },
     { to: '/admin/settings', label: 'Popup Settings', icon: '⚙️' },
     { to: '/admin/notes', label: 'My Notes', icon: '🗒️' },
+    { to: '/admin/whatsapp', label: 'WhatsApp', icon: '💬' },
+    { to: '/admin/devices', label: 'Recent Logins', icon: '🖥️' },
   ]
 
   return (
@@ -277,6 +285,7 @@ export default function Admin() {
           <Route path="calendar" element={<AdminCalendar />} />
           <Route path="patients" element={<AdminPatients />} />
           <Route path="patients/:id" element={<AdminPatientProfile />} />
+          <Route path="old-patients" element={<AdminOldPatients />} />
           <Route path="posts" element={<AdminBlogList />} />
           <Route path="posts/:id" element={<AdminBlogEditor />} />
           <Route path="gallery" element={<AdminGallery />} />
@@ -287,6 +296,8 @@ export default function Admin() {
           <Route path="testimonials" element={<AdminTestimonials />} />
           <Route path="settings" element={<AdminSettings />} />
           <Route path="notes" element={<AdminNotes />} />
+          <Route path="whatsapp" element={<AdminWhatsApp />} />
+          <Route path="devices" element={<AdminDevices />} />
         </Routes>
       </main>
     </div>

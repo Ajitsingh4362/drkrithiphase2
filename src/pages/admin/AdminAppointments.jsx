@@ -1,14 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
+import { sendOrOpenWhatsApp, cleanPhone } from '../../lib/whatsappBridge'
 
 const TABS = ['all', 'pending', 'confirmed', 'cancelled']
-
-function cleanPhone(phone) {
-  let p = (phone || '').replace(/[^\d]/g, '')
-  if (p.length === 10) p = '91' + p
-  return p
-}
 
 export default function AdminAppointments() {
   const [appts, setAppts] = useState([])
@@ -47,10 +42,10 @@ export default function AdminAppointments() {
     if (status === 'confirmed') {
       const dateStr = appt.preferred_date ? new Date(appt.preferred_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) : 'a date our team will confirm'
       const timeStr = appt.preferred_time ? ` at ${appt.preferred_time}` : ''
-      const msg = encodeURIComponent(
-        `Hi ${appt.name}, this is Mind Motion Matrix confirming your appointment with Dr. Kirthi Kakade for ${appt.service || 'consultation'} on ${dateStr}${timeStr}. Looking forward to seeing you! 🌿`
-      )
-      window.open(`https://wa.me/${cleanPhone(appt.phone)}?text=${msg}`, '_blank')
+      const msg = `Hi ${appt.name}, this is Mind Motion Matrix confirming your appointment with Dr. Kirthi Kakade for ${appt.service || 'consultation'} on ${dateStr}${timeStr}. Looking forward to seeing you! 🌿`
+      // Sends automatically if the WhatsApp bridge (Settings → WhatsApp tab) is connected,
+      // otherwise falls back to opening a wa.me link with the message ready to send.
+      sendOrOpenWhatsApp(appt.phone, msg)
     }
   }
 

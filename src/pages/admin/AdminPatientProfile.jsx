@@ -2,8 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { generatePatientPDF, generatePatientPDFBlob } from '../../lib/generatePatientPDF'
+import { generateInvoicePDF } from '../../lib/generateInvoicePDF'
+import { sendOrOpenWhatsApp } from '../../lib/whatsappBridge'
 
-const TABS = ['Overview', 'Medical History', 'Consultations', 'Notes', 'Documents', 'Appointments']
+const TABS = ['Overview', 'Medical History', 'Consultations', 'Billing', 'Notes', 'Documents', 'Appointments']
 const TAGS = ['Cancer Support', 'Fertility', 'Chronic Illness', 'Psychotherapy', 'Allied Healing', 'VIP', 'Follow-up Due']
 const AVATAR_COLORS = ['#b9914f', '#1e6f6a', '#4a3d8f', '#8f3d3d', '#3d6b8f', '#6b8f3d', '#8f6b3d']
 const BLOOD_GROUPS = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
@@ -109,6 +111,23 @@ export default function AdminPatientProfile() {
   const [showConsultForm, setShowConsultForm] = useState(false)
   const [newConsult, setNewConsult] = useState({ date: new Date().toISOString().split('T')[0], chief_complaint: '', observations: '', prescription: '', follow_up_date: '', follow_up_notes: '', consultation_type: 'in-person' })
 
+  // Billing
+  const [invoices, setInvoices] = useState([])
+  const [showInvoiceForm, setShowInvoiceForm] = useState(false)
+  const [invoicePdfLoading, setInvoicePdfLoading] = useState(null)
+  const blankInvoice = () => ({
+    date: new Date().toISOString().split('T')[0],
+    items: [{ description: '', amount: '' }],
+    paid_amount: '',
+    status: 'unpaid',
+    notes: '',
+    sendWhatsApp: true,
+  })
+  const [newInvoice, setNewInvoice] = useState(blankInvoice())
+
+  // Quick Appointment Fee (Overview tab)
+  const [appointmentFee, setAppointmentFee] = useState('')
+
   // Template picker
   const [showTemplatePicker, setShowTemplatePicker] = useState(false)
   const [templates, setTemplates] = useState([])
@@ -169,13 +188,14 @@ export default function AdminPatientProfile() {
   }, [id])
 
   async function fetchAll() {
-    const [{ data: p }, { data: m }, { data: c }, { data: n }, { data: d }, { data: a }] = await Promise.all([
+    const [{ data: p }, { data: m }, { data: c }, { data: n }, { data: d }, { data: a }, { data: inv }] = await Promise.all([
       supabase.from('patients').select('*').eq('id', id).single(),
       supabase.from('patient_medical_history').select('*').eq('patient_id', id).single(),
       supabase.from('patient_consultations').select('*').eq('patient_id', id).order('date', { ascending: false }),
       supabase.from('patient_notes').select('*').eq('patient_id', id).order('created_at', { ascending: false }),
       supabase.from('patient_documents').select('*').eq('patient_id', id).order('created_at', { ascending: false }),
       supabase.from('appointments').select('*').eq('patient_id', id).order('created_at', { ascending: false }),
+      supabase.from('patient_invoices').select('*').eq('patient_id', id).order('date', { ascending: false }),
     ])
     if (p) setPatient({ ...patient, ...p })
     if (m) { setMedical({ ...medical, ...m }); setMedicalId(m.id) }
@@ -183,6 +203,7 @@ export default function AdminPatientProfile() {
     setNotes(n || [])
     setDocs(d || [])
     setAppointments(a || [])
+    setInvoices(inv || [])
     setLoading(false)
   }
 
@@ -211,9 +232,130 @@ export default function AdminPatientProfile() {
       if (data) setMedicalId(data.id)
     }
 
+    // Appointment fee (optional) — creates a paid invoice, feeds Billing + Analytics
+    const feeAmt = parseFloat(appointmentFee)
+    if (feeAmt > 0) {
+      const invoiceNumber = 'MMM-INV-' + Date.now().toString().slice(-8)
+      const feeDate = new Date().toISOString().split('T')[0]
+      const { error: feeErr } = await supabase.from('patient_invoices').insert({
+        patient_id: patientId,
+        invoice_number: invoiceNumber,
+        date: feeDate,
+        items: [{ description: 'Appointment Fee', amount: feeAmt }],
+        total_amount: feeAmt,
+        paid_amount: feeAmt,
+        status: 'paid',
+        notes: null,
+      })
+      if (feeErr) {
+        alert('Patient saved, but the appointment fee could not be recorded:\n\n' + feeErr.message)
+      } else {
+        if (patient.phone) {
+          const msgText = buildInvoiceWhatsAppMessage({ invoice_number: invoiceNumber, date: feeDate, items: [{ description: 'Appointment Fee', amount: feeAmt }], total_amount: feeAmt, paid_amount: feeAmt })
+          sendOrOpenWhatsApp(patient.phone, msgText)
+        }
+        setAppointmentFee('')
+        fetchAll()
+      }
+    }
+
     setSaving(false)
     setMsg('Saved ✓')
     setTimeout(() => setMsg(''), 2000)
+  }
+
+  // ─── Billing ─────────────────────────────────────
+  function addInvoiceItemRow() {
+    setNewInvoice(inv => ({ ...inv, items: [...inv.items, { description: '', amount: '' }] }))
+  }
+  function removeInvoiceItemRow(idx) {
+    setNewInvoice(inv => ({ ...inv, items: inv.items.filter((_, i) => i !== idx) }))
+  }
+  function setInvoiceItem(idx, key, val) {
+    setNewInvoice(inv => ({ ...inv, items: inv.items.map((it, i) => i === idx ? { ...it, [key]: val } : it) }))
+  }
+  function invoiceItemsTotal(items) {
+    return (items || []).reduce((sum, it) => sum + (parseFloat(it.amount) || 0), 0)
+  }
+
+  function buildInvoiceWhatsAppMessage(inv) {
+    const due = Math.max(inv.total_amount - inv.paid_amount, 0)
+    const lines = [`Hi ${patient.name}, here is your invoice from Mind Motion Matrix 🌿`]
+    lines.push(`\n🧾 Invoice: ${inv.invoice_number}`)
+    lines.push(`📅 Date: ${new Date(inv.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}`)
+    lines.push(`\nItems:`)
+    inv.items.forEach(it => lines.push(`• ${it.description} — ₹${Number(it.amount).toLocaleString('en-IN')}`))
+    lines.push(`\nTotal: ₹${inv.total_amount.toLocaleString('en-IN')}`)
+    lines.push(`Paid: ₹${inv.paid_amount.toLocaleString('en-IN')}`)
+    if (due > 0) {
+      lines.push(`Due: ₹${due.toLocaleString('en-IN')}`)
+      lines.push(`\nYou can pay the balance at your convenience or during your next visit. 🙏`)
+    } else {
+      lines.push(`\nThank you for your payment! 🙏`)
+    }
+    return lines.join('\n')
+  }
+
+  async function addInvoice() {
+    const items = (newInvoice.items || []).filter(it => it.description && it.amount !== '')
+    if (items.length === 0) { alert('Add at least one item with description and amount.'); return }
+    const total = invoiceItemsTotal(items)
+    const paid = parseFloat(newInvoice.paid_amount) || 0
+    const status = paid <= 0 ? 'unpaid' : (paid >= total ? 'paid' : 'partial')
+    const invoiceNumber = 'MMM-INV-' + Date.now().toString().slice(-8)
+    const invoiceDate = newInvoice.date || new Date().toISOString().split('T')[0]
+
+    const payload = {
+      patient_id: id,
+      invoice_number: invoiceNumber,
+      date: invoiceDate,
+      items,
+      total_amount: total,
+      paid_amount: paid,
+      status,
+      notes: newInvoice.notes || null,
+    }
+    const { error } = await supabase.from('patient_invoices').insert(payload)
+    if (error) { alert('Could not save invoice: ' + error.message); return }
+
+    if (newInvoice.sendWhatsApp && patient.phone) {
+      const msgText = buildInvoiceWhatsAppMessage({ invoice_number: invoiceNumber, date: invoiceDate, items, total_amount: total, paid_amount: paid })
+      sendOrOpenWhatsApp(patient.phone, msgText)
+    }
+
+    setNewInvoice(blankInvoice())
+    setShowInvoiceForm(false)
+    fetchAll()
+  }
+
+  async function recordPayment(inv) {
+    const due = Number(inv.total_amount) - Number(inv.paid_amount)
+    const amt = prompt(`Record payment for ${inv.invoice_number}\nBalance due: ₹${due}`, due)
+    if (amt === null) return
+    const paidNow = parseFloat(amt)
+    if (isNaN(paidNow) || paidNow <= 0) return
+    const newPaid = Math.min(Number(inv.paid_amount) + paidNow, Number(inv.total_amount))
+    const status = newPaid >= Number(inv.total_amount) ? 'paid' : 'partial'
+    const { error } = await supabase.from('patient_invoices').update({ paid_amount: newPaid, status }).eq('id', inv.id)
+    if (error) { alert('Could not update payment: ' + error.message); return }
+    fetchAll()
+  }
+
+  async function deleteInvoice(invId) {
+    if (!confirm('Delete this invoice?')) return
+    const { error } = await supabase.from('patient_invoices').delete().eq('id', invId)
+    if (error) { alert('Could not delete: ' + error.message); return }
+    fetchAll()
+  }
+
+  async function downloadInvoice(inv) {
+    setInvoicePdfLoading(inv.id)
+    try {
+      await generateInvoicePDF({ patient, invoice: inv })
+    } catch (e) {
+      alert('Could not generate invoice PDF: ' + e.message)
+    }
+    setInvoicePdfLoading(null)
   }
 
   async function addConsultation() {
@@ -441,6 +583,17 @@ export default function AdminPatientProfile() {
               <Field label="Contact Phone" value={patient.emergency_contact_phone} onChange={v => setP('emergency_contact_phone', v)} />
             </div>
           </div>
+          {!isNew && (
+            <div style={{ borderTop: '1px solid rgba(15,39,68,0.08)', paddingTop: '16px', marginTop: '16px' }}>
+              <p style={{ fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 600, marginBottom: '4px' }}>Quick Appointment Fee</p>
+              <p style={{ fontSize: '11px', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', margin: '0 0 12px' }}>
+                Optional — enter today's consultation fee and it's saved as a paid invoice under Billing when you hit Save.
+              </p>
+              <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-end', maxWidth: '260px' }}>
+                <Field label="Amount (₹)" value={appointmentFee} onChange={setAppointmentFee} type="number" />
+              </div>
+            </div>
+          )}
         </div>
       )}
 
@@ -580,6 +733,111 @@ export default function AdminPatientProfile() {
       )}
 
       {/* TAB: Notes */}
+      {activeTab === 'Billing' && (
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '10px' }}>
+            <div>
+              <p style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 600, color: 'var(--navy-800)', margin: 0 }}>{invoices.length} Invoice{invoices.length !== 1 ? 's' : ''}</p>
+              {invoices.length > 0 && (
+                <p style={{ fontSize: '11px', color: 'var(--text-muted)', margin: '2px 0 0', fontFamily: 'var(--font-body)' }}>
+                  Total billed: ₹{invoices.reduce((s, i) => s + Number(i.total_amount || 0), 0).toLocaleString('en-IN')}
+                  {'  \u00B7  '}
+                  Due: ₹{invoices.reduce((s, i) => s + Math.max(Number(i.total_amount || 0) - Number(i.paid_amount || 0), 0), 0).toLocaleString('en-IN')}
+                </p>
+              )}
+            </div>
+            <button className="admin-btn-primary admin-btn-sm" onClick={() => setShowInvoiceForm(p => !p)}>+ New Invoice</button>
+          </div>
+
+          {showInvoiceForm && (
+            <div style={{ background: 'var(--ivory)', border: '1px solid rgba(15,39,68,0.08)', borderRadius: '2px', padding: '20px', marginBottom: '20px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+                <Field label="Invoice Date" value={newInvoice.date} onChange={v => setNewInvoice(inv => ({ ...inv, date: v }))} type="date" />
+              </div>
+
+              <label style={{ fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 600, display: 'block', margin: '8px 0 8px' }}>Items</label>
+              {newInvoice.items.map((item, idx) => (
+                <div key={idx} style={{ display: 'flex', gap: '8px', marginBottom: '8px', alignItems: 'center' }}>
+                  <input
+                    placeholder="Description (e.g. Consultation, Follow-up session)"
+                    value={item.description}
+                    onChange={e => setInvoiceItem(idx, 'description', e.target.value)}
+                    style={{ flex: 3, padding: '9px 12px', border: '1px solid rgba(15,39,68,0.12)', borderRadius: '2px', fontSize: '0.85rem', fontFamily: 'var(--font-body)', outline: 'none' }}
+                  />
+                  <input
+                    type="number"
+                    placeholder="Amount"
+                    value={item.amount}
+                    onChange={e => setInvoiceItem(idx, 'amount', e.target.value)}
+                    style={{ flex: 1, padding: '9px 12px', border: '1px solid rgba(15,39,68,0.12)', borderRadius: '2px', fontSize: '0.85rem', fontFamily: 'var(--font-body)', outline: 'none' }}
+                  />
+                  {newInvoice.items.length > 1 && (
+                    <button onClick={() => removeInvoiceItemRow(idx)} style={{ background: 'none', border: 'none', color: '#c0392b', cursor: 'pointer', fontSize: '16px', padding: '4px 8px' }}>✕</button>
+                  )}
+                </div>
+              ))}
+              <button className="admin-btn-outline admin-btn-sm" onClick={addInvoiceItemRow} style={{ marginBottom: '16px' }}>+ Add Item</button>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '14px', fontSize: '13px', color: 'var(--navy-800)', fontFamily: 'var(--font-body)' }}>
+                <strong>Total: ₹{invoiceItemsTotal(newInvoice.items).toLocaleString('en-IN')}</strong>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+                <Field label="Paid Now (optional)" value={newInvoice.paid_amount} onChange={v => setNewInvoice(inv => ({ ...inv, paid_amount: v }))} type="number" />
+              </div>
+              <Field label="Notes" value={newInvoice.notes} onChange={v => setNewInvoice(inv => ({ ...inv, notes: v }))} multiline />
+
+              <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', cursor: 'pointer', marginBottom: '12px' }}>
+                <input type="checkbox" checked={newInvoice.sendWhatsApp} onChange={e => setNewInvoice(inv => ({ ...inv, sendWhatsApp: e.target.checked }))} />
+                📲 Send this invoice to patient on WhatsApp
+              </label>
+
+              <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                <button className="admin-btn-primary admin-btn-sm" onClick={addInvoice}>Save Invoice</button>
+                <button className="admin-btn-outline admin-btn-sm" onClick={() => { setShowInvoiceForm(false); setNewInvoice(blankInvoice()) }}>Cancel</button>
+              </div>
+            </div>
+          )}
+
+          {invoices.length === 0 && !showInvoiceForm && (
+            <p style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', textAlign: 'center', padding: '32px 0' }}>No invoices yet.</p>
+          )}
+
+          {invoices.map(inv => {
+            const due = Math.max(Number(inv.total_amount || 0) - Number(inv.paid_amount || 0), 0)
+            const statusColor = inv.status === 'paid' ? '#1e8f5a' : (inv.status === 'partial' ? '#b98d1f' : '#c0392b')
+            const statusBg = inv.status === 'paid' ? 'rgba(30,143,90,0.1)' : (inv.status === 'partial' ? 'rgba(185,141,31,0.1)' : 'rgba(192,57,43,0.08)')
+            return (
+              <div key={inv.id} style={{ border: '1px solid rgba(15,39,68,0.08)', borderRadius: '2px', padding: '16px', marginBottom: '12px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '8px', marginBottom: '10px' }}>
+                  <div>
+                    <p style={{ fontWeight: 600, fontSize: '13px', color: 'var(--navy-800)', margin: '0 0 2px', fontFamily: 'var(--font-body)' }}>{inv.invoice_number}</p>
+                    <p style={{ fontSize: '11px', color: 'var(--text-muted)', margin: 0, fontFamily: 'var(--font-body)' }}>{new Date(inv.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })} \u00B7 {(inv.items || []).length} item{(inv.items || []).length !== 1 ? 's' : ''}</p>
+                  </div>
+                  <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.5px', padding: '4px 10px', borderRadius: '20px', background: statusBg, color: statusColor, textTransform: 'uppercase' }}>{inv.status}</span>
+                </div>
+
+                <div style={{ display: 'flex', gap: '20px', fontSize: '12px', fontFamily: 'var(--font-body)', marginBottom: '12px', flexWrap: 'wrap' }}>
+                  <span style={{ color: 'var(--text-muted)' }}>Total: <strong style={{ color: 'var(--navy-800)' }}>₹{Number(inv.total_amount).toLocaleString('en-IN')}</strong></span>
+                  <span style={{ color: 'var(--text-muted)' }}>Paid: <strong style={{ color: '#1e8f5a' }}>₹{Number(inv.paid_amount).toLocaleString('en-IN')}</strong></span>
+                  {due > 0 && <span style={{ color: 'var(--text-muted)' }}>Due: <strong style={{ color: '#c0392b' }}>₹{due.toLocaleString('en-IN')}</strong></span>}
+                </div>
+
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                  <button className="admin-btn-outline admin-btn-sm" onClick={() => downloadInvoice(inv)} disabled={invoicePdfLoading === inv.id}>
+                    {invoicePdfLoading === inv.id ? 'Generating...' : '📄 Download PDF'}
+                  </button>
+                  {due > 0 && (
+                    <button className="admin-btn-primary admin-btn-sm" onClick={() => recordPayment(inv)}>✅ Record Payment</button>
+                  )}
+                  <button onClick={() => deleteInvoice(inv.id)} style={{ background: 'none', border: 'none', color: '#c0392b', cursor: 'pointer', fontSize: '12px', fontFamily: 'var(--font-body)', marginLeft: 'auto' }}>Delete</button>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      )}
+
       {activeTab === 'Notes' && (
         <div>
           <div style={{ background: 'var(--ivory)', border: '1px solid rgba(15,39,68,0.08)', borderRadius: '2px', padding: '16px', marginBottom: '20px' }}>
