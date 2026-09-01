@@ -598,6 +598,18 @@ export default function AdminPatientProfile() {
               </div>
             </div>
           )}
+
+          <div style={{ marginTop: '24px', display: 'flex', alignItems: 'center', gap: '14px' }}>
+            <button
+              className="admin-btn-primary"
+              onClick={savePatient}
+              disabled={saving}
+              style={{ padding: '12px 32px', fontSize: '13px' }}
+            >
+              {saving ? 'Saving...' : (isNew ? 'Save Patient' : 'Save Changes')}
+            </button>
+            {msg && <span className="admin-save-msg">{msg}</span>}
+          </div>
         </div>
       )}
 
