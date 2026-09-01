@@ -106,7 +106,12 @@ function RevenueDrilldownModal({ title, sub, data, money, search, setSearch, onC
                 {(d.name || '?')[0].toUpperCase()}
               </div>
               <div style={{ flex: 1, minWidth: '110px' }}>
-                <p style={{ fontWeight: 600, fontSize: '13px', color: 'var(--navy-800)', margin: '0 0 2px', fontFamily: 'var(--font-body)' }}>{d.name}</p>
+                <p style={{ fontWeight: 600, fontSize: '13px', color: 'var(--navy-800)', margin: '0 0 2px', fontFamily: 'var(--font-body)' }}>
+                  {d.name}
+                  {d.isOld && (
+                    <span style={{ marginLeft: '8px', fontSize: '9.5px', fontWeight: 700, padding: '2px 8px', borderRadius: '100px', background: 'rgba(199,166,106,0.18)', color: 'var(--gold-deep, #9c7a3c)', letterSpacing: '0.3px' }}>OLD PATIENT</span>
+                  )}
+                </p>
                 <p style={{ fontSize: '11px', color: 'var(--text-muted)', margin: 0, fontFamily: 'var(--font-body)' }}>{d.count} invoice{d.count !== 1 ? 's' : ''}{d.phone ? ` · ${d.phone}` : ''}</p>
               </div>
               <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--navy-800)', fontFamily: 'var(--font-body)', whiteSpace: 'nowrap' }}>{money(d.amount)}</span>
@@ -400,7 +405,7 @@ export default function AdminAnalytics() {
       if (amt <= 0) return
       if (!map[inv.patient_id]) {
         const p = patientMap[inv.patient_id]
-        map[inv.patient_id] = { patient_id: inv.patient_id, name: p?.name || 'Unknown Patient', phone: p?.phone || '', amount: 0, count: 0 }
+        map[inv.patient_id] = { patient_id: inv.patient_id, name: p?.name || 'Unknown Patient', phone: p?.phone || '', isOld: (p?.tags || []).includes('Old Patient'), amount: 0, count: 0 }
       }
       map[inv.patient_id].amount += amt
       map[inv.patient_id].count += 1
