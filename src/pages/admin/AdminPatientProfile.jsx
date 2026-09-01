@@ -10,6 +10,168 @@ const TAGS = ['Cancer Support', 'Fertility', 'Chronic Illness', 'Psychotherapy',
 const AVATAR_COLORS = ['#b9914f', '#1e6f6a', '#4a3d8f', '#8f3d3d', '#3d6b8f', '#6b8f3d', '#8f6b3d']
 const BLOOD_GROUPS = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
 
+// ─── Medicine Builder (quick-tap Rx, no free typing needed) ───
+// Names only — for autocomplete convenience. Potency/dose/frequency/duration are always
+// chosen by the doctor per patient; nothing here implies a recommendation for any condition.
+const WELLNESS_REMEDIES = [
+  'Arnica Montana', 'Nux Vomica', 'Ignatia Amara', 'Sepia', 'Lycopodium', 'Pulsatilla',
+  'Natrum Muriaticum', 'Calcarea Carbonica', 'Rhus Toxicodendron', 'Bryonia Alba', 'Belladonna',
+  'Phosphorus', 'Staphysagria', 'Gelsemium', 'Kali Phosphoricum', 'Avena Sativa (Mother Tincture)',
+  'Ashwagandha (Herbal Support)', 'Omega-3 Supplement', 'Vitamin D3', 'Vitamin B12', 'Probiotic Supplement', 'Multivitamin',
+]
+const QUICK_POTENCIES = ['6C', '12C', '30C', '200C', '1M']
+const QUICK_FREQUENCIES = [
+  { label: 'OD', value: 'Once daily' },
+  { label: 'BD', value: 'Twice daily' },
+  { label: 'TDS', value: 'Three times daily' },
+  { label: 'Weekly', value: 'Once weekly' },
+  { label: 'HS (Bedtime)', value: 'Bedtime' },
+  { label: 'SOS', value: 'As needed (acute)' },
+]
+const QUICK_DURATIONS = ['1 week', '2 weeks', '4 weeks', '6 weeks', '3 months']
+
+// ─── Quick-fill for Chief Complaint / Observations (tap instead of type) ───
+// Kept deliberately general and non-diagnostic — administrative shorthand for the
+// presenting concern, not a treatment recommendation. For Cancer Support specifically,
+// the note always reinforces this is alongside — not instead of — oncology care.
+const CONDITION_TEMPLATES = {
+  'Cancer Support': {
+    complaint: 'Ongoing fatigue and low energy during cancer treatment; seeking supportive/complementary care.',
+    observations: 'Continuing all oncologist-prescribed treatment; here for supportive wellness care alongside it. Reviewed energy, sleep, appetite and stress levels.',
+  },
+  Fertility: {
+    complaint: 'Difficulty conceiving; seeking supportive care alongside fertility treatment.',
+    observations: 'Discussed cycle history, lifestyle, stress and nutrition factors relevant to fertility support.',
+  },
+  'Chronic Illness': {
+    complaint: 'Long-standing symptoms affecting daily life; seeking ongoing supportive management.',
+    observations: 'Reviewed symptom history, current medications and management plan with primary treating doctor.',
+  },
+  Psychotherapy: {
+    complaint: 'Feeling anxious / low mood; seeking talk-therapy support.',
+    observations: 'Supportive session covering presenting concerns; safety and general wellbeing checked.',
+  },
+  'Allied Healing': {
+    complaint: 'Seeking complementary/allied wellness support alongside existing care.',
+    observations: 'Reviewed goals for this allied healing session and current care plan.',
+  },
+}
+const COMPLAINT_PHRASES = ['Fatigue', 'Low mood', 'Anxiety', 'Sleep disturbance', 'Digestive discomfort', 'Chronic pain', 'Stress', 'Low appetite']
+const OBSERVATION_PHRASES = ['Improving gradually', 'Stable, no new concerns', 'Referred back to primary doctor', 'Advised lifestyle changes', 'Continuing current treatment', 'Reassessed in follow-up']
+
+function appendPhrase(existing, phrase) {
+  const trimmed = (existing || '').trim()
+  if (!trimmed) return phrase
+  return /[.,]$/.test(trimmed) ? `${trimmed} ${phrase}` : `${trimmed}, ${phrase}`
+}
+
+function emptyMed() {
+  return { name: '', potency: '30C', dose: '2 pills', frequency: 'Twice daily', duration: '4 weeks' }
+}
+
+function medsToPrescriptionText(meds) {
+  return meds
+    .filter(m => m.name && m.name.trim())
+    .map(m => `${m.name} ${m.potency} — ${m.dose}, ${m.frequency}, ${m.duration}`)
+    .join('\n')
+}
+
+// Small tap-to-insert chip row — visually distinct from ChipGroup since these
+// don't have a persistent "selected" state, just a one-off insert action.
+function InsertChipRow({ options, onPick, tone = 'muted', highlightSet }) {
+  const isBold = tone === 'bold'
+  return (
+    <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginTop: '8px', marginBottom: '14px' }}>
+      {options.map(opt => {
+        const isHighlighted = highlightSet && highlightSet.includes(opt)
+        return (
+          <button
+            key={opt}
+            type="button"
+            onClick={() => onPick(opt)}
+            title={isHighlighted ? 'This patient is tagged with this condition' : undefined}
+            style={{
+              padding: isBold ? '7px 14px' : '5px 12px', borderRadius: '100px',
+              border: isHighlighted ? '1px solid var(--gold)' : (isBold ? '1px solid rgba(199,166,106,0.4)' : '1px solid rgba(15,39,68,0.15)'),
+              background: isHighlighted ? 'var(--gold)' : (isBold ? 'rgba(199,166,106,0.12)' : 'var(--white)'),
+              color: isHighlighted ? '#fff' : (isBold ? 'var(--gold-deep)' : 'var(--text-muted)'),
+              fontSize: isBold ? '11.5px' : '11px', fontFamily: 'var(--font-body)',
+              fontWeight: isBold || isHighlighted ? 600 : 500, cursor: 'pointer', whiteSpace: 'nowrap',
+            }}
+          >
+            {isBold ? `🌿 ${opt}${isHighlighted ? ' ✓' : ''}` : `+ ${opt}`}
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+
+function ChipGroup({ options, value, onSelect }) {
+  return (
+    <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+      {options.map(opt => {
+        const label = typeof opt === 'string' ? opt : opt.label
+        const val = typeof opt === 'string' ? opt : opt.value
+        const active = value === val
+        return (
+          <button
+            key={label}
+            type="button"
+            onClick={() => onSelect(val)}
+            style={{
+              padding: '7px 14px', borderRadius: '100px', border: '1px solid',
+              borderColor: active ? 'var(--navy-800)' : 'rgba(15,39,68,0.15)',
+              background: active ? 'var(--navy-800)' : 'var(--white)',
+              color: active ? 'var(--gold-pale)' : 'var(--text-muted)',
+              fontSize: '12px', fontFamily: 'var(--font-body)', fontWeight: 600,
+              cursor: 'pointer', transition: 'all 0.15s', whiteSpace: 'nowrap',
+            }}
+          >
+            {label}
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+
+function MedicineChipRow({ med, idx, onChange, onDelete, isOnly }) {
+  const s = (key, val) => onChange(idx, { ...med, [key]: val })
+  return (
+    <div style={{ background: 'var(--ivory)', border: '1px solid rgba(15,39,68,0.1)', borderRadius: '4px', padding: '14px 16px', marginBottom: '10px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+        <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: 'var(--gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '11px', fontWeight: 700, fontFamily: 'var(--font-display)', flexShrink: 0 }}>{idx + 1}</div>
+        <input
+          list="wellness-remedy-list"
+          value={med.name}
+          onChange={e => s('name', e.target.value)}
+          placeholder="Type or pick remedy name..."
+          style={{ flex: 1, padding: '9px 12px', border: '1px solid rgba(15,39,68,0.12)', borderRadius: '2px', fontSize: '0.92rem', fontFamily: 'var(--font-body)', fontWeight: 600, outline: 'none', color: 'var(--navy-800)' }}
+        />
+        {!isOnly && <button type="button" onClick={() => onDelete(idx)} style={{ background: 'none', border: 'none', color: '#c0392b', cursor: 'pointer', fontSize: '18px', padding: '0 4px', flexShrink: 0 }}>×</button>}
+      </div>
+
+      <div style={{ marginBottom: '10px' }}>
+        <label style={{ fontSize: '9px', letterSpacing: '1px', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 600, display: 'block', marginBottom: '5px' }}>Potency</label>
+        <ChipGroup options={QUICK_POTENCIES} value={med.potency} onSelect={v => s('potency', v)} />
+      </div>
+      <div style={{ marginBottom: '10px' }}>
+        <label style={{ fontSize: '9px', letterSpacing: '1px', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 600, display: 'block', marginBottom: '5px' }}>Dose</label>
+        <input value={med.dose} onChange={e => s('dose', e.target.value)} placeholder="e.g. 2 pills" style={{ width: '100%', maxWidth: '200px', padding: '7px 10px', border: '1px solid rgba(15,39,68,0.12)', borderRadius: '2px', fontSize: '0.8rem', fontFamily: 'var(--font-body)', outline: 'none' }} />
+      </div>
+      <div style={{ marginBottom: '10px' }}>
+        <label style={{ fontSize: '9px', letterSpacing: '1px', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 600, display: 'block', marginBottom: '5px' }}>Frequency</label>
+        <ChipGroup options={QUICK_FREQUENCIES} value={med.frequency} onSelect={v => s('frequency', v)} />
+      </div>
+      <div>
+        <label style={{ fontSize: '9px', letterSpacing: '1px', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 600, display: 'block', marginBottom: '5px' }}>Duration</label>
+        <ChipGroup options={QUICK_DURATIONS} value={med.duration} onSelect={v => s('duration', v)} />
+      </div>
+    </div>
+  )
+}
+
 function initials(name) {
   return (name || '').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2)
 }
@@ -112,7 +274,28 @@ export default function AdminPatientProfile() {
   // Consultations
   const [consultations, setConsultations] = useState([])
   const [showConsultForm, setShowConsultForm] = useState(false)
-  const [newConsult, setNewConsult] = useState({ date: new Date().toISOString().split('T')[0], chief_complaint: '', observations: '', prescription: '', follow_up_date: '', follow_up_notes: '', consultation_type: 'in-person' })
+  const [newConsult, setNewConsult] = useState({ date: new Date().toISOString().split('T')[0], chief_complaint: '', observations: '', prescription: '', follow_up_date: '', follow_up_notes: '', consultation_type: 'in-person', medicines: [emptyMed()], sendWhatsApp: true })
+  function updateNewConsultMed(idx, med) {
+    setNewConsult(c => ({ ...c, medicines: c.medicines.map((m, i) => i === idx ? med : m) }))
+  }
+  function addNewConsultMed() {
+    setNewConsult(c => ({ ...c, medicines: [...c.medicines, emptyMed()] }))
+  }
+  function removeNewConsultMed(idx) {
+    setNewConsult(c => c.medicines.length === 1 ? c : ({ ...c, medicines: c.medicines.filter((_, i) => i !== idx) }))
+  }
+  // Quick-fill Chief Complaint + Observations from a condition template — fills
+  // if empty, appends on a new line if something's already typed, so a stray tap
+  // never wipes out real notes.
+  function applyConditionTemplate(condition) {
+    const t = CONDITION_TEMPLATES[condition]
+    if (!t) return
+    setNewConsult(c => ({
+      ...c,
+      chief_complaint: c.chief_complaint?.trim() ? `${c.chief_complaint}\n${t.complaint}` : t.complaint,
+      observations: c.observations?.trim() ? `${c.observations}\n${t.observations}` : t.observations,
+    }))
+  }
 
   // Billing
   const [invoices, setInvoices] = useState([])
@@ -157,6 +340,7 @@ export default function AdminPatientProfile() {
     setNewConsult(prev => ({
       ...prev,
       prescription: prescription,
+      medicines: meds.length ? meds.map(m => ({ name: m.name, potency: m.potency, dose: m.dose, frequency: m.frequency, duration: m.duration })) : prev.medicines,
       follow_up_notes: t.follow_up_duration ? `Follow-up recommended in ${t.follow_up_duration}` : prev.follow_up_notes,
       observations: notes || prev.observations,
     }))
@@ -361,10 +545,36 @@ export default function AdminPatientProfile() {
     setInvoicePdfLoading(null)
   }
 
+  function buildPrescriptionWhatsAppMessage(consult, prescriptionText) {
+    const lines = [`Hi ${patient.name}, here is your prescription from Mind Motion Matrix 🌿`]
+    if (consult.chief_complaint) lines.push(`\n📝 Reason: ${consult.chief_complaint}`)
+    lines.push(`\n💊 Prescription:\n${prescriptionText}`)
+    if (consult.follow_up_date) lines.push(`\n📅 Follow-up: ${new Date(consult.follow_up_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}${consult.follow_up_notes ? ` — ${consult.follow_up_notes}` : ''}`)
+    lines.push(`\nPlease follow as prescribed, and call us if you have any questions. Take care! 🙏`)
+    return lines.join('\n')
+  }
+
   async function addConsultation() {
     if (!newConsult.chief_complaint) return
-    await supabase.from('patient_consultations').insert({ ...newConsult, patient_id: id })
-    setNewConsult({ date: new Date().toISOString().split('T')[0], chief_complaint: '', observations: '', prescription: '', follow_up_date: '', follow_up_notes: '', consultation_type: 'in-person' })
+    const { medicines, sendWhatsApp: shouldSendWhatsApp, ...rest } = newConsult
+    const builtPrescription = medsToPrescriptionText(medicines || [])
+    const payload = {
+      ...rest,
+      prescription: builtPrescription || rest.prescription,
+      patient_id: id,
+      date: newConsult.date || new Date().toISOString().split('T')[0],
+      follow_up_date: newConsult.follow_up_date || null,
+    }
+    const { error } = await supabase.from('patient_consultations').insert(payload)
+    if (error) { alert('Could not save consultation: ' + error.message); return }
+
+    const finalPrescription = builtPrescription || rest.prescription
+    if (shouldSendWhatsApp && finalPrescription && patient.phone) {
+      const msgText = buildPrescriptionWhatsAppMessage(payload, finalPrescription)
+      sendOrOpenWhatsApp(patient.phone, msgText)
+    }
+
+    setNewConsult({ date: new Date().toISOString().split('T')[0], chief_complaint: '', observations: '', prescription: '', follow_up_date: '', follow_up_notes: '', consultation_type: 'in-person', medicines: [emptyMed()], sendWhatsApp: true })
     setShowConsultForm(false)
     fetchAll()
   }
@@ -707,16 +917,38 @@ export default function AdminPatientProfile() {
                 <Field label="Date" value={newConsult.date} onChange={v => setNewConsult(c => ({ ...c, date: v }))} type="date" />
                 <Field label="Type" value={newConsult.consultation_type} onChange={v => setNewConsult(c => ({ ...c, consultation_type: v }))} options={['in-person', 'video-call', 'phone-call', 'whatsapp']} />
               </div>
+              <div style={{ marginBottom: '4px' }}>
+                <label style={{ fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 600, display: 'block', marginBottom: '2px' }}>Quick Fill by Condition — fills both fields below</label>
+                <InsertChipRow options={Object.keys(CONDITION_TEMPLATES)} onPick={applyConditionTemplate} tone="bold" highlightSet={patient.tags || []} />
+              </div>
               <Field label="Chief Complaint" value={newConsult.chief_complaint} onChange={v => setNewConsult(c => ({ ...c, chief_complaint: v }))} multiline />
+              <InsertChipRow options={COMPLAINT_PHRASES} onPick={p => setNewConsult(c => ({ ...c, chief_complaint: appendPhrase(c.chief_complaint, p) }))} />
               <Field label="Observations / Findings" value={newConsult.observations} onChange={v => setNewConsult(c => ({ ...c, observations: v }))} multiline />
-              <Field label="Prescription / Treatment Plan" value={newConsult.prescription} onChange={v => setNewConsult(c => ({ ...c, prescription: v }))} multiline />
+              <InsertChipRow options={OBSERVATION_PHRASES} onPick={p => setNewConsult(c => ({ ...c, observations: appendPhrase(c.observations, p) }))} />
+
+              <div style={{ marginBottom: '16px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', flexWrap: 'wrap', gap: '8px' }}>
+                  <label style={{ fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 600 }}>💊 Prescription — tap to build, no typing needed</label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', cursor: 'pointer' }}>
+                    <input type="checkbox" checked={newConsult.sendWhatsApp} onChange={e => setNewConsult(c => ({ ...c, sendWhatsApp: e.target.checked }))} />
+                    📲 Send to patient on WhatsApp
+                  </label>
+                </div>
+                {newConsult.medicines.map((med, idx) => (
+                  <MedicineChipRow key={idx} med={med} idx={idx} onChange={updateNewConsultMed} onDelete={removeNewConsultMed} isOnly={newConsult.medicines.length === 1} />
+                ))}
+                <button type="button" className="admin-btn-outline admin-btn-sm" onClick={addNewConsultMed}>+ Add Another Remedy</button>
+                <datalist id="wellness-remedy-list">
+                  {WELLNESS_REMEDIES.map(m => <option key={m} value={m} />)}
+                </datalist>
+              </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                 <Field label="Follow-up Date" value={newConsult.follow_up_date} onChange={v => setNewConsult(c => ({ ...c, follow_up_date: v }))} type="date" />
                 <Field label="Follow-up Notes" value={newConsult.follow_up_notes} onChange={v => setNewConsult(c => ({ ...c, follow_up_notes: v }))} />
               </div>
               <div style={{ display: 'flex', gap: '10px' }}>
                 <button className="admin-btn-primary admin-btn-sm" onClick={addConsultation}>Save Consultation</button>
-                <button className="admin-btn-outline admin-btn-sm" onClick={() => setShowConsultForm(false)}>Cancel</button>
+                <button className="admin-btn-outline admin-btn-sm" onClick={() => { setShowConsultForm(false); setNewConsult({ date: new Date().toISOString().split('T')[0], chief_complaint: '', observations: '', prescription: '', follow_up_date: '', follow_up_notes: '', consultation_type: 'in-person', medicines: [emptyMed()], sendWhatsApp: true }) }}>Cancel</button>
               </div>
             </div>
           )}
