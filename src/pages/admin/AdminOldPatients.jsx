@@ -1,73 +1,37 @@
 import { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 
-const emptyForm = { name: '', address: '', age: '', phone: '' }
+// Old/legacy patients live in the same `patients` table as everyone else — they're
+// just tagged 'Old Patient'. That way they automatically get the full profile
+// (Medical History, Consultations, Billing with a backdated invoice date, etc.)
+// instead of a separate, limited form.
+function initials(name) {
+  return (name || '').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2)
+}
 
 export default function AdminOldPatients() {
   const [patients, setPatients] = useState([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
-  const [showForm, setShowForm] = useState(false)
-  const [editId, setEditId] = useState(null)
-  const [form, setForm] = useState(emptyForm)
-  const [saving, setSaving] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => { fetchPatients() }, [])
 
   async function fetchPatients() {
     setLoading(true)
-    const { data } = await supabase.from('old_patients').select('*').order('created_at', { ascending: false })
-    setPatients(data || [])
+    const { data } = await supabase.from('patients').select('*').order('registered_on', { ascending: false, nullsFirst: false })
+    setPatients((data || []).filter(p => (p.tags || []).includes('Old Patient')))
     setLoading(false)
-  }
-
-  function openAdd() {
-    setEditId(null)
-    setForm(emptyForm)
-    setShowForm(true)
-  }
-
-  function openEdit(p) {
-    setEditId(p.id)
-    setForm({ name: p.name || '', address: p.address || '', age: p.age || '', phone: p.phone || '' })
-    setShowForm(true)
-  }
-
-  async function save() {
-    if (!form.name.trim() || !form.phone.trim()) {
-      alert('Name and WhatsApp/Mobile number are required')
-      return
-    }
-    setSaving(true)
-    const payload = {
-      name: form.name.trim(),
-      address: form.address.trim() || null,
-      age: form.age ? parseInt(form.age, 10) : null,
-      phone: form.phone.trim(),
-    }
-    if (editId) {
-      await supabase.from('old_patients').update(payload).eq('id', editId)
-    } else {
-      await supabase.from('old_patients').insert(payload)
-    }
-    setSaving(false)
-    setShowForm(false)
-    fetchPatients()
-  }
-
-  async function deletePatient(id) {
-    if (!confirm('Delete this patient record?')) return
-    await supabase.from('old_patients').delete().eq('id', id)
-    fetchPatients()
   }
 
   function exportCSV() {
     const rows = filtered.length ? filtered : patients
     if (!rows.length) { alert('No patients to export'); return }
-    const headers = ['Name', 'Address', 'Age', 'Phone', 'Added On']
+    const headers = ['Name', 'Address', 'Age', 'Phone', 'Registered On']
     const csvRows = rows.map(p => [
       p.name, p.address || '', p.age || '', p.phone,
-      new Date(p.created_at).toLocaleDateString('en-IN'),
+      p.registered_on ? new Date(p.registered_on).toLocaleDateString('en-IN') : '',
     ])
     const csv = [headers, ...csvRows]
       .map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(','))
@@ -92,9 +56,14 @@ export default function AdminOldPatients() {
         <h1>Old Patients</h1>
         <div style={{ display: 'flex', gap: '10px' }}>
           <button className="admin-btn-outline" onClick={exportCSV}>⬇️ Export CSV</button>
-          <button className="admin-btn-primary" onClick={openAdd}>+ Add Old Patient</button>
+          <button className="admin-btn-primary" onClick={() => navigate('/admin/patients/new?tag=Old Patient')}>+ Add Old Patient</button>
         </div>
       </div>
+
+      <p style={{ fontSize: '12px', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', margin: '-8px 0 20px' }}>
+        These are full patient profiles tagged "Old Patient" — you get the same Medical History and Billing tabs as any
+        other patient, so you can enter their past records and raise invoices dated in the past.
+      </p>
 
       <input
         placeholder="Search name, phone, address..."
@@ -104,11 +73,14 @@ export default function AdminOldPatients() {
       />
 
       {loading ? <p className="admin-empty">Loading...</p> : filtered.length === 0 ? (
-        <p className="admin-empty">No old patients found.</p>
+        <p className="admin-empty">No old patients found yet. Click "+ Add Old Patient" to start entering past records.</p>
       ) : (
         <div style={{ background: 'var(--white)', border: '1px solid rgba(15,39,68,0.08)', borderRadius: '2px', overflow: 'hidden' }}>
           {filtered.map((p, i) => (
-            <div key={p.id} style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '14px 20px', borderBottom: i < filtered.length - 1 ? '1px solid rgba(15,39,68,0.06)' : 'none', flexWrap: 'wrap' }}>
+            <Link to={`/admin/patients/${p.id}`} key={p.id} style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '14px 20px', borderBottom: i < filtered.length - 1 ? '1px solid rgba(15,39,68,0.06)' : 'none', flexWrap: 'wrap', textDecoration: 'none', color: 'inherit' }}>
+              <div style={{ width: '38px', height: '38px', borderRadius: '50%', background: p.avatar_color || '#b9914f', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700, fontSize: '14px', fontFamily: 'var(--font-display)', flexShrink: 0 }}>
+                {initials(p.name)}
+              </div>
               <div style={{ flex: 1, minWidth: '180px' }}>
                 <p style={{ fontWeight: 600, fontSize: '0.95rem', color: 'var(--navy-800)', margin: 0, fontFamily: 'var(--font-body)' }}>
                   {p.name} {p.age ? <span style={{ fontWeight: 400, color: 'var(--text-muted)' }}>· {p.age}y</span> : ''}
@@ -117,42 +89,13 @@ export default function AdminOldPatients() {
                   📱 {p.phone} {p.address ? `· 📍 ${p.address}` : ''}
                 </p>
               </div>
-              <div style={{ display: 'flex', gap: '8px' }}>
-                <button className="admin-btn-outline admin-btn-sm" onClick={() => openEdit(p)}>Edit</button>
-                <button className="admin-btn-danger admin-btn-sm" onClick={() => deletePatient(p.id)}>Delete</button>
-              </div>
-            </div>
+              <span style={{ fontSize: '11px', color: 'var(--text-light)', fontFamily: 'var(--font-body)', whiteSpace: 'nowrap' }}>
+                {p.registered_on ? `Since ${new Date(p.registered_on).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}` : ''}
+              </span>
+            </Link>
           ))}
-        </div>
-      )}
-
-      {showForm && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(5,12,23,0.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '20px' }} onClick={() => setShowForm(false)}>
-          <div style={{ background: 'var(--white)', borderRadius: '4px', padding: '28px', width: '100%', maxWidth: '420px' }} onClick={e => e.stopPropagation()}>
-            <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--navy-800)', marginBottom: '18px' }}>{editId ? 'Edit Patient' : 'Add Old Patient'}</h2>
-
-            <label style={labelStyle}>Name</label>
-            <input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} style={inputStyle} placeholder="Patient name" />
-
-            <label style={labelStyle}>Address</label>
-            <input value={form.address} onChange={e => setForm({ ...form, address: e.target.value })} style={inputStyle} placeholder="Address" />
-
-            <label style={labelStyle}>Age</label>
-            <input type="number" value={form.age} onChange={e => setForm({ ...form, age: e.target.value })} style={inputStyle} placeholder="Age" />
-
-            <label style={labelStyle}>WhatsApp / Mobile Number</label>
-            <input value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} style={inputStyle} placeholder="10-digit number" />
-
-            <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
-              <button className="admin-btn-primary" style={{ flex: 1 }} onClick={save} disabled={saving}>{saving ? 'Saving...' : 'Save'}</button>
-              <button className="admin-btn-outline" style={{ flex: 1 }} onClick={() => setShowForm(false)}>Cancel</button>
-            </div>
-          </div>
         </div>
       )}
     </div>
   )
 }
-
-const labelStyle = { display: 'block', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--text-muted)', margin: '12px 0 5px', fontFamily: 'var(--font-body)' }
-const inputStyle = { width: '100%', padding: '10px 12px', border: '1px solid rgba(15,39,68,0.15)', borderRadius: '2px', fontSize: '0.9rem', fontFamily: 'var(--font-body)', outline: 'none' }

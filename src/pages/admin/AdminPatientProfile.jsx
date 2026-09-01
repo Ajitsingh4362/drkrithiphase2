@@ -6,7 +6,7 @@ import { generateInvoicePDF } from '../../lib/generateInvoicePDF'
 import { sendOrOpenWhatsApp } from '../../lib/whatsappBridge'
 
 const TABS = ['Overview', 'Medical History', 'Consultations', 'Billing', 'Notes', 'Documents', 'Appointments']
-const TAGS = ['Cancer Support', 'Fertility', 'Chronic Illness', 'Psychotherapy', 'Allied Healing', 'VIP', 'Follow-up Due']
+const TAGS = ['Cancer Support', 'Fertility', 'Chronic Illness', 'Psychotherapy', 'Allied Healing', 'VIP', 'Follow-up Due', 'Old Patient']
 const AVATAR_COLORS = ['#b9914f', '#1e6f6a', '#4a3d8f', '#8f3d3d', '#3d6b8f', '#6b8f3d', '#8f6b3d']
 const BLOOD_GROUPS = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
 
@@ -95,7 +95,10 @@ export default function AdminPatientProfile() {
     name: prefill.name || '', phone: prefill.phone || '', email: prefill.email || '',
     age: '', gender: '', blood_group: '', address: '', occupation: '',
     referred_by: '', emergency_contact_name: '', emergency_contact_phone: '',
-    avatar_color: '#b9914f', tags: prefill.service ? [prefill.service].filter(s => TAGS.includes(s)) : [], status: 'active'
+    avatar_color: '#b9914f',
+    tags: [prefill.service, prefill.tag].filter(s => s && TAGS.includes(s)),
+    status: 'active',
+    registered_on: prefill.tag === 'Old Patient' ? '' : new Date().toISOString().split('T')[0],
   })
 
   // Medical history — pre-fill chief complaint from appointment message
@@ -574,6 +577,7 @@ export default function AdminPatientProfile() {
             <Field label="Blood Group" value={patient.blood_group} onChange={v => setP('blood_group', v)} options={BLOOD_GROUPS} />
             <Field label="Occupation" value={patient.occupation} onChange={v => setP('occupation', v)} />
             <Field label="Referred By" value={patient.referred_by} onChange={v => setP('referred_by', v)} />
+            <Field label="Registered On" value={patient.registered_on} onChange={v => setP('registered_on', v)} type="date" />
           </div>
           <Field label="Address" value={patient.address} onChange={v => setP('address', v)} multiline />
           <div style={{ borderTop: '1px solid rgba(15,39,68,0.08)', paddingTop: '16px', marginTop: '8px' }}>
