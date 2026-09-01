@@ -7,7 +7,7 @@ import { ADMIN_PASSWORD } from '../../lib/supabase'
 // same repo). The Baileys notifier runs on Render (always-on, no local PC needed).
 // Free tier spins down after inactivity, so the very first request after
 // idle time can take 20-40 seconds to wake up — that's normal, not a bug.
-const NOTIFIER_URL = 'https://REPLACE-WITH-YOUR-RENDER-URL.onrender.com'
+const NOTIFIER_URL = 'https://mmm-whatsapp-bridge.onrender.com'
 
 // /qr and /logout require the same admin password the site uses (set as
 // ADMIN_PASSWORD on the bridge server too) — this admin panel uses a single

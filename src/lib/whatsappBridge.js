@@ -1,7 +1,7 @@
 import { ADMIN_PASSWORD } from './supabase'
 
 // Same URL as in AdminWhatsApp.jsx — update both when you have your real Render URL.
-const NOTIFIER_URL = 'https://REPLACE-WITH-YOUR-RENDER-URL.onrender.com'
+const NOTIFIER_URL = 'https://mmm-whatsapp-bridge.onrender.com'
 
 export function cleanPhone(phone) {
   let p = (phone || '').replace(/[^\d]/g, '')
