@@ -1,92 +1,282 @@
 import { useEffect, useState } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 
-// Simple bar chart component (no external library needed)
-function BarChart({ data, color = 'var(--gold)', height = 120, label }) {
-  const max = Math.max(...data.map(d => d.value), 1)
+// ─── Shared visual atoms ──────────────────────────────────────────
+
+function Card({ children, style, onClick, className }) {
   return (
-    <div>
-      {label && <p style={{ fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 600, marginBottom: '12px' }}>{label}</p>}
-      <div style={{ display: 'flex', alignItems: 'flex-end', gap: '6px', height: `${height}px` }}>
-        {data.map((d, i) => (
-          <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', height: '100%', justifyContent: 'flex-end' }}>
-            <span style={{ fontSize: '10px', color: 'var(--text-muted)', fontFamily: 'var(--font-body)' }}>{d.value}</span>
-            <div style={{ width: '100%', background: color, borderRadius: '2px 2px 0 0', height: `${(d.value / max) * (height - 24)}px`, minHeight: d.value > 0 ? '4px' : '0', transition: 'height 0.5s ease', opacity: i === data.length - 1 ? 1 : 0.65 }} />
-            <span style={{ fontSize: '9px', color: 'var(--text-light)', fontFamily: 'var(--font-body)', textAlign: 'center', lineHeight: 1.2 }}>{d.label}</span>
+    <div
+      className={`analytics-card${className ? ' ' + className : ''}`}
+      style={{ background: 'var(--white)', border: '1px solid rgba(15,39,68,0.06)', borderRadius: '10px', padding: '24px', boxShadow: 'var(--shadow-sm)', ...style }}
+      onClick={onClick}
+    >
+      {children}
+    </div>
+  )
+}
+
+function SectionLabel({ children, style }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px', ...style }}>
+      <span style={{ width: '14px', height: '2px', background: 'var(--gold)', display: 'inline-block', flexShrink: 0 }} />
+      <span style={{ fontSize: '11px', letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 600, fontFamily: 'var(--font-body)' }}>{children}</span>
+    </div>
+  )
+}
+
+function SegmentedControl({ options, value, onChange }) {
+  return (
+    <div style={{ display: 'inline-flex', background: 'var(--ivory)', border: '1px solid rgba(15,39,68,0.08)', borderRadius: '100px', padding: '4px', gap: '2px', flexWrap: 'wrap' }}>
+      {options.map(([val, label]) => (
+        <button
+          key={val}
+          data-active={value === val ? 'true' : 'false'}
+          className="analytics-seg-btn"
+          onClick={() => onChange(val)}
+          style={{ padding: '7px 15px', fontSize: '11px', fontWeight: 600, borderRadius: '100px', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'var(--font-body)', transition: 'all 0.2s', background: value === val ? 'var(--navy-800)' : 'transparent', color: value === val ? 'var(--gold-pale)' : 'var(--text-muted)' }}
+        >
+          {label}
+        </button>
+      ))}
+    </div>
+  )
+}
+
+// Stat card — icon chip, big display number, optional trend pill
+function StatCard({ icon, label, value, sub, color = 'var(--navy-800)', tint = 'rgba(13,35,64,0.06)', trend, onClick }) {
+  return (
+    <Card
+      style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '14px', cursor: onClick ? 'pointer' : 'default' }}
+      className={onClick ? 'analytics-stat-clickable' : undefined}
+      onClick={onClick}
+    >
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
+        <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: tint, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px', flexShrink: 0 }}>{icon}</div>
+        {trend !== undefined && (
+          <span style={{ fontSize: '10.5px', fontWeight: 700, padding: '3px 9px', borderRadius: '100px', fontFamily: 'var(--font-body)', background: trend >= 0 ? 'rgba(30,111,106,0.1)' : 'rgba(192,57,43,0.1)', color: trend >= 0 ? '#1e6f6a' : '#c0392b', whiteSpace: 'nowrap' }}>
+            {trend >= 0 ? '↑' : '↓'} {Math.abs(trend)}
+          </span>
+        )}
+        {onClick && <span style={{ fontSize: '10px', color: 'var(--text-light)', fontFamily: 'var(--font-body)' }}>View →</span>}
+      </div>
+      <div>
+        <p style={{ fontFamily: 'var(--font-display)', fontSize: '30px', fontWeight: 700, color, margin: '0 0 3px', lineHeight: 1 }}>{value}</p>
+        <p style={{ fontSize: '10.5px', letterSpacing: '1px', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', margin: 0, fontWeight: 600 }}>{label}</p>
+      </div>
+      {sub && <p style={{ fontSize: '11.5px', color: 'var(--text-light)', fontFamily: 'var(--font-body)', margin: 0 }}>{sub}</p>}
+    </Card>
+  )
+}
+
+// Revenue drill-down modal — patients behind a Billed/Collected/Outstanding/All-Time figure
+function RevenueDrilldownModal({ title, sub, data, money, search, setSearch, onClose }) {
+  const filtered = data.filter(d => d.name.toLowerCase().includes(search.toLowerCase()))
+  const total = data.reduce((s, d) => s + d.amount, 0)
+
+  return (
+    <div style={{ position: 'fixed', inset: 0, background: 'rgba(5,12,23,0.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '20px' }} onClick={onClose}>
+      <div style={{ background: 'var(--white)', borderRadius: '10px', padding: '26px', width: '100%', maxWidth: '540px', maxHeight: '82vh', display: 'flex', flexDirection: 'column' }} onClick={e => e.stopPropagation()}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '12px' }}>
+          <div>
+            <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--navy-800)', margin: 0, fontSize: '1.2rem' }}>{title}</h2>
+            <p style={{ fontSize: '11.5px', color: 'var(--text-muted)', margin: '4px 0 0', fontFamily: 'var(--font-body)' }}>{sub}</p>
           </div>
-        ))}
+          <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '20px', cursor: 'pointer', color: 'var(--text-muted)', lineHeight: 1, padding: 0 }}>✕</button>
+        </div>
+
+        <p style={{ fontFamily: 'var(--font-display)', fontSize: '22px', fontWeight: 700, color: 'var(--navy-800)', margin: '14px 0 16px' }}>
+          {money(total)} <span style={{ fontSize: '11px', fontWeight: 500, color: 'var(--text-muted)', fontFamily: 'var(--font-body)' }}>· {data.length} patient{data.length !== 1 ? 's' : ''}</span>
+        </p>
+
+        <input
+          type="text"
+          placeholder="Filter by patient name..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          style={{ padding: '9px 14px', border: '1px solid rgba(15,39,68,0.12)', borderRadius: '100px', fontSize: '12.5px', fontFamily: 'var(--font-body)', outline: 'none', marginBottom: '14px', width: '100%', boxSizing: 'border-box' }}
+        />
+
+        <div style={{ overflowY: 'auto', flex: 1 }}>
+          {filtered.length === 0 ? (
+            <p style={{ color: 'var(--text-light)', fontSize: '13px', fontFamily: 'var(--font-body)', textAlign: 'center', padding: '24px 0' }}>No matching patients</p>
+          ) : filtered.map(d => (
+            <div key={d.patient_id} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 0', borderBottom: '1px solid rgba(15,39,68,0.06)', flexWrap: 'wrap' }}>
+              <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'rgba(199,166,106,0.16)', color: 'var(--gold-deep)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 700, fontFamily: 'var(--font-display)', flexShrink: 0 }}>
+                {(d.name || '?')[0].toUpperCase()}
+              </div>
+              <div style={{ flex: 1, minWidth: '110px' }}>
+                <p style={{ fontWeight: 600, fontSize: '13px', color: 'var(--navy-800)', margin: '0 0 2px', fontFamily: 'var(--font-body)' }}>{d.name}</p>
+                <p style={{ fontSize: '11px', color: 'var(--text-muted)', margin: 0, fontFamily: 'var(--font-body)' }}>{d.count} invoice{d.count !== 1 ? 's' : ''}{d.phone ? ` · ${d.phone}` : ''}</p>
+              </div>
+              <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--navy-800)', fontFamily: 'var(--font-body)', whiteSpace: 'nowrap' }}>{money(d.amount)}</span>
+              <Link to={`/admin/patients/${d.patient_id}`} className="admin-btn-outline admin-btn-sm" style={{ whiteSpace: 'nowrap' }}>View Profile</Link>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )
 }
 
-// Donut chart
-function DonutChart({ segments, size = 120 }) {
-  const total = segments.reduce((s, seg) => s + seg.value, 0) || 1
-  let cumulative = 0
-  const radius = 40
+// SVG bar chart — gridlines, rounded bars, native tooltips, most-recent bar emphasized
+function BarChart({ data, color = 'var(--gold)', height = 150, label }) {
+  const max = Math.max(...data.map(d => d.value), 1)
+  const n = Math.max(data.length, 1)
+  const W = 600, H = height
+  const padTop = 28, padBottom = 24
+  const chartH = H - padTop - padBottom
+  const slot = W / n
+  const gap = slot * 0.34
+  const barW = slot - gap
+
+  return (
+    <div>
+      {label && <SectionLabel style={{ marginBottom: '18px' }}>{label}</SectionLabel>}
+      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: `${H}px`, display: 'block', overflow: 'visible' }} preserveAspectRatio="none">
+        {[0.25, 0.5, 0.75].map(f => (
+          <line key={f} x1={0} x2={W} y1={padTop + chartH * (1 - f)} y2={padTop + chartH * (1 - f)} stroke="rgba(15,39,68,0.07)" strokeWidth="1" />
+        ))}
+        {data.map((d, i) => {
+          const x = i * slot + gap / 2
+          const barH = d.value > 0 ? Math.max((d.value / max) * chartH, 4) : 0
+          const y = padTop + chartH - barH
+          const isLast = i === data.length - 1
+          return (
+            <g key={i}>
+              <rect x={x} y={y} width={barW} height={Math.max(barH, 0.5)} rx="3" fill={color} opacity={isLast ? 1 : 0.45} />
+              <text x={x + barW / 2} y={y - 8} textAnchor="middle" fontSize="11" fontWeight="600" style={{ fontFamily: 'var(--font-body)', fill: 'var(--text-muted)' }}>{d.value}</text>
+              <text x={x + barW / 2} y={H - 7} textAnchor="middle" fontSize="10" style={{ fontFamily: 'var(--font-body)', fill: 'var(--text-light)' }}>{d.label}</text>
+              <title>{d.label}: {d.value}</title>
+            </g>
+          )
+        })}
+      </svg>
+    </div>
+  )
+}
+
+// SVG area chart — smooth line + soft gradient fill, used for the revenue trend
+function AreaChart({ data, color = '#C9A45C', height = 160, label, money }) {
+  const max = Math.max(...data.map(d => d.value), 1)
+  const n = data.length
+  const W = 600, H = height
+  const padTop = 22, padBottom = 24
+  const chartH = H - padTop - padBottom
+  const stepX = n > 1 ? W / (n - 1) : W
+
+  const points = data.map((d, i) => ({
+    x: i * stepX,
+    y: padTop + chartH - (d.value / max) * chartH,
+    value: d.value,
+    label: d.label,
+  }))
+
+  function smoothPath(pts) {
+    if (pts.length < 2) return `M ${pts[0].x} ${pts[0].y} L ${pts[0].x} ${pts[0].y}`
+    let d = `M ${pts[0].x} ${pts[0].y}`
+    for (let i = 0; i < pts.length - 1; i++) {
+      const p0 = pts[i], p1 = pts[i + 1]
+      const midX = (p0.x + p1.x) / 2
+      d += ` C ${midX} ${p0.y}, ${midX} ${p1.y}, ${p1.x} ${p1.y}`
+    }
+    return d
+  }
+
+  const linePath = smoothPath(points)
+  const floorY = padTop + chartH
+  const areaPath = `${linePath} L ${points[n - 1].x} ${floorY} L ${points[0].x} ${floorY} Z`
+  const fmt = money || (v => v)
+
+  return (
+    <div>
+      {label && <SectionLabel style={{ marginBottom: '18px' }}>{label}</SectionLabel>}
+      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: `${H}px`, display: 'block', overflow: 'visible' }} preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="analyticsAreaGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={color} stopOpacity="0.32" />
+            <stop offset="100%" stopColor={color} stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        {[0.33, 0.66].map(f => (
+          <line key={f} x1={0} x2={W} y1={padTop + chartH * (1 - f)} y2={padTop + chartH * (1 - f)} stroke="rgba(15,39,68,0.06)" strokeWidth="1" />
+        ))}
+        <path d={areaPath} fill="url(#analyticsAreaGrad)" stroke="none" />
+        <path d={linePath} fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+        {points.map((p, i) => (
+          <g key={i}>
+            <circle cx={p.x} cy={p.y} r={i === n - 1 ? 4.5 : 3} fill="var(--white)" stroke={color} strokeWidth="2" />
+            <title>{p.label}: {fmt(p.value)}</title>
+          </g>
+        ))}
+        {points.map((p, i) => (
+          <text key={i} x={p.x} y={H - 6} textAnchor="middle" fontSize="10" style={{ fontFamily: 'var(--font-body)', fill: 'var(--text-light)' }}>{p.label}</text>
+        ))}
+      </svg>
+    </div>
+  )
+}
+
+// Ring chart — rounded-cap stroke donut, replaces the old pie-wedge version
+function RingChart({ segments, size = 148, strokeWidth = 18 }) {
+  const total = segments.reduce((s, seg) => s + seg.value, 0) || 0
+  const safeTotal = total || 1
+  const radius = (size - strokeWidth) / 2
   const cx = size / 2, cy = size / 2
-
-  function polarToXY(pct) {
-    const angle = (pct * 360 - 90) * (Math.PI / 180)
-    return { x: cx + radius * Math.cos(angle), y: cy + radius * Math.sin(angle) }
-  }
-
-  function segmentPath(start, end) {
-    if (end - start >= 0.9999) end = 0.9998
-    const s = polarToXY(start), e = polarToXY(end)
-    const large = end - start > 0.5 ? 1 : 0
-    return `M ${cx} ${cy} L ${s.x} ${s.y} A ${radius} ${radius} 0 ${large} 1 ${e.x} ${e.y} Z`
-  }
+  const circumference = 2 * Math.PI * radius
+  let acc = 0
 
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-      {segments.map((seg, i) => {
-        const start = cumulative / total
-        cumulative += seg.value
-        const end = cumulative / total
-        return <path key={i} d={segmentPath(start, end)} fill={seg.color} opacity={0.85} />
+      <circle cx={cx} cy={cy} r={radius} fill="none" stroke="rgba(15,39,68,0.06)" strokeWidth={strokeWidth} />
+      {segments.filter(seg => seg.value > 0).map((seg, i) => {
+        const frac = seg.value / safeTotal
+        const dash = Math.max(frac * circumference - 2, 0)
+        const rotation = (acc / safeTotal) * 360 - 90
+        acc += seg.value
+        return (
+          <circle
+            key={i}
+            cx={cx} cy={cy} r={radius}
+            fill="none"
+            stroke={seg.color}
+            strokeWidth={strokeWidth}
+            strokeDasharray={`${dash} ${circumference - dash}`}
+            strokeLinecap="round"
+            transform={`rotate(${rotation} ${cx} ${cy})`}
+          />
+        )
       })}
-      <circle cx={cx} cy={cy} r={24} fill="var(--white)" />
-      <text x={cx} y={cy + 4} textAnchor="middle" fontSize="13" fontWeight="700" fill="var(--navy-800)" fontFamily="var(--font-display)">{total}</text>
+      <text x={cx} y={cy - 3} textAnchor="middle" fontSize="26" fontWeight="700" style={{ fontFamily: 'var(--font-display)', fill: 'var(--navy-800)' }}>{total}</text>
+      <text x={cx} y={cy + 17} textAnchor="middle" fontSize="9.5" style={{ fontFamily: 'var(--font-body)', fill: 'var(--text-light)', letterSpacing: '1px', textTransform: 'uppercase' }}>Total</text>
     </svg>
   )
 }
 
-// Stat card
-function StatCard({ icon, label, value, sub, color = 'var(--navy-800)', trend }) {
-  return (
-    <div style={{ background: 'var(--white)', border: '1px solid rgba(15,39,68,0.08)', borderRadius: '2px', padding: '20px 22px', position: 'relative', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', top: 0, left: 0, width: '3px', height: '100%', background: color }} />
-      <div style={{ paddingLeft: '8px' }}>
-        <p style={{ fontSize: '22px', margin: '0 0 8px' }}>{icon}</p>
-        <p style={{ fontFamily: 'var(--font-display)', fontSize: '32px', fontWeight: 700, color, margin: '0 0 4px', lineHeight: 1 }}>{value}</p>
-        <p style={{ fontSize: '11px', letterSpacing: '1px', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', margin: '0 0 4px', fontWeight: 600 }}>{label}</p>
-        {sub && <p style={{ fontSize: '11px', color: 'var(--text-light)', fontFamily: 'var(--font-body)', margin: 0 }}>{sub}</p>}
-        {trend !== undefined && (
-          <p style={{ fontSize: '11px', color: trend >= 0 ? '#1e6f6a' : '#c0392b', fontFamily: 'var(--font-body)', margin: '4px 0 0', fontWeight: 600 }}>
-            {trend >= 0 ? '↑' : '↓'} {Math.abs(trend)} vs last month
-          </p>
-        )}
-      </div>
-    </div>
-  )
-}
+// ─── Page ──────────────────────────────────────────────────────────
 
 export default function AdminAnalytics() {
+  const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
   const [appts, setAppts] = useState([])
   const [patients, setPatients] = useState([])
+  const [invoices, setInvoices] = useState([])
   const [range, setRange] = useState('30') // days
+  const [revFilter, setRevFilter] = useState('month') // today | week | month | custom
+  const [revDate, setRevDate] = useState(new Date().toISOString().split('T')[0])
+  const [revModal, setRevModal] = useState(null) // 'billed' | 'collected' | 'outstanding' | 'alltime' | null
+  const [revModalSearch, setRevModalSearch] = useState('')
 
   useEffect(() => {
     async function fetchAll() {
-      const [{ data: a }, { data: p }] = await Promise.all([
+      const [{ data: a }, { data: p }, { data: inv }] = await Promise.all([
         supabase.from('appointments').select('*').order('created_at', { ascending: true }),
         supabase.from('patients').select('*').order('created_at', { ascending: true }),
+        supabase.from('patient_invoices').select('*').order('date', { ascending: true }),
       ])
       setAppts(a || [])
       setPatients(p || [])
+      setInvoices(inv || [])
       setLoading(false)
     }
     fetchAll()
@@ -145,96 +335,196 @@ export default function AdminAnalytics() {
 
   const fmtDate = d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
 
+  // ─── Revenue ─────────────────────────────────────
+  const todayStr = now.toISOString().split('T')[0]
+
+  function startOfWeek(d) {
+    const dt = new Date(d)
+    const day = dt.getDay() // 0=Sun
+    const diff = (day === 0 ? -6 : 1) - day // move to Monday
+    dt.setDate(dt.getDate() + diff)
+    dt.setHours(0, 0, 0, 0)
+    return dt
+  }
+
+  let revStart, revEnd, revLabel
+  if (revFilter === 'today') {
+    revStart = new Date(todayStr); revEnd = new Date(todayStr); revEnd.setHours(23, 59, 59, 999)
+    revLabel = 'Today'
+  } else if (revFilter === 'week') {
+    revStart = startOfWeek(now)
+    revEnd = new Date(revStart); revEnd.setDate(revEnd.getDate() + 6); revEnd.setHours(23, 59, 59, 999)
+    revLabel = 'This Week'
+  } else if (revFilter === 'month') {
+    revStart = new Date(now.getFullYear(), now.getMonth(), 1)
+    revEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999)
+    revLabel = 'This Month'
+  } else {
+    revStart = new Date(revDate); revEnd = new Date(revDate); revEnd.setHours(23, 59, 59, 999)
+    revLabel = new Date(revDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+  }
+
+  const revInvoices = invoices.filter(inv => {
+    const d = new Date(inv.date)
+    return d >= revStart && d <= revEnd
+  })
+  const revBilled = revInvoices.reduce((s, i) => s + Number(i.total_amount || 0), 0)
+  const revCollected = revInvoices.reduce((s, i) => s + Number(i.paid_amount || 0), 0)
+  const revDue = Math.max(revBilled - revCollected, 0)
+  const revInvoiceCount = revInvoices.length
+
+  // All-time collected (paid across all invoices, regardless of filter)
+  const allTimeCollected = invoices.reduce((s, i) => s + Number(i.paid_amount || 0), 0)
+  const allTimeDue = invoices.reduce((s, i) => s + Math.max(Number(i.total_amount || 0) - Number(i.paid_amount || 0), 0), 0)
+
+  // Last 7 days revenue trend (amount collected, by invoice date)
+  const revenueTrend = Array.from({ length: 7 }, (_, i) => {
+    const date = daysAgo(6 - i)
+    const dateStr = date.toISOString().split('T')[0]
+    const value = invoices
+      .filter(inv => inv.date === dateStr)
+      .reduce((s, inv) => s + Number(inv.paid_amount || 0), 0)
+    return { label: date.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }), value }
+  })
+
+  const money = n => '\u20B9' + Number(n || 0).toLocaleString('en-IN')
+
+  // ─── Revenue drill-down (per-patient breakdown for each stat card) ──
+  const patientMap = {}
+  patients.forEach(p => { patientMap[p.id] = p })
+
+  function groupByPatient(invList, amountFn) {
+    const map = {}
+    invList.forEach(inv => {
+      const amt = amountFn(inv)
+      if (amt <= 0) return
+      if (!map[inv.patient_id]) {
+        const p = patientMap[inv.patient_id]
+        map[inv.patient_id] = { patient_id: inv.patient_id, name: p?.name || 'Unknown Patient', phone: p?.phone || '', amount: 0, count: 0 }
+      }
+      map[inv.patient_id].amount += amt
+      map[inv.patient_id].count += 1
+    })
+    return Object.values(map).sort((a, b) => b.amount - a.amount)
+  }
+
+  const revenueModalConfig = {
+    billed: { title: 'Billed', sub: revLabel, data: groupByPatient(revInvoices, i => Number(i.total_amount || 0)) },
+    collected: { title: 'Collected', sub: revLabel, data: groupByPatient(revInvoices, i => Number(i.paid_amount || 0)) },
+    outstanding: { title: 'Outstanding', sub: revLabel, data: groupByPatient(revInvoices, i => Math.max(Number(i.total_amount || 0) - Number(i.paid_amount || 0), 0)) },
+    alltime: { title: 'All-Time Collected', sub: 'All time', data: groupByPatient(invoices, i => Number(i.paid_amount || 0)) },
+  }
+
   return (
     <div className="admin-panel" style={{ maxWidth: '1100px' }}>
       <div className="admin-panel-header">
         <h1>Analytics Dashboard</h1>
-        <div style={{ display: 'flex', gap: '6px' }}>
-          {[['7', '7 Days'], ['30', '30 Days'], ['90', '90 Days'], ['365', '1 Year']].map(([val, label]) => (
-            <button key={val} onClick={() => setRange(val)} style={{ padding: '7px 14px', fontSize: '11px', fontFamily: 'var(--font-body)', fontWeight: 600, borderRadius: '2px', border: '1px solid rgba(15,39,68,0.12)', cursor: 'pointer', background: range === val ? 'var(--navy-800)' : 'var(--white)', color: range === val ? 'var(--gold-pale)' : 'var(--text-muted)', transition: 'all 0.2s' }}>
-              {label}
-            </button>
-          ))}
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+          <button className="admin-btn-primary" onClick={() => navigate('/admin/patients/new')}>+ Add Patient</button>
+          <SegmentedControl value={range} onChange={setRange} options={[['7', '7 Days'], ['30', '30 Days'], ['90', '90 Days'], ['365', '1 Year']]} />
         </div>
       </div>
 
-      {/* TOP STAT CARDS */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: '12px', marginBottom: '24px' }}>
-        <StatCard icon="📅" label="Total Bookings" value={rangeAppts.length} sub={`${prevAppts.length} in prev period`} trend={rangeAppts.length - prevAppts.length} color="var(--gold)" />
-        <StatCard icon="✅" label="Confirmed" value={confirmed} sub={`${conversionRate}% conversion`} color="#1e6f6a" />
-        <StatCard icon="⏳" label="Pending" value={pending} sub="Awaiting confirmation" color="#b9914f" />
-        <StatCard icon="👥" label="New Patients" value={rangePatients.length} sub={`${prevPatients.length} in prev period`} trend={rangePatients.length - prevPatients.length} color="#4a3d8f" />
-        <StatCard icon="📊" label="Total Patients" value={patients.length} sub="All time" color="var(--navy-800)" />
+      {/* OVERVIEW */}
+      <SectionLabel>Overview</SectionLabel>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: '14px', marginBottom: '36px' }}>
+        <StatCard icon="📅" label="Total Bookings" value={rangeAppts.length} sub={`${prevAppts.length} in prev period`} trend={rangeAppts.length - prevAppts.length} color="var(--navy-800)" tint="rgba(199,166,106,0.16)" />
+        <StatCard icon="✅" label="Confirmed" value={confirmed} sub={`${conversionRate}% conversion`} color="#1e6f6a" tint="rgba(30,111,106,0.1)" />
+        <StatCard icon="⏳" label="Pending" value={pending} sub="Awaiting confirmation" color="#9c7a3c" tint="rgba(199,166,106,0.16)" />
+        <StatCard icon="👥" label="New Patients" value={rangePatients.length} sub={`${prevPatients.length} in prev period`} trend={rangePatients.length - prevPatients.length} color="#4a3d8f" tint="rgba(74,61,143,0.1)" />
+        <StatCard icon="📊" label="Total Patients" value={patients.length} sub="All time" color="var(--navy-800)" tint="rgba(13,35,64,0.07)" />
       </div>
 
-      {/* CHARTS ROW */}
+      {/* REVENUE */}
+      <SectionLabel>Revenue</SectionLabel>
+      <Card style={{ marginBottom: '36px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', marginBottom: '22px' }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', fontWeight: 600, color: 'var(--navy-800)', margin: 0 }}>{revLabel}</p>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+            <SegmentedControl value={revFilter} onChange={setRevFilter} options={[['today', 'Today'], ['week', 'This Week'], ['month', 'This Month'], ['custom', 'Pick a Date']]} />
+            {revFilter === 'custom' && (
+              <input type="date" value={revDate} onChange={e => setRevDate(e.target.value)} style={{ padding: '8px 12px', border: '1px solid rgba(15,39,68,0.12)', borderRadius: '100px', fontSize: '11px', fontFamily: 'var(--font-body)', outline: 'none' }} />
+            )}
+          </div>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '14px', marginBottom: '28px' }}>
+          <StatCard icon="🧾" label="Billed" value={money(revBilled)} sub={`${revInvoiceCount} invoice${revInvoiceCount !== 1 ? 's' : ''}`} color="var(--navy-800)" tint="rgba(13,35,64,0.07)" onClick={() => { setRevModal('billed'); setRevModalSearch('') }} />
+          <StatCard icon="✅" label="Collected" value={money(revCollected)} sub={revLabel} color="#1e6f6a" tint="rgba(30,111,106,0.1)" onClick={() => { setRevModal('collected'); setRevModalSearch('') }} />
+          <StatCard icon="⏳" label="Outstanding" value={money(revDue)} sub={revLabel} color="#c0392b" tint="rgba(192,57,43,0.08)" onClick={() => { setRevModal('outstanding'); setRevModalSearch('') }} />
+          <StatCard icon="📈" label="All-Time Collected" value={money(allTimeCollected)} sub={`${money(allTimeDue)} due overall`} color="var(--gold-deep)" tint="rgba(199,166,106,0.16)" onClick={() => { setRevModal('alltime'); setRevModalSearch('') }} />
+        </div>
+
+        <AreaChart data={revenueTrend} label="Collections — Last 7 Days" color="#C9A45C" height={160} money={money} />
+      </Card>
+
+      {/* TRENDS */}
+      <SectionLabel>Trends</SectionLabel>
       <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '16px', marginBottom: '16px' }}>
 
-        {/* Bookings trend chart */}
-        <div style={{ background: 'var(--white)', border: '1px solid rgba(15,39,68,0.08)', borderRadius: '2px', padding: '24px' }}>
-          <BarChart data={chartData} label="Booking Trend" color="var(--gold)" height={140} />
-        </div>
+        <Card>
+          <BarChart data={chartData} label="Booking Trend" color="var(--gold)" height={150} />
+        </Card>
 
-        {/* Status donut */}
-        <div style={{ background: 'var(--white)', border: '1px solid rgba(15,39,68,0.08)', borderRadius: '2px', padding: '24px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <p style={{ fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 600, marginBottom: '16px', alignSelf: 'flex-start' }}>Booking Status</p>
-          <DonutChart size={130} segments={[
+        <Card style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <SectionLabel style={{ alignSelf: 'flex-start' }}>Booking Status</SectionLabel>
+          <RingChart size={140} strokeWidth={17} segments={[
             { value: confirmed, color: '#1e6f6a' },
-            { value: pending, color: '#b9914f' },
+            { value: pending, color: '#C9A45C' },
             { value: cancelled, color: '#c0392b' },
           ]} />
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '16px', width: '100%' }}>
-            {[['#1e6f6a', 'Confirmed', confirmed], ['#b9914f', 'Pending', pending], ['#c0392b', 'Cancelled', cancelled]].map(([color, label, val]) => (
-              <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <div style={{ width: '10px', height: '10px', borderRadius: '2px', background: color, flexShrink: 0 }} />
-                <span style={{ fontSize: '12px', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', flex: 1 }}>{label}</span>
-                <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--navy-800)', fontFamily: 'var(--font-body)' }}>{val}</span>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '18px', width: '100%' }}>
+            {[['#1e6f6a', 'Confirmed', confirmed], ['#C9A45C', 'Pending', pending], ['#c0392b', 'Cancelled', cancelled]].map(([color, lbl, val]) => (
+              <div key={lbl} style={{ display: 'flex', alignItems: 'center', gap: '9px' }}>
+                <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: color, flexShrink: 0 }} />
+                <span style={{ fontSize: '12px', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', flex: 1 }}>{lbl}</span>
+                <span style={{ fontSize: '12.5px', fontWeight: 700, color: 'var(--navy-800)', fontFamily: 'var(--font-body)' }}>{val}</span>
               </div>
             ))}
           </div>
-        </div>
+        </Card>
       </div>
 
-      {/* SECOND ROW */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '36px' }}>
 
-        {/* Top Programs */}
-        <div style={{ background: 'var(--white)', border: '1px solid rgba(15,39,68,0.08)', borderRadius: '2px', padding: '24px' }}>
-          <p style={{ fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 600, marginBottom: '16px' }}>Popular Programs</p>
+        <Card>
+          <SectionLabel>Popular Programs</SectionLabel>
           {topPrograms.length === 0 ? (
             <p style={{ color: 'var(--text-light)', fontSize: '13px', fontFamily: 'var(--font-body)' }}>No data yet</p>
           ) : topPrograms.map(([prog, count], i) => {
-            const pct = Math.round((count / rangeAppts.length) * 100)
+            const pct = rangeAppts.length ? Math.round((count / rangeAppts.length) * 100) : 0
             return (
-              <div key={prog} style={{ marginBottom: '14px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
-                  <span style={{ fontSize: '12px', color: 'var(--navy-800)', fontFamily: 'var(--font-body)', fontWeight: 500 }}>{prog}</span>
-                  <span style={{ fontSize: '12px', color: 'var(--text-muted)', fontFamily: 'var(--font-body)' }}>{count} ({pct}%)</span>
-                </div>
-                <div style={{ height: '6px', background: 'rgba(15,39,68,0.06)', borderRadius: '100px', overflow: 'hidden' }}>
-                  <div style={{ height: '100%', width: `${pct}%`, background: i === 0 ? 'var(--gold)' : i === 1 ? '#1e6f6a' : 'rgba(15,39,68,0.2)', borderRadius: '100px', transition: 'width 0.8s ease' }} />
+              <div key={prog} style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: i === 0 ? 'var(--gold)' : 'rgba(13,35,64,0.07)', color: i === 0 ? '#fff' : 'var(--navy-800)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11.5px', fontWeight: 700, fontFamily: 'var(--font-display)', flexShrink: 0 }}>{i + 1}</div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
+                    <span style={{ fontSize: '12.5px', color: 'var(--navy-800)', fontFamily: 'var(--font-body)', fontWeight: 500 }}>{prog}</span>
+                    <span style={{ fontSize: '12px', color: 'var(--text-muted)', fontFamily: 'var(--font-body)' }}>{count} · {pct}%</span>
+                  </div>
+                  <div style={{ height: '6px', background: 'rgba(15,39,68,0.06)', borderRadius: '100px', overflow: 'hidden' }}>
+                    <div style={{ height: '100%', width: `${pct}%`, background: i === 0 ? 'var(--gold)' : i === 1 ? '#1e6f6a' : 'rgba(15,39,68,0.18)', borderRadius: '100px', transition: 'width 0.8s ease' }} />
+                  </div>
                 </div>
               </div>
             )
           })}
-        </div>
+        </Card>
 
-        {/* Patient Growth */}
-        <div style={{ background: 'var(--white)', border: '1px solid rgba(15,39,68,0.08)', borderRadius: '2px', padding: '24px' }}>
-          <BarChart data={patientTrend} label="New Patients (6 Months)" color="#1e6f6a" height={140} />
-        </div>
+        <Card>
+          <BarChart data={patientTrend} label="New Patients (6 Months)" color="#1e6f6a" height={150} />
+        </Card>
       </div>
 
       {/* RECENT ACTIVITY */}
-      <div style={{ background: 'var(--white)', border: '1px solid rgba(15,39,68,0.08)', borderRadius: '2px', padding: '24px' }}>
-        <p style={{ fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontWeight: 600, marginBottom: '16px' }}>Recent Bookings</p>
+      <SectionLabel>Recent Activity</SectionLabel>
+      <Card>
         {recentAppts.length === 0 ? (
           <p style={{ color: 'var(--text-light)', fontSize: '13px', fontFamily: 'var(--font-body)' }}>No bookings yet</p>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
             {recentAppts.map((a, i) => (
-              <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 0', borderBottom: i < recentAppts.length - 1 ? '1px solid rgba(15,39,68,0.06)' : 'none', flexWrap: 'wrap' }}>
-                <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: a.status === 'confirmed' ? '#1e6f6a' : a.status === 'cancelled' ? '#c0392b' : '#b9914f', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '13px', fontWeight: 700, fontFamily: 'var(--font-display)', flexShrink: 0 }}>
+              <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '14px 0', borderBottom: i < recentAppts.length - 1 ? '1px solid rgba(15,39,68,0.06)' : 'none', flexWrap: 'wrap' }}>
+                <div style={{ width: '34px', height: '34px', borderRadius: '50%', background: a.status === 'confirmed' ? 'rgba(30,111,106,0.12)' : a.status === 'cancelled' ? 'rgba(192,57,43,0.1)' : 'rgba(199,166,106,0.18)', color: a.status === 'confirmed' ? '#1e6f6a' : a.status === 'cancelled' ? '#c0392b' : '#9c7a3c', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', fontWeight: 700, fontFamily: 'var(--font-display)', flexShrink: 0 }}>
                   {(a.name || '?')[0].toUpperCase()}
                 </div>
                 <div style={{ flex: 1, minWidth: '120px' }}>
@@ -247,9 +537,24 @@ export default function AdminAnalytics() {
             ))}
           </div>
         )}
-      </div>
+      </Card>
+
+      {revModal && (
+        <RevenueDrilldownModal
+          title={revenueModalConfig[revModal].title}
+          sub={revenueModalConfig[revModal].sub}
+          data={revenueModalConfig[revModal].data}
+          money={money}
+          search={revModalSearch}
+          setSearch={setRevModalSearch}
+          onClose={() => setRevModal(null)}
+        />
+      )}
 
       <style>{`
+        .analytics-seg-btn:not([data-active="true"]):hover { background: rgba(15,39,68,0.07) !important; color: var(--navy-800) !important; }
+        .analytics-stat-clickable { transition: transform 0.15s ease, box-shadow 0.15s ease; }
+        .analytics-stat-clickable:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(15,39,68,0.12); }
         @media (max-width: 760px) {
           .admin-panel [style*="grid-template-columns: 2fr 1fr"] { grid-template-columns: 1fr !important; }
           .admin-panel [style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
