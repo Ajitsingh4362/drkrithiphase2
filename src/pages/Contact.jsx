@@ -32,6 +32,7 @@ export default function Contact() {
   const [status, setStatus]     = useState(null)
   const [payMode, setPayMode]   = useState('clinic') // 'online' | 'clinic'
   const [rzpReady, setRzpReady] = useState(false)
+  const [showQR, setShowQR]     = useState(false)
 
   useEffect(() => {
     if (ref.current) ref.current.classList.add('page-enter')
@@ -117,7 +118,8 @@ export default function Contact() {
       setStatus('error'); return
     }
     if (payMode === 'online') {
-      openRazorpay()
+      // TEMP: QR based payment (Razorpay abhi disable hai, baad mein activate karenge)
+      setShowQR(true)
     } else {
       submitForm()
     }
@@ -383,6 +385,48 @@ export default function Contact() {
           </div>
         </div>
       </section>
+
+      {showQR && (
+        <div style={{
+          position: 'fixed', inset: 0, background: 'rgba(15,39,68,0.75)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          zIndex: 1000, padding: '20px',
+        }} onClick={() => setShowQR(false)}>
+          <div onClick={e => e.stopPropagation()} style={{
+            background: '#ffffff', borderRadius: '8px', padding: '28px',
+            maxWidth: '360px', width: '100%', textAlign: 'center',
+            border: '1px solid rgba(199,166,106,0.4)',
+          }}>
+            <div style={{ fontSize: '13px', color: '#9c7a3c', letterSpacing: '1.5px', textTransform: 'uppercase', fontWeight: 700, marginBottom: '6px' }}>
+              Scan &amp; Pay
+            </div>
+            <div style={{ fontSize: '28px', color: 'var(--navy-800)', fontWeight: 700, marginBottom: '16px' }}>
+              ₹599
+            </div>
+            <img src="/payment-qr.png" alt="Payment QR Code"
+              style={{ width: '100%', maxWidth: '260px', borderRadius: '6px', border: '1px solid rgba(199,166,106,0.3)' }} />
+            <p style={{ fontSize: '11px', color: 'rgba(15,39,68,0.55)', marginTop: '14px', lineHeight: '1.6' }}>
+              Scan this QR with any UPI app to pay ₹599. After payment, tap "I've Paid" below to confirm your booking.
+            </p>
+            <button onClick={() => { setShowQR(false); submitForm() }} disabled={status === 'loading'}
+              style={{
+                width: '100%', background: 'var(--gold)', color: 'var(--navy-800)',
+                border: 'none', padding: '14px', borderRadius: '2px', fontSize: '13px',
+                fontWeight: 700, cursor: 'pointer', marginTop: '16px',
+                fontFamily: 'var(--font-body)', letterSpacing: '1px', textTransform: 'uppercase',
+              }}>
+              ✅ I've Paid — Confirm Booking
+            </button>
+            <button onClick={() => setShowQR(false)}
+              style={{
+                width: '100%', background: 'transparent', color: 'rgba(15,39,68,0.6)',
+                border: 'none', padding: '10px', fontSize: '12px', cursor: 'pointer', marginTop: '4px',
+              }}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
