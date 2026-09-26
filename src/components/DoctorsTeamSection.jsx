@@ -24,12 +24,12 @@ function PersonCard({ d }) {
       onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none' }}
     >
       <div style={{
-        width: '100%', height: '220px', borderRadius: '10px', margin: '0 auto 18px',
+        width: '180px', aspectRatio: '3 / 4', borderRadius: '10px', margin: '0 auto 18px',
         background: 'var(--gold)', overflow: 'hidden', display: 'flex',
         alignItems: 'center', justifyContent: 'center', border: '3px solid rgba(199,166,106,0.3)',
       }}>
         {d.photo_url
-          ? <img src={d.photo_url} alt={d.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          ? <img src={d.photo_url} alt={d.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
           : <span style={{ color: '#fff', fontWeight: 700, fontSize: '28px', fontFamily: 'var(--font-display)' }}>{initials(d.name)}</span>
         }
       </div>
